@@ -1,0 +1,7 @@
+{
+  "typescript.format.semicolons": "remove",
+  "pretty-formatter.braceStyle": "collapse",
+  "pretty-formatter.endComma": "never",
+  "pretty-formatter.formatObject": "indent",
+  "pretty-formatter.space": false
+}
