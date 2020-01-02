@@ -1,29 +1,55 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import firebase from '../Firestore'
-import ReactDataGrid from 'react-data-grid'
-import { Table, Container } from 'reactstrap'
+import BuildAircraftTable from './BuildAircraftTable'
+import { Table, Container } from 'react-bootstrap'
 
-class Aircraft extends React.Component {
+class ManageAircrafts extends React.Component {
  constructor(props) {
      super(props);
-     this.ref = firebase.firestore().collection('Aircrafts');
-
      this.state = {
-         Aircrafts:[]
+       name: " ",
+       ze: " ",
+       xe: " ",
+       lookdown: " ",
+       za: " ",
+       xa: " ",
+       flaps: " ",
+       speed: " ",
+       weight: " ",
+       cg: " ",
+       pitch: " ",
+       units: null
      };
  }
 
- readAircraft = event => {
-  event.preventDefault();
 
-  const db = firebase.firestore();
+ buildAircraftTable() {
+  const db = firebase.firestore().collection("Aircrafts");
 
-  db.collection("Aircrafts").get()
-  .then(function(querySnapshot) {
+  db.get().then(function(querySnapshot) {
    querySnapshot.forEach(function(doc){
+    let data = doc.data()
+    console.log("Document data: ", data)
     console.log(doc.id, " => ", doc.data())
-   });
+    console.log(doc.get("weight"))
+    return (
+      <tr key={doc.id}>
+        <th>{doc.id}</th>
+        <th>{doc.get("Xa").toString()}</th>
+        <td>{doc.get("Xe")}</td>
+        <td>{doc.get("Za")}</td>
+        <td>{doc.get("Ze")}</td>
+        <td>{doc.get("cg")}</td>
+        <td>{doc.get("flaps")}</td>
+        <td>{doc.get("lookdown")}</td>
+        <td>{doc.get("pitch")}</td>
+        <td>{doc.get("speed")}</td>
+        <td>{doc.get("weight")}</td>
+        <td>{doc.get("unitsAir")}</td>
+      </tr>
+    )
+   })
   })
   /*.catch(function(error) {
    console.log("Error getting documents: ", error)
@@ -62,49 +88,33 @@ class Aircraft extends React.Component {
  }
 
  render() {
-
-  const columns = [
-   { key: 'acname', name: "Name"},
-   { key: 'xa', name: "Xa"},
-   { key: 'xe', name: "Xe"},
-   { key: 'za', name: "Za"},
-   { key: 'ze', name: "Ze"},
-   { key: 'cg', name: "CG"},
-   { key: 'flaps', name: "Flaps"},
-   { key: 'lookdown', name: "Lookdown"},
-   { key: 'pitch', name: "Pitch"},
-   { key: 'speed', name: "Speed"},
-   { key: 'weight', name: "Weight"},
-   { key: 'unitsair', name: "Metric"},
-  ];
-
+   let aircraftTable = []
   return(
-   <ReactDataGrid
-    columns={columns}
-    rowGetter={rowGetter}
-    rowsCount={rows.length}
-    minHeight={500}
-   />
-   /*<Container>
-     <Table dark>
-       <thead>
-         <tr>
-           <th>Name</th>
-           <th>Xa</th>
-           <th>Xe</th>
-           <th>Za</th>
-           <th>Ze</th>
-           <th>cg</th>
-           <th>flaps</th>
-           <th>lookdown</th>
-           <th>pitch</th>
-           <th>speed</th>
-           <th>unitsAir</th>
-           <th>weight</th>
-         </tr>
-       </thead>
-     </Table>
-   </Container> */
+    <div>
+      <Table striped bordered hover responsive>
+        <thead>
+          <tr>
+            <th>NAME</th>
+            <th>XA</th>
+            <th>XE</th>
+            <th>ZA</th>
+            <th>ZE</th>
+            <th>CG</th>
+            <th>FLAPS</th>
+            <th>LOOKDOWN</th>
+            <th>PITCH</th>
+            <th>SPEED</th>
+            <th>WEIGHTS</th>
+            <th>METRIC?</th>
+          </tr>
+        </thead>
+        <tbody>
+            <BuildAircraftTable />
+        </tbody>
+      </Table>
+    </div>
   )
  }
 }
+
+export default ManageAircrafts

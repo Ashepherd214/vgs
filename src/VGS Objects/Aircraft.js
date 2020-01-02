@@ -134,7 +134,7 @@ class Aircraft extends React.Component {
 
 
     render() {
-     const {
+     /*const {
       acName,
       ze,
       xe,
@@ -147,7 +147,7 @@ class Aircraft extends React.Component {
       cg,
       pitch,
       unit
-     } = this.state
+     } = this.state */
         return (
             <div>
                 <h1 id='title'>Aircraft Dynamic Table</h1>
