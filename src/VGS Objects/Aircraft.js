@@ -78,6 +78,60 @@ class Aircraft extends React.Component {
         })
     }
 
+    renderAircraftTableHeader() {
+            return (
+                <tr>
+                    <th>NAME</th>
+                    <th>ZE</th>
+                    <th>XE</th>
+                    <th>LOOKDOWN</th>
+                    <th>ZA</th>
+                    <th>XA</th>
+                    <th>FLAPS</th>
+                    <th>SPEED</th>
+                    <th>WEIGHT</th>
+                    <th>CG</th>
+                    <th>PITCH</th>
+                    <th>METRIC?</th>
+                </tr>
+            )
+    }
+
+    renderAircraftTable() {
+        return this.state.aircrafts.map((aircraft, index) => {
+            const { 
+                acName,
+                ze,
+                xe,
+                lookdown,
+                za,
+                xa,
+                flaps,
+                speed,
+                weight,
+                cg,
+                pitch,
+                unit } = aircraft
+
+            return (
+                <tr key={acName}>
+                    <td>{acName}</td>
+                    <td>{ze}</td>
+                    <td>{xe}</td>
+                    <td>{lookdown}</td>
+                    <td>{za}</td>
+                    <td>{xa}</td>
+                    <td>{flaps}</td>
+                    <td>{speed}</td>
+                    <td>{weight}</td>
+                    <td>{cg}</td>
+                    <td>{pitch}</td>
+                    <td>{unit}</td>
+                </tr>
+            )
+        })
+    }
+
 
     render() {
      const {
@@ -95,7 +149,16 @@ class Aircraft extends React.Component {
       unit
      } = this.state
         return (
-            <form onSubmit={this.addAircraft}>
+            <div>
+                <h1 id='title'>Aircraft Dynamic Table</h1>
+                <table id='aircrafts'>
+                    <tbody>
+                        <tr>{this.renderAircraftTableHeader()}</tr>
+                        {this.renderAircraftTable()}
+                    </tbody>
+                </table>
+            </div>
+            /*<form onSubmit={this.addAircraft}>
                 <input 
                     type = "text"
                     name = "acName"
@@ -196,7 +259,7 @@ class Aircraft extends React.Component {
                     type="submit"
                     value="submit"
                  />
-            </form>
+            </form> */
         )
     }
 }
