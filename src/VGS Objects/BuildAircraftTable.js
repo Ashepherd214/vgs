@@ -1,40 +1,62 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import firebase from '../Firestore'
-import { Table, Container } from 'react-bootstrap'
 
 class BuildAircraftTable extends React.Component {
-    render() {
-    const db = firebase.firestore().collection("Aircrafts");
-        return(
-            db.get().then(function(querySnapshot) {
-                querySnapshot.forEach(function (doc) {
-                    let data = doc.data()
-                    console.log("Document data: ", data)
-                    console.log(doc.id, " => ", doc.data())
-                    console.log(doc.get("weight"))
-                    return data.map((data, i) => {
+    state = { aircraft: [] }
 
-                    
-                    return (
-                        <tr key={doc.id}>
-                            <th>{doc.id}</th>
-                            <th>{doc.get("Xa").toString()}</th>
-                            <td>{doc.get("Xe")}</td>
-                            <td>{doc.get("Za")}</td>
-                            <td>{doc.get("Ze")}</td>
-                            <td>{doc.get("cg")}</td>
-                            <td>{doc.get("flaps")}</td>
-                            <td>{doc.get("lookdown")}</td>
-                            <td>{doc.get("pitch")}</td>
-                            <td>{doc.get("speed")}</td>
-                            <td>{doc.get("weight")}</td>
-                            <td>{doc.get("unitsAir")}</td>
-                        </tr>
-                    )
-                    
+    componentDidMount() {
+        const db = firebase.firestore().collection("Aircrafts");
+
+        db.get().then( (querySnapshot) => {
+            const aircraft = [];
+
+            querySnapshot.forEach(function (doc) {
+                aircraft.push({
+                    name: doc.id,
+                    xa: doc.data().Xa,
+                    xe: doc.data().Xe,
+                    za: doc.data().Za,
+                    ze: doc.data().Ze,
+                    cg: doc.data().cg,
+                    flaps: doc.data().flaps,
+                    lookdown: doc.data().lookdown,
+                    pitch: doc.data().pitch,
+                    speed: doc.data().speed,
+                    weight: doc.data().weight,
+                    units: doc.data().unitsAir 
                 })
             })
+
+            this.setState({ aircraft })
+        })
+        .catch(function(error) {
+            console.log("Error getting documents: ", error)
+        })
+    }
+
+    render() {       
+        return (
+            <tbody>
+                    {this.state.aircraft.map(v => {
+                        return (
+                            <tr key={v.name}>
+                                <th>{v.name}</th>
+                                <th>{v.xa}</th>
+                                <th>{v.xe}</th>
+                                <th>{v.za}</th>
+                                <th>{v.ze}</th>
+                                <th>{v.cg}</th>
+                                <th>{v.flaps}</th>
+                                <th>{v.lookdown}</th>
+                                <th>{v.pitch}</th>
+                                <th>{v.speed}</th>
+                                <th>{v.weight}</th>
+                                <th>{v.units.toString()}</th>
+                            </tr>
+                        )
+                    })}
+            </tbody>
+                        
         )
     }
 }

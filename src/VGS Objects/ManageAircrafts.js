@@ -19,38 +19,17 @@ class ManageAircrafts extends React.Component {
        weight: " ",
        cg: " ",
        pitch: " ",
-       units: null
+       units: null,
+       //viewAddForm: false
      };
+
+     //this.addForm = null
  }
 
+ addEvent = event => {
+   //Logic: pop up form to be filled out and used to add new aircraft into table
+ }
 
- buildAircraftTable() {
-  const db = firebase.firestore().collection("Aircrafts");
-
-  db.get().then(function(querySnapshot) {
-   querySnapshot.forEach(function(doc){
-    let data = doc.data()
-    console.log("Document data: ", data)
-    console.log(doc.id, " => ", doc.data())
-    console.log(doc.get("weight"))
-    return (
-      <tr key={doc.id}>
-        <th>{doc.id}</th>
-        <th>{doc.get("Xa").toString()}</th>
-        <td>{doc.get("Xe")}</td>
-        <td>{doc.get("Za")}</td>
-        <td>{doc.get("Ze")}</td>
-        <td>{doc.get("cg")}</td>
-        <td>{doc.get("flaps")}</td>
-        <td>{doc.get("lookdown")}</td>
-        <td>{doc.get("pitch")}</td>
-        <td>{doc.get("speed")}</td>
-        <td>{doc.get("weight")}</td>
-        <td>{doc.get("unitsAir")}</td>
-      </tr>
-    )
-   })
-  })
   /*.catch(function(error) {
    console.log("Error getting documents: ", error)
   });*/
@@ -85,7 +64,6 @@ class ManageAircrafts extends React.Component {
       units: true
   })
   */
- }
 
  render() {
    let aircraftTable = []
@@ -108,10 +86,11 @@ class ManageAircrafts extends React.Component {
             <th>METRIC?</th>
           </tr>
         </thead>
-        <tbody>
             <BuildAircraftTable />
-        </tbody>
       </Table>
+      <ButtonToolbar>
+        <Button variant="primary" size="lg" onClick={this.addEvent}>Add Aircraft</Button>
+      </ButtonToolbar>
     </div>
   )
  }
