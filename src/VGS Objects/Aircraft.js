@@ -3,6 +3,7 @@ import { Form } from 'react-bootstrap'
 import ReactDOM from "react-dom";
 import firebase from "../Firestore";
 import { Formik, Field, ErrorMessage } from'formik'
+import ManageAircrafts from "./ManageAircrafts"
 
 class Aircraft extends React.Component {
   constructor(props) {
@@ -50,18 +51,17 @@ class Aircraft extends React.Component {
     db.collection("Aircrafts")
       .doc(String(values.acName))
       .set({
-        ACName: String(values.acName),
         Ze: Number(values.ze),
         Xe: Number(values.xe),
-        Lookdown: Number(values.lookdown),
+        lookdown: Number(values.lookdown),
         Za: Number(values.za),
         Xa: Number(values.xa),
-        Flaps: Number(values.flaps),
-        Speed: Number(values.speed),
-        Weight: Number(values.weight),
-        CG: Number(values.cg),
-        Pitch: Number(values.pitch),
-        Units: Boolean(values.unit)
+        flaps: Number(values.flaps),
+        speed: Number(values.speed),
+        weight: Number(values.weight),
+        cg: Number(values.cg),
+        pitch: Number(values.pitch),
+        unitsAir: Boolean(values.unitsAir)
       });
     // After submission values are cleared
     /*this.setState({
@@ -114,7 +114,8 @@ class Aircraft extends React.Component {
                 speed: " ",
                 weight: " ",
                 cg: " ",
-                pitch: " "
+                pitch: " ",
+                unitsAir: true
               }}
               validate={values => {
                 const errors = {};
@@ -127,15 +128,24 @@ class Aircraft extends React.Component {
                 return errors;
               }}
               onSubmit={(values, { setSubmitting, resetForm }) => {
-                alert("stuff happened: " + values);
-                this.addAircraft(values);
-                setSubmitting(false);
+                setTimeout(() => {
+                  this.addAircraft(values);
+                  setSubmitting(false);
+                }, 400)
               }}
             >
-              {({ touched, errors, isSubmitting }) => (
-                <Form>
+              {({
+                touched,
+                errors,
+                isSubmitting,
+                handleSubmit,
+                handleChange,
+                values
+              }) => (
+                <Form onSubmit={handleSubmit}>
                   <label htmlFor="aircraft">Aircraft Name</label>
                   <Field
+                    value={values.name}
                     id="acName"
                     name="acName"
                     type="text"
@@ -146,6 +156,7 @@ class Aircraft extends React.Component {
                   />
                   <br />
                   <Field
+                    value={values.name}
                     id="ze"
                     name="ze"
                     type="number"
@@ -156,6 +167,7 @@ class Aircraft extends React.Component {
                   />
                   <br />
                   <Field
+                    value={values.name}
                     id="xe"
                     name="xe"
                     type="number"
@@ -166,6 +178,7 @@ class Aircraft extends React.Component {
                   />
                   <br />
                   <Field
+                    value={values.name}
                     id="lookdown"
                     name="lookdown"
                     type="number"
@@ -176,6 +189,7 @@ class Aircraft extends React.Component {
                   />
                   <br />
                   <Field
+                    value={values.name}
                     id="za"
                     name="za"
                     type="number"
@@ -186,6 +200,7 @@ class Aircraft extends React.Component {
                   />
                   <br />
                   <Field
+                    value={values.name}
                     id="xa"
                     name="xa"
                     type="number"
@@ -196,6 +211,7 @@ class Aircraft extends React.Component {
                   />
                   <br />
                   <Field
+                    value={values.name}
                     id="flaps"
                     name="flaps"
                     type="number"
@@ -206,6 +222,7 @@ class Aircraft extends React.Component {
                   />
                   <br />
                   <Field
+                    value={values.name}
                     id="speed"
                     name="speed"
                     type="number"
@@ -216,6 +233,7 @@ class Aircraft extends React.Component {
                   />
                   <br />
                   <Field
+                    value={values.name}
                     id="weight"
                     name="weight"
                     type="number"
@@ -226,6 +244,7 @@ class Aircraft extends React.Component {
                   />
                   <br />
                   <Field
+                    value={values.name}
                     id="cg"
                     name="cg"
                     type="number"
@@ -236,6 +255,7 @@ class Aircraft extends React.Component {
                   />
                   <br />
                   <Field
+                    value={values.name}
                     id="pitch"
                     name="pitch"
                     type="number"
@@ -245,11 +265,11 @@ class Aircraft extends React.Component {
                     }`}
                   />
                   <br />
-                  <label htmlFor="unit">Unit of measurement for values</label>
+                  <label htmlFor="unitsAir">Unit of measurement for values</label>
                   <br />
-                  <Field as="select" id="unit" name="unit" type="select">
-                    <option value="metric">Metric</option>
-                    <option value="imperial">Imperial</option>
+                  <Field as="select" id="unitsAir" name="unitsAir" type="select" value={values.name}>
+                    <option value="true">Metric</option>
+                    <option value="false">Imperial</option>
                   </Field>
                   <br />
                   <button
