@@ -1,6 +1,8 @@
 import React from "react";
+import { Form } from 'react-bootstrap'
 import ReactDOM from "react-dom";
 import firebase from "../Firestore";
+import { Formik, Field, ErrorMessage } from'formik'
 
 class Aircraft extends React.Component {
   constructor(props) {
@@ -21,10 +23,10 @@ class Aircraft extends React.Component {
     };
   }
 
-  updateInfo = event => {
+  /*updateInfo = event => {
     this.setState({
       [event.target.acName]: event.target.value
-      /*Ze: 0.0,
+      Ze: 0.0,
                 Xe: 0.0,
                 Lookdown: 0.0,
                 Za: 0.0,
@@ -34,35 +36,35 @@ class Aircraft extends React.Component {
                 Weight: 0.0,
                 CG: 0.0,
                 Pitch: 0.0,
-                Units: true */
+                Units: true 
     });
-  };
+  }; */
 
-  addAircraft = event => {
-    event.preventDefault();
+  addAircraft = (values) => {
 
     const db = firebase.firestore();
     db.settings({
       timestampsInSnapshots: true
     });
+    console.log(values)
     db.collection("Aircrafts")
-      .doc(String(this.state.acName))
+      .doc(String(values.acName))
       .set({
-        ACName: String(this.state.acName),
-        Ze: Number(this.state.ze),
-        Xe: Number(this.state.xe),
-        Lookdown: Number(this.state.lookdown),
-        Za: Number(this.state.za),
-        Xa: Number(this.state.xa),
-        Flaps: Number(this.state.flaps),
-        Speed: Number(this.state.speed),
-        Weight: Number(this.state.weight),
-        CG: Number(this.state.cg),
-        Pitch: Number(this.state.pitch),
-        Units: Boolean(this.state.unit)
+        ACName: String(values.acName),
+        Ze: Number(values.ze),
+        Xe: Number(values.xe),
+        Lookdown: Number(values.lookdown),
+        Za: Number(values.za),
+        Xa: Number(values.xa),
+        Flaps: Number(values.flaps),
+        Speed: Number(values.speed),
+        Weight: Number(values.weight),
+        CG: Number(values.cg),
+        Pitch: Number(values.pitch),
+        Units: Boolean(values.unit)
       });
     // After submission values are cleared
-    this.setState({
+    /*this.setState({
       acName: " ",
       ze: " ",
       xe: " ",
@@ -75,190 +77,194 @@ class Aircraft extends React.Component {
       cg: " ",
       pitch: " ",
       units: true
-    });
+    });*/
   };
 
-  /*
-  renderAircraftTableHeader() {
-    return (
-      <tr>
-        <th>NAME</th>
-        <th>ZE</th>
-        <th>XE</th>
-        <th>LOOKDOWN</th>
-        <th>ZA</th>
-        <th>XA</th>
-        <th>FLAPS</th>
-        <th>SPEED</th>
-        <th>WEIGHT</th>
-        <th>CG</th>
-        <th>PITCH</th>
-        <th>METRIC?</th>
-      </tr>
-    );
-  }
-
-  renderAircraftTable() {
-    return this.state.aircrafts.map((aircraft, index) => {
-      const {
-        acName,
-        ze,
-        xe,
-        lookdown,
-        za,
-        xa,
-        flaps,
-        speed,
-        weight,
-        cg,
-        pitch,
-        unit
-      } = aircraft;
-
-      return (
-        <tr key={acName}>
-          <td>{acName}</td>
-          <td>{ze}</td>
-          <td>{xe}</td>
-          <td>{lookdown}</td>
-          <td>{za}</td>
-          <td>{xa}</td>
-          <td>{flaps}</td>
-          <td>{speed}</td>
-          <td>{weight}</td>
-          <td>{cg}</td>
-          <td>{pitch}</td>
-          <td>{unit}</td>
-        </tr>
-      );
-    });
+ /* AddAirForm = () => {
+    
+    const formik = useFormik({
+      
+      onSubmit: values => {
+        this.addAircraft();
+      }
+    })
   } */
 
+  
+
   render() {
-    const {
-      acName,
-      ze,
-      xe,
-      lookdown,
-      za,
-      xa,
-      flaps,
-      speed,
-      weight,
-      cg,
-      pitch,
-      unit
-    } = this.state;
     return (
-      /*<div>
-                <h1 id='title'>Aircraft Dynamic Table</h1>
-                <table id='aircrafts'>
-                    <tbody>
-                        <tr>{this.renderAircraftTableHeader()}</tr>
-                        {this.renderAircraftTable()}
-                    </tbody>
-                </table>
-            </div>*/
-      <form onSubmit={this.addAircraft}>
-        <input
-          type="text"
-          name="acName"
-          placeholder="Aircraft name"
-          onChange={this.updateInfo}
-          value={acName}
-        />
-        <br />
-        <input
-          type="number"
-          name="ze"
-          placeholder="Aircrat's Ze value"
-          onChange={this.updateInfo}
-          value={ze}
-        />
-        <br />
-        <input
-          type="number"
-          name="xe"
-          placeholder="Aircraft's Xe value"
-          onChange={this.updateInfo}
-          value={xe}
-        />
-        <br />
-        <input
-          type="number"
-          name="lookdown"
-          placeholder="Aircraft's lookdown value"
-          onChange={this.updateInfo}
-          value={lookdown}
-        />
-        <br />
-        <input
-          type="number"
-          name="za"
-          placeholder="Aircraft's Za value"
-          onChange={this.updateInfo}
-          value={za}
-        />
-        <br />
-        <input
-          type="number"
-          name="xa"
-          placeholder="Aircraft's Xa value"
-          onChange={this.updateInfo}
-          value={xa}
-        />
-        <br />
-        <input
-          type="number"
-          name="flaps"
-          placeholder="Aircraft's flaps value"
-          onChange={this.updateInfo}
-          value={flaps}
-        />
-        <br />
-        <input
-          type="number"
-          name="speed"
-          placeholder="Aircraft's speed value"
-          onChange={this.updateInfo}
-          value={speed}
-        />
-        <br />
-        <input
-          type="number"
-          name="weight"
-          placeholder="Aircraft's weight value"
-          onChange={this.updateInfo}
-          value={weight}
-        />
-        <br />
-        <input
-          type="number"
-          name="cg"
-          placeholder="Aircraft's cg value"
-          onChange={this.updateInfo}
-          value={cg}
-        />
-        <br />
-        <input
-          type="number"
-          name="pitch"
-          placeholder="Aircraft's pitch value"
-          onChange={this.updateInfo}
-          value={pitch}
-        />
-        <br />
-        <input
-          type="checkbox"
-          name="unit"
-          value="Metric"
-          onChange={this.updateInfo}
-          value={unit}
-        />{" "}
-        These values are in metric.
-        <br />
-        <input type="submit" value="submit" />
-      </form>
+      <div className="container">
+        <div className="row mb-5">
+          <div className="col-lg-12 text-center">
+            <h1 className="mt-5">Add Aircraft</h1>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-lg-12">
+            <Formik
+              initialValues={{
+                acName: " ",
+                ze: " ",
+                xe: " ",
+                lookdown: " ",
+                za: " ",
+                xa: " ",
+                flaps: " ",
+                speed: " ",
+                weight: " ",
+                cg: " ",
+                pitch: " "
+              }}
+              validate={values => {
+                const errors = {};
+                if (!values.acName) {
+                  errors.acName = "Required";
+                } else if (values.acName.length > 15) {
+                  errors.acName = "Must be 15 characters or less";
+                }
+
+                return errors;
+              }}
+              onSubmit={(values, { setSubmitting, resetForm }) => {
+                alert("stuff happened: " + values);
+                this.addAircraft(values);
+                setSubmitting(false);
+              }}
+            >
+              {({ touched, errors, isSubmitting }) => (
+                <Form>
+                  <label htmlFor="aircraft">Aircraft Name</label>
+                  <Field
+                    id="acName"
+                    name="acName"
+                    type="text"
+                    placeholder="ex. A320"
+                    className={`form-control ${
+                      touched.acName && errors.acName ? "is-invalid" : ""
+                    }`}
+                  />
+                  <br />
+                  <Field
+                    id="ze"
+                    name="ze"
+                    type="number"
+                    placeholder="Enter Ze value"
+                    className={`form-control ${
+                      touched.ze && errors.ze ? "is-invalid" : ""
+                    }`}
+                  />
+                  <br />
+                  <Field
+                    id="xe"
+                    name="xe"
+                    type="number"
+                    placeholder="Enter Xe value"
+                    className={`form-control ${
+                      touched.xe && errors.xe ? "is-invalid" : ""
+                    }`}
+                  />
+                  <br />
+                  <Field
+                    id="lookdown"
+                    name="lookdown"
+                    type="number"
+                    placeholder="Enter lookdown value"
+                    className={`form-control ${
+                      touched.lookdown && errors.Lookdown ? "is-invalid" : ""
+                    }`}
+                  />
+                  <br />
+                  <Field
+                    id="za"
+                    name="za"
+                    type="number"
+                    placeholder="Enter Za value"
+                    className={`form-control ${
+                      touched.za && errors.za ? "is-invalid" : ""
+                    }`}
+                  />
+                  <br />
+                  <Field
+                    id="xa"
+                    name="xa"
+                    type="number"
+                    placeholder="Enter Xa value"
+                    className={`form-control ${
+                      touched.xa && errors.xa ? "is-invalid" : ""
+                    }`}
+                  />
+                  <br />
+                  <Field
+                    id="flaps"
+                    name="flaps"
+                    type="number"
+                    placeholder="Enter Flaps setting"
+                    className={`form-control ${
+                      touched.flaps && errors.flaps ? "is-invalid" : ""
+                    }`}
+                  />
+                  <br />
+                  <Field
+                    id="speed"
+                    name="speed"
+                    type="number"
+                    placeholder="Enter Aircraft's speed"
+                    className={`form-control ${
+                      touched.speed && errors.speed ? "is-invalid" : ""
+                    }`}
+                  />
+                  <br />
+                  <Field
+                    id="weight"
+                    name="weight"
+                    type="number"
+                    placeholder="Enter Aircraft's weight"
+                    className={`form-control ${
+                      touched.weight && errors.weight ? "is-invalid" : ""
+                    }`}
+                  />
+                  <br />
+                  <Field
+                    id="cg"
+                    name="cg"
+                    type="number"
+                    placeholder="Enter Aircraft's CG"
+                    className={`form-control ${
+                      touched.cg && errors.cg ? "is-invalid" : ""
+                    }`}
+                  />
+                  <br />
+                  <Field
+                    id="pitch"
+                    name="pitch"
+                    type="number"
+                    placeholder="Enter Aircraft's pitch angle"
+                    className={`form-control ${
+                      touched.pitch && errors.pitch ? "is-invalid" : ""
+                    }`}
+                  />
+                  <br />
+                  <label htmlFor="unit">Unit of measurement for values</label>
+                  <br />
+                  <Field as="select" id="unit" name="unit" type="select">
+                    <option value="metric">Metric</option>
+                    <option value="imperial">Imperial</option>
+                  </Field>
+                  <br />
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-block"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Please wait..." : "Submit"}
+                  </button>
+                </Form>
+              )}
+            </Formik>
+          </div>
+        </div>
+      </div>
     );
   }
 }
