@@ -34,10 +34,6 @@ class BuildAircraftTable extends React.Component {
         })
     }
 
-    refreshTable = res => this.setState({
-        refreshTable: !this.state.refreshTable
-    })
-
     render() {       
         return (
             <tbody>

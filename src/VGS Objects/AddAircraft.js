@@ -5,7 +5,7 @@ import firebase from "../Firestore";
 import { Formik, Field, ErrorMessage } from'formik'
 import ManageAircrafts from "./ManageAircrafts"
 
-class Aircraft extends React.Component {
+class AddAircraft extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -289,4 +289,4 @@ class Aircraft extends React.Component {
   }
 }
 
-export default Aircraft;
+export default AddAircraft;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
-import Aircraft from './VGS Objects/Aircraft.js'
+import AddAircraft from './VGS Objects/AddAircraft.js'
 import ManageAircrafts from './VGS Objects/ManageAircrafts'
 import Runway from './VGS Objects/Runway.js'
 import { 
