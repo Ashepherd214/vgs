@@ -12,6 +12,12 @@ import {
   Modal
 } from "react-bootstrap";
 
+const selectRowProp = {
+  mode: 'checkbox',
+  bgColor: 'lightblue',
+  clickToSelect: true //enable click to select
+}
+
 export class ManageAircrafts extends Component {
          constructor(props) {
            super(props);
@@ -38,14 +44,17 @@ export class ManageAircrafts extends Component {
          }
 
          componentDidMount = () => {
-           this.db.onSnapshot(this.gotData, this.errData)
+           console.log("Component mounted")
+           const db = firebase.firestore().collection("Aircrafts")
+           this.gotData()
+           //db.onSnapshot(this.gotData, this.errData)
          };
 
-         componentDidUpdate (prevProps, prevState) {
+         /*componentDidUpdate (prevProps, prevState) {
            if(prevState !== this.state.name) {
              this.gotData()
            }
-         }
+         }*/
 
         //  handleUpdate = () => {
         //    const db = firebase.firestore().collection("Aircrafts");
@@ -68,6 +77,7 @@ export class ManageAircrafts extends Component {
         //  }
 
          gotData = () => {
+           console.log("Getting Data")
            let aircraft =[]
           //  console.log(data)
           //  console.log(data.data())
@@ -102,6 +112,7 @@ export class ManageAircrafts extends Component {
               .catch(function(error) {
                 console.log("Error getting documents: ", error);
               });
+              console.log(aircraft)
           }
 
         //    for (let i = 0; i < keys.length; i++) {
@@ -172,9 +183,11 @@ export class ManageAircrafts extends Component {
              <div>
                <BootstrapTable
                  ref="table"
-                 data={ this.state.aircrafts }
+                 data={ this.state.aircraft }
+                 selectRow={ selectRowProp }
                  pagination={false}
-                 search={true}
+                 search={false}
+                 version='4'
                >
                  <TableHeaderColumn
                    dataField="name"
