@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import ReactDOM from "react-dom";
 import firebase from "../Firestore";
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
+import BootstrapTable from 'react-bootstrap-table-next'
 import BuildAircraftTable from "./BuildAircraftTable";
 import AddAircraft from "./AddAircraft";
 import {
@@ -12,77 +12,27 @@ import {
   Modal
 } from "react-bootstrap";
 
-const selectRowProp = {
-  mode: 'checkbox',
-  bgColor: 'lightblue',
-  clickToSelect: true //enable click to select
-}
 
 export class ManageAircrafts extends Component {
          constructor(props) {
            super(props);
            this.state = {
              aircrafts: [],
-            //  name: " ",
-            //  ze: " ",
-            //  xe: " ",
-            //  lookdown: " ",
-            //  za: " ",
-            //  xa: " ",
-            //  flaps: " ",
-            //  speed: " ",
-            //  weight: " ",
-            //  cg: " ",
-            //  pitch: " ",
-            //  units: null,
+             selected: [],
              show: false
-
-             // viewAddForm: false
            };
-           this.db = firebase.firestore().collection("Aircrafts")
-           // this.addForm = null
+
          }
 
          componentDidMount = () => {
            console.log("Component mounted")
-           const db = firebase.firestore().collection("Aircrafts")
+           //const db = firebase.firestore().collection("Aircrafts")
            this.gotData()
-           //db.onSnapshot(this.gotData, this.errData)
          };
-
-         /*componentDidUpdate (prevProps, prevState) {
-           if(prevState !== this.state.name) {
-             this.gotData()
-           }
-         }*/
-
-        //  handleUpdate = () => {
-        //    const db = firebase.firestore().collection("Aircrafts");
-
-        //    let aircraft = db.get().then(querySnapshot)
-        //    this.setState({
-        //      name: aircraft.name,
-        //      xa: doc.data().Xa,
-        //      xe: doc.data().Xe,
-        //      za: doc.data().Za,
-        //      ze: doc.data().Ze,
-        //      cg: doc.data().cg,
-        //      flaps: doc.data().flaps,
-        //      lookdown: doc.data().lookdown,
-        //      pitch: doc.data().pitch,
-        //      speed: doc.data().speed,
-        //      weight: doc.data().weight,
-        //      unitsAir: doc.data().unitsAir
-        //    });
-        //  }
 
          gotData = () => {
            console.log("Getting Data")
-           let aircraft =[]
-          //  console.log(data)
-          //  console.log(data.data())
-          //  const planedata = data.doc.data();
-          //  const keys = Object.keys(planedata)
+           let aircrafts =[]
 
             const db = firebase.firestore().collection("Aircrafts");
 
@@ -91,7 +41,7 @@ export class ManageAircrafts extends Component {
                 //const aircraft = [];
 
                 querySnapshot.forEach(function(doc) {
-                  aircraft.push({
+                  aircrafts.push({
                     name: doc.id,
                     xa: doc.data().Xa,
                     xe: doc.data().Xe,
@@ -103,45 +53,17 @@ export class ManageAircrafts extends Component {
                     pitch: doc.data().pitch,
                     speed: doc.data().speed,
                     weight: doc.data().weight,
-                    unitsAir: doc.data().unitsAir
+                    unitsAir: doc.data().unitsAir.toString()
                   });
                 });
 
-                this.setState({ aircraft });
+                this.setState({ aircrafts });
               })
               .catch(function(error) {
                 console.log("Error getting documents: ", error);
               });
-              console.log(aircraft)
+              console.log(this.state.aircrafts)
           }
-
-        //    for (let i = 0; i < keys.length; i++) {
-        //      const k = keys[i];
-        //      newPlanes.push({
-        //        name: planedata[k].name,
-        //        ze: planedata[k].ze,
-        //        xe: planedata[k].xe,
-        //        lookdown: planedata[k].lookdown,
-        //        za: planedata[k].za,
-        //        xa: planedata[k].xa,
-        //        flaps: planedata[k].flaps,
-        //        speed: planedata[k].speed,
-        //        weight: planedata[k].weight,
-        //        cg: planedata[k].cg,
-        //        pitch: planedata[k].pitch,
-        //        unitsAir: null
-        //      });
-        //    }
-        //    this.setState({aircrafts: newPlanes})
-        //  }
-
-        //  errData = (err) => {
-        //    console.log(err)
-        //  }
-
-         handleClick = (rowKey) => {
-           alert(this.db.table.getPageByRowKey(rowKey))
-         }
 
          showModal = () => {
            this.setState({
@@ -157,116 +79,130 @@ export class ManageAircrafts extends Component {
            this.handleUpdate()
          }
 
-              // <Table bordered hover responsive striped>
-              //    <thead>
-              //      <tr>
-              //        <th>NAME</th>
-              //        <th>XA</th>
-              //        <th>XE</th>
-              //        <th>ZA</th>
-              //        <th>ZE</th>
-              //        <th>CG</th>
-              //        <th>FLAPS</th>
-              //        <th>LOOKDOWN</th>
-              //        <th>PITCH</th>
-              //        <th>SPEED</th>
-              //        <th>WEIGHTS</th>
-              //        <th>METRIC?</th>
-              //      </tr>
-              //    </thead>
-              //    <BuildAircraftTable />
-              //  </Table>
+          handleOnSelect = (row, isSelect, rowKey) => {
+            if (isSelect) {
+              const craft = this.node.selectionContext.selected
+              console.log(craft)
+              this.setState(() => ({
+                selected: [...this.state.selected, row.id]
+              }))
+            } else {
+              this.setState(() => ({
+                selected: this.state.selected.filter(x => x !== row.id)
+              }))
+            }
+            console.log(this.node.selectionContext.selected)
+            //alert(db.table.getPageByRowKey(rowKey))
+          }
+
+          // find selected row key and delete that aircraft from database
+         delAircraft = () => {
+           alert(this.node.selectionContext.selected)
+            const selections = [this.node.selectionContext.selected]
+           const db = firebase.firestore().collection("Aircrafts")
+
+            selections.forEach(key => {
+              console.log(db.doc(key.toString()).get().then(function(doc) { console.log(doc.data())}))
+              db.doc(key.toString()).delete().then(function() {
+                console.log("Deletion successful!")
+              }).catch(function(error) {
+                console.error("Something went wrong, document not removed")
+              })
+            })
+
+           
+           console.log(this.state.show)
+         };
+
+         editAircraft = () => {
+           // find selected row key and take user input to .set aircraft values for database
+           console.log(this.state.show)
+         };
 
          render() {
            let { show } = this.state;
+
+           const selectRowProp = {
+             mode: 'checkbox',
+             bgColor: 'lightblue',
+             clickToSelect: true, //enable click to select 
+             hideSelectColumn: true,
+             //selected: this.state.selected,
+             onSelect: this.handleOnSelect
+           }
+
+           const columns = [
+             {
+               dataField: "name",
+               text: "Aircraft Name"
+             },
+             {
+               dataField: "xa",
+               text: "Aircraft Xa Value"
+             },
+             {
+               dataField: "xe",
+               text: "Aircraft Xe Value"
+             },
+             {
+               dataField: "za",
+               text: "Aircraft Za Value"
+             },
+             {
+               dataField: "ze",
+               text: "Aircraft Ze Value"
+             },
+             {
+               dataField: "cg",
+               text: "Aircraft's CG"
+             },
+             {
+               dataField: "flaps",
+               text: "Aircraft Flaps Setting"
+             },
+             {
+               dataField: "lookdown",
+               text: "Aircraft Lookdown Value"
+             },
+             {
+               dataField: "pitch",
+               text: "Aircraft Pitch"
+             },
+             {
+               dataField: "speed",
+               text: "Aircraft Speed"
+             },
+             {
+               dataField: "weight",
+               text: "Aircraft Weight"
+             },
+             {
+               dataField: "unitAir",
+               text: "Metric?"
+             }
+           ];
+
            return (
              <div>
                <BootstrapTable
-                 ref="table"
-                 data={ this.state.aircraft }
-                 selectRow={ selectRowProp }
-                 pagination={false}
-                 search={false}
-                 version='4'
-               >
-                 <TableHeaderColumn
-                   dataField="name"
-                   isKey={true}
-                   dataSort={true}
-                 >
-                   Aircraft Name
-                 </TableHeaderColumn>
-                 <TableHeaderColumn 
-                    dataField="xa" 
-                    dataSort={true}
-                  >
-                   Aircraft Xa Value
-                 </TableHeaderColumn>
-                 <TableHeaderColumn   
-                    dataField="xe" 
-                    dataSort={true}
-                  >
-                   Aircraft Xe Value
-                 </TableHeaderColumn>
-                 <TableHeaderColumn 
-                    dataField="za" 
-                    dataSort={true}
-                  >
-                   Aircraft Za Value
-                 </TableHeaderColumn>
-                 <TableHeaderColumn 
-                    dataField="ze" 
-                    dataSort={true}
-                  >
-                   Aircraft Ze Value
-                 </TableHeaderColumn>
-                 <TableHeaderColumn 
-                    dataField="cg" 
-                    dataSort={true}
-                  >
-                   Aircraft's CG
-                 </TableHeaderColumn>
-                 <TableHeaderColumn
-                   dataField="flaps"
-                   dataSort={true}
-                  >
-                   Aircraft Flaps Setting
-                 </TableHeaderColumn>
-                 <TableHeaderColumn
-                   dataField="lookdown"
-                   dataSort={true}
-                  >
-                   Aircraft Lookdown Value
-                 </TableHeaderColumn>
-                 <TableHeaderColumn
-                   dataField="pitch"
-                   dataSort={true}
-                  >
-                   Aircraft Pitch
-                 </TableHeaderColumn>
-                 <TableHeaderColumn
-                   dataField="speed"
-                   dataSort={true}
-                  >
-                   Aircraft Speed
-                 </TableHeaderColumn>
-                 <TableHeaderColumn
-                   dataField="weight"
-                   dataSort={true}
-                  >
-                   Aircraft Weight
-                 </TableHeaderColumn>
-                 <TableHeaderColumn
-                   dataField="unitAir"
-                   dataSort={true}
-                  >
-                   Metric?
-                 </TableHeaderColumn>
-               </BootstrapTable>
-               
+                  bootstrap4
+                  ref={ n => this.node = n }
+                  id="airTable"
+                  keyField='name'
+                  data={ this.state.aircrafts }
+                  columns={ columns }
+                  selectRow={ selectRowProp }
+               />
+                
                <ButtonToolbar>
                  <Button variant="primary" size="lg" onClick={this.showModal}>
                    Add Aircraft
+                 </Button>
+                 <Button variant="success" size="lg" onClick={this.editAircraft}>
+                   Edit Aircraft
+                 </Button>
+                 <Button variant="danger" size="lg" onClick={this.delAircraft}>
+                   Delete Aircraft
                  </Button>
                </ButtonToolbar>
 
