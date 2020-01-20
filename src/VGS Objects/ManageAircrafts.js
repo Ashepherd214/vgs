@@ -17,9 +17,10 @@ import {
 export class ManageAircrafts extends Component {
   constructor(props) {
     super(props);
+    this.select=[];
     this.state = {
       aircrafts: [],
-      selected: [],
+      select: " ",
       showAdd: false,
       showEdit: false
     };
@@ -81,16 +82,22 @@ export class ManageAircrafts extends Component {
   };
 
   handleOnSelect = (row, isSelect, rowKey) => {
+    // ...this.state.selected,
     if (isSelect) {
       const craft = this.node.selectionContext.selected;
+      console.log(craft)
       this.setState(() => ({
-        selected: [...this.state.selected, row.id]
+        selected: [row.id]
       }));
     } else {
       this.setState(() => ({
         selected: this.state.selected.filter(x => x !== row.id)
       }));
     }
+    this.setState(() => ({
+      select: this.node.selectionContext.selected
+    }));
+    //console.log(this.state.select)
     //alert(db.table.getPageByRowKey(rowKey))
   };
 
@@ -131,8 +138,10 @@ export class ManageAircrafts extends Component {
     let closeAdd = () => this.setState({ showAdd: false });
     let closeEdit = () => this.setState({ showEdit: false });
 
+    console.log("Render found value to be: ", this.state.select)
+    const airSelect = this.state.select
     const selectRowProp = {
-      mode: "checkbox",
+      mode: "radio",
       bgColor: "lightblue",
       clickToEdit: true,
       clickToSelect: true, //enable click to select
@@ -268,7 +277,7 @@ export class ManageAircrafts extends Component {
             <Modal.Title>Aircraft Editor</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <EditAircraft id="editAirForm" />
+            <EditAircraft name={ airSelect } />
           </Modal.Body>
           <Modal.Footer>
             <Button variant="danger" onClick={closeEdit}>

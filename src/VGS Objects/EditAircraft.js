@@ -8,8 +8,9 @@ import ManageAircrafts from "./ManageAircrafts";
 class EditAircraft extends React.Component {
   constructor(props) {
     super(props);
+    this.select = [props.select];
+    
     this.state = {
-      ACName: " ",
       Ze: " ",
       Xe: " ",
       Lookdown: " ",
@@ -20,10 +21,79 @@ class EditAircraft extends React.Component {
       Weight: " ",
       CG: " ",
       Pitch: " ",
-      Units: false
+      Units: false,
     };
   }
 
+  componentDidMount() {
+    let aircraft = [];
+
+    this.aircraft = this.aircraft.bind(this);    
+
+    const select = this.props.name
+    const selString = select[0].toString()
+    console.log("The aircraft being passed is: ", selString)
+
+    const airRef = firebase.firestore().collection("Aircrafts").doc(selString)
+    // const query = airRef.where("id", "==", { select })
+
+    airRef.get().then(function(doc) {
+      if (doc.exists) {
+        console.log("Document Data Passed: ", doc.data())
+        aircraft.push({
+          name: doc.id,
+          xa: doc.data().Xa,
+          xe: doc.data().Xe,
+          za: doc.data().Za,
+          ze: doc.data().Ze,
+          cg: doc.data().cg,
+          flaps: doc.data().flaps,
+          lookdown: doc.data().lookdown,
+          pitch: doc.data().pitch,
+          speed: doc.data().speed,
+          weight: doc.data().weight,
+          unitsAir: doc.data().unitsAir 
+        })
+      } else {
+        console.log("No such document!")
+      }
+    }).catch(function(error) {
+      console.log("Error getting document: ", error)
+    })
+    // .then( (querySnapshot) => {
+
+    //   querySnapshot.forEach(function(doc) {
+    //     console.log(doc.data())
+    //   });
+    // })
+    // .catch(function(error) {
+    //   console.log("Error getting documents: ", error)
+    // })
+
+    //console.log(doc.data())
+
+    // db.get()
+    //   .then(function (doc) {
+    //     aircraft.push({
+    //       name: doc.id,
+    //       xa: doc.data().Xa,
+    //       xe: doc.data().Xe,
+    //       za: doc.data().Za,
+    //       ze: doc.data().Ze,
+    //       cg: doc.data().cg,
+    //       flaps: doc.data().flaps,
+    //       lookdown: doc.data().lookdown,
+    //       pitch: doc.data().pitch,
+    //       speed: doc.data().speed,
+    //       weight: doc.data().weight,
+    //       unitsAir: doc.data().unitsAir.toString()
+    //     });
+    //     this.setState({ aircraft });
+    //   })
+    //   .catch(function (error) {
+    //     console.log("Error getting documents: ", error);
+    //   });
+  }
   /*updateInfo = event => {
     this.setState({
       [event.target.acName]: event.target.value
@@ -41,7 +111,7 @@ class EditAircraft extends React.Component {
     });
   }; */
 
-  addAircraft = values => {
+  updateAircraft = values => {
     const db = firebase.firestore();
     db.settings({
       timestampsInSnapshots: true
@@ -79,30 +149,58 @@ class EditAircraft extends React.Component {
     });*/
   };
 
-  /* AddAirForm = () => {
-    
-    const formik = useFormik({
-      
-      onSubmit: values => {
-        this.addAircraft();
-      }
-    })
-  } */
-
   render() {
+
+    // let aircraft = [];
+
+    // const select = this.props.name
+    // console.log("passed data: ", select)
+    // const db = firebase.firestore().collection("Aircrafts").doc(select[0].toString())
+
+    // db.get()
+    //   .then(function (doc) {
+    //       aircraft.push({
+    //         name: doc.id,
+    //         xa: doc.data().Xa,
+    //         xe: doc.data().Xe,
+    //         za: doc.data().Za,
+    //         ze: doc.data().Ze,
+    //         cg: doc.data().cg,
+    //         flaps: doc.data().flaps,
+    //         lookdown: doc.data().lookdown,
+    //         pitch: doc.data().pitch,
+    //         speed: doc.data().speed,
+    //         weight: doc.data().weight,
+    //         unitsAir: doc.data().unitsAir.toString()
+    //       });
+    //     //this.setState({ aircraft });
+    //     })
+    //   .catch(function (error) {
+    //     console.log("Error getting documents: ", error);
+    //   });
+
+    //   console.log(aircraft)
+    // db.get()
+    //   .then(function(doc) {
+    //     console.log("Document found: ", doc.data())
+    //   })
+
     return (
+      
+
       <div className="container">
         <div className="row mb-5">
           <div className="col-lg-12 text-center">
-            <h1 className="mt-5">Add Aircraft</h1>
+            <h1 className="mt-5">Edit Aircraft</h1>
           </div>
         </div>
         <div className="row">
-          <div className="col-lg-12">
+          <div className="col-lg-12">         
             <Formik
+            enableReinitialize = {true}
               initialValues={{
-                acName: " ",
-                ze: " ",
+                acName: this.aircraft.name,
+                ze: this.aircraft.ze,
                 xe: " ",
                 lookdown: " ",
                 za: " ",
@@ -126,7 +224,7 @@ class EditAircraft extends React.Component {
               }}
               onSubmit={(values, { setSubmitting, resetForm }) => {
                 setTimeout(() => {
-                  this.addAircraft(values);
+                  this.updateAircraft(values);
                   setSubmitting(false);
                 }, 400);
               }}
@@ -140,24 +238,26 @@ class EditAircraft extends React.Component {
                 values
               }) => (
                 <Form onSubmit={handleSubmit}>
-                  <label htmlFor="aircraft">Aircraft Name</label>
-                  <Field
-                    value={values.name}
-                    id="acName"
-                    name="acName"
-                    type="text"
-                    placeholder="ex. A320"
-                    className={`form-control ${
-                      touched.acName && errors.acName ? "is-invalid" : ""
-                    }`}
-                  />
+                  <Form.Group controlId="formName">
+                    <Form.Label>Aircraft Name</Form.Label>
+                    <Form.Control
+                      value={values.acName}
+                      //id="acName"
+                      name="acName"
+                      type="text"
+                      //placeholder={aircraft.name}
+                      className={`form-control ${
+                        touched.acName && errors.acName ? "is-invalid" : ""
+                      }`}
+                    />
+                  </Form.Group>
                   <br />
                   <Field
-                    value={values.name}
+                    value={values.ze}
                     id="ze"
                     name="ze"
                     type="number"
-                    placeholder="Enter Ze value"
+                    //placeholder="Enter Ze value"
                     className={`form-control ${
                       touched.ze && errors.ze ? "is-invalid" : ""
                     }`}
@@ -168,7 +268,7 @@ class EditAircraft extends React.Component {
                     id="xe"
                     name="xe"
                     type="number"
-                    placeholder="Enter Xe value"
+                    //placeholder="Enter Xe value"
                     className={`form-control ${
                       touched.xe && errors.xe ? "is-invalid" : ""
                     }`}
@@ -179,7 +279,7 @@ class EditAircraft extends React.Component {
                     id="lookdown"
                     name="lookdown"
                     type="number"
-                    placeholder="Enter lookdown value"
+                    //placeholder="Enter lookdown value"
                     className={`form-control ${
                       touched.lookdown && errors.Lookdown ? "is-invalid" : ""
                     }`}
@@ -190,7 +290,7 @@ class EditAircraft extends React.Component {
                     id="za"
                     name="za"
                     type="number"
-                    placeholder="Enter Za value"
+                    //placeholder="Enter Za value"
                     className={`form-control ${
                       touched.za && errors.za ? "is-invalid" : ""
                     }`}
@@ -201,7 +301,7 @@ class EditAircraft extends React.Component {
                     id="xa"
                     name="xa"
                     type="number"
-                    placeholder="Enter Xa value"
+                    //placeholder="Enter Xa value"
                     className={`form-control ${
                       touched.xa && errors.xa ? "is-invalid" : ""
                     }`}
@@ -212,7 +312,7 @@ class EditAircraft extends React.Component {
                     id="flaps"
                     name="flaps"
                     type="number"
-                    placeholder="Enter Flaps setting"
+                    //placeholder="Enter Flaps setting"
                     className={`form-control ${
                       touched.flaps && errors.flaps ? "is-invalid" : ""
                     }`}
@@ -223,7 +323,7 @@ class EditAircraft extends React.Component {
                     id="speed"
                     name="speed"
                     type="number"
-                    placeholder="Enter Aircraft's speed"
+                    //placeholder="Enter Aircraft's speed"
                     className={`form-control ${
                       touched.speed && errors.speed ? "is-invalid" : ""
                     }`}
@@ -234,7 +334,7 @@ class EditAircraft extends React.Component {
                     id="weight"
                     name="weight"
                     type="number"
-                    placeholder="Enter Aircraft's weight"
+                    //placeholder="Enter Aircraft's weight"
                     className={`form-control ${
                       touched.weight && errors.weight ? "is-invalid" : ""
                     }`}
@@ -245,7 +345,7 @@ class EditAircraft extends React.Component {
                     id="cg"
                     name="cg"
                     type="number"
-                    placeholder="Enter Aircraft's CG"
+                    //placeholder="Enter Aircraft's CG"
                     className={`form-control ${
                       touched.cg && errors.cg ? "is-invalid" : ""
                     }`}
@@ -256,7 +356,7 @@ class EditAircraft extends React.Component {
                     id="pitch"
                     name="pitch"
                     type="number"
-                    placeholder="Enter Aircraft's pitch angle"
+                    //placeholder="Enter Aircraft's pitch angle"
                     className={`form-control ${
                       touched.pitch && errors.pitch ? "is-invalid" : ""
                     }`}
@@ -287,6 +387,7 @@ class EditAircraft extends React.Component {
                 </Form>
               )}
             </Formik>
+            
           </div>
         </div>
       </div>
