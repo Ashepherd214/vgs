@@ -11,6 +11,7 @@ class EditAircraft extends React.Component {
     super(props);
 
     this.select = [props.select];
+    this.closeEdit = [props.closeEdit];
     this.state = {
       name: " ",
       ze: " ",
@@ -27,6 +28,8 @@ class EditAircraft extends React.Component {
     };
     this.componentDidMount = this.componentDidMount.bind(this)
     this.loadCurrentValues = this.loadCurrentValues.bind(this)
+
+    const closeForm = this.props.closeEdit
   }
 
   async componentDidMount() {
@@ -37,14 +40,12 @@ class EditAircraft extends React.Component {
   loadCurrentValues = () => {
     const select = this.props.name
     const selString = select[0].toString()
-    console.log("Current bind: ", this.state.name)
 
     const airRef = firebase.firestore().collection("Aircrafts").doc(selString)
 
     airRef.get()
     .then(doc => {
       if (doc.exists) {
-        console.log("state of values: ", this.state.name)
         this.setState({
           name: doc.id,
           ze: doc.data().Ze,
@@ -59,7 +60,6 @@ class EditAircraft extends React.Component {
           pitch: doc.data().pitch, 
           units: doc.data().unitsAir
         })
-        console.log("Document Data Set: ", this.name )
       } else {
         console.log("No such document!")
       }
@@ -70,10 +70,6 @@ class EditAircraft extends React.Component {
 
   updateAircraft = values => {
     const db = firebase.firestore();
-    db.settings({
-      timestampsInSnapshots: true
-    });
-    console.log(values);
     db.collection("Aircrafts")
       .doc(String(values.acName))
       .set({
@@ -127,11 +123,15 @@ class EditAircraft extends React.Component {
 
                 return errors;
               }}
-              onSubmit={(values, { setSubmitting, resetForm }) => {
+              onSubmit={(values, { setSubmitting, resetForm, }) => {
                 setTimeout(() => {
                   this.updateAircraft(values);
                   setSubmitting(false);
                 }, 400);
+                console.log(this.props.closeEdit)
+                if(this.state.closeForm) {
+                  this.props.closeForm();
+                }
               }}
             >
               {({

@@ -24,29 +24,9 @@ class AddAircraft extends React.Component {
     };
   }
 
-  /*updateInfo = event => {
-    this.setState({
-      [event.target.acName]: event.target.value
-      Ze: 0.0,
-                Xe: 0.0,
-                Lookdown: 0.0,
-                Za: 0.0,
-                Xa: 0.0,
-                Flaps: 0,
-                Speed: 0,
-                Weight: 0.0,
-                CG: 0.0,
-                Pitch: 0.0,
-                Units: true 
-    });
-  }; */
-
   addAircraft = (values) => {
 
     const db = firebase.firestore();
-    db.settings({
-      timestampsInSnapshots: true
-    });
     console.log(values)
     db.collection("Aircrafts")
       .doc(String(values.acName))

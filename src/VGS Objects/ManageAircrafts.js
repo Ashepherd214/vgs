@@ -27,13 +27,11 @@ export class ManageAircrafts extends Component {
   }
 
   componentDidMount = () => {
-    console.log("Component mounted");
     const db = firebase.firestore().collection("Aircrafts");
     this.gotData();
   };
 
   gotData = () => {
-    console.log("Getting Data");
     let aircrafts = [];
 
     const db = firebase.firestore().collection("Aircrafts");
@@ -64,14 +62,12 @@ export class ManageAircrafts extends Component {
       .catch(function(error) {
         console.log("Error getting documents: ", error);
       });
-    console.log(this.state.aircrafts);
   };
 
   showModal = () => {
     this.setState({
       show: !this.state.show
     });
-    console.log(this.state.show);
   };
 
   closeModal = () => {
@@ -85,7 +81,6 @@ export class ManageAircrafts extends Component {
     // ...this.state.selected,
     if (isSelect) {
       const craft = this.node.selectionContext.selected;
-      console.log(craft)
       this.setState(() => ({
         selected: [row.id]
       }));
@@ -108,14 +103,6 @@ export class ManageAircrafts extends Component {
     const db = firebase.firestore().collection("Aircrafts");
 
     selections.forEach(key => {
-      console.log(
-        db
-          .doc(key.toString())
-          .get()
-          .then(function(doc) {
-            console.log(doc.data());
-          })
-      );
       db.doc(key.toString())
         .delete()
         .then(function() {
@@ -126,19 +113,17 @@ export class ManageAircrafts extends Component {
         });
     });
 
-    console.log(this.state.show);
   };
 
-  editAircraft = () => {
-    // find selected row key and take user input to .set aircraft values for database
-    console.log(this.state.show);
-  };
+  // editAircraft = () => {
+  //   // find selected row key and take user input to .set aircraft values for database
+  //   console.log(this.state.show);
+  // };
 
   render() {
     let closeAdd = () => this.setState({ showAdd: false });
     let closeEdit = () => this.setState({ showEdit: false });
 
-    console.log("Render found value to be: ", this.state.select)
     const airSelect = this.state.select
     const selectRowProp = {
       mode: "radio",
@@ -277,7 +262,7 @@ export class ManageAircrafts extends Component {
             <Modal.Title>Aircraft Editor</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <EditAircraft name={ airSelect } />
+            <EditAircraft name={ airSelect } toggle={closeEdit}/>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="danger" onClick={closeEdit}>
