@@ -203,7 +203,7 @@ class EditAircraft extends React.Component {
                 
                     <Form.Label>Aircraft Ze</Form.Label>
                     <Field
-                      //value={values.ze}
+                      value={values.ze}
                       //defaultValue={values.ze}
                       id="ze"
                       name="ze"

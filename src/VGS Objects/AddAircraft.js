@@ -46,6 +46,14 @@ class AddAircraft extends React.Component {
       });
   };
 
+  handleSubmit = (values, { setSubmitting, resetForm }) => {
+  setTimeout(() => {
+    this.addAircraft(values);
+    setSubmitting(false);
+  }, 400)
+  this.props.toggle();
+}
+
   render() {
     return (
       <div className="container">
@@ -81,13 +89,7 @@ class AddAircraft extends React.Component {
 
                 return errors;
               }}
-              onSubmit={(values, { setSubmitting, resetForm }) => {
-                setTimeout(() => {
-                  this.addAircraft(values);
-                  setSubmitting(false);
-                }, 400)
-                  this.props.toggle();
-              }}
+              onSubmit={this.handleSubmit}
             >
               {({
                 touched,

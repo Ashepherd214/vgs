@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import AddAircraft from './VGS Objects/AddAircraft.js'
 import ManageAircrafts from './VGS Objects/ManageAircrafts'
+import ManageRunways from './VGS Objects/ManageRunways'
 import Runway from './VGS Objects/Runway.js'
 import { 
   Container,
@@ -13,9 +14,11 @@ import './index.css'
 class App extends Component {
   render () {
     return (
-
-          <ManageAircrafts />
-
+      <div>
+        <ManageAircrafts />
+        <ManageRunways />
+      </div>
+          
     )
   }
 }
