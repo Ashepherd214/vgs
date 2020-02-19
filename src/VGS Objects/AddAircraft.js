@@ -8,6 +8,7 @@ import ManageAircrafts from "./ManageAircrafts"
 class AddAircraft extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       ACName: " ",
       Ze: " ",
@@ -43,34 +44,7 @@ class AddAircraft extends React.Component {
         pitch: Number(values.pitch),
         unitsAir: Boolean(values.unitsAir)
       });
-    // After submission values are cleared
-    /*this.setState({
-      acName: " ",
-      ze: " ",
-      xe: " ",
-      lookdown: " ",
-      za: " ",
-      xa: " ",
-      flaps: " ",
-      speed: " ",
-      weight: " ",
-      cg: " ",
-      pitch: " ",
-      units: true
-    });*/
   };
-
- /* AddAirForm = () => {
-    
-    const formik = useFormik({
-      
-      onSubmit: values => {
-        this.addAircraft();
-      }
-    })
-  } */
-
-  
 
   render() {
     return (
@@ -112,6 +86,7 @@ class AddAircraft extends React.Component {
                   this.addAircraft(values);
                   setSubmitting(false);
                 }, 400)
+                  this.props.toggle();
               }}
             >
               {({

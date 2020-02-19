@@ -4,11 +4,8 @@ import firebase from "../Firestore";
 import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import EditAircraft from "./EditAircraft";
-import BuildAircraftTable from "./BuildAircraftTable";
 import AddAircraft from "./AddAircraft";
 import {
-  Table,
-  Container,
   Button,
   ButtonToolbar,
   Modal
@@ -17,13 +14,19 @@ import {
 export class ManageAircrafts extends Component {
   constructor(props) {
     super(props);
+    //this.rerenderParent = this.rerenderParent.bind(this)
+    this.gotData = this.gotData.bind(this)
     this.select=[];
     this.state = {
       aircrafts: [],
       select: " ",
       showAdd: false,
-      showEdit: false
+      showEdit: false,
+      rerender: false,
+      itemSelected: false
     };
+
+    
   }
 
   componentDidMount = () => {
@@ -32,13 +35,42 @@ export class ManageAircrafts extends Component {
   };
 
   gotData = () => {
-    let aircrafts = [];
+    //let aircrafts = [];
 
     const db = firebase.firestore().collection("Aircrafts");
 
+    // db.onSnapshot(function(querySnapshot) {
+
+    
+    //   //.then(querySnapshot => {
+    //     var aircrafts = [];
+
+    //     querySnapshot.forEach(function (doc) {
+    //       aircrafts.push({
+    //         name: doc.id,
+    //         xa: doc.data().Xa,
+    //         xe: doc.data().Xe,
+    //         za: doc.data().Za,
+    //         ze: doc.data().Ze,
+    //         cg: doc.data().cg,
+    //         flaps: doc.data().flaps,
+    //         lookdown: doc.data().lookdown,
+    //         pitch: doc.data().pitch,
+    //         speed: doc.data().speed,
+    //         weight: doc.data().weight,
+    //         unitsAir: doc.data().unitsAir.toString()
+    //       });
+    //     });
+    //     console.log("Current Data: ", aircrafts )
+    //     this.setState({ aircrafts })
+    //   })
+      // .catch(function (error) {
+      //   console.log("Error getting documents: ", error);
+      // });
+
     db.get()
       .then(querySnapshot => {
-        //const aircraft = [];
+        const aircrafts = [];
 
         querySnapshot.forEach(function(doc) {
           aircrafts.push({
@@ -62,6 +94,15 @@ export class ManageAircrafts extends Component {
       .catch(function(error) {
         console.log("Error getting documents: ", error);
       });
+  };
+
+  
+
+  rerenderParent() {
+    //this.forceUpdate()
+    // this.setState({ 
+    //   rerender: !this.state.rerender
+    // });
   };
 
   showModal = () => {
@@ -92,6 +133,7 @@ export class ManageAircrafts extends Component {
     this.setState(() => ({
       select: this.node.selectionContext.selected
     }));
+    this.setState({ itemSelected: true })
     //console.log(this.state.select)
     //alert(db.table.getPageByRowKey(rowKey))
   };
@@ -123,12 +165,13 @@ export class ManageAircrafts extends Component {
   render() {
     let closeAdd = () => this.setState({ showAdd: false });
     let closeEdit = () => this.setState({ showEdit: false });
+    //let rerenderParent = () => this.rerenderParent();
 
     const airSelect = this.state.select
     const selectRowProp = {
       mode: "radio",
       bgColor: "lightblue",
-      clickToEdit: true,
+      clickToEdit: false,
       clickToSelect: true, //enable click to select
       hideSelectColumn: true,
       //selected: this.state.selected,
@@ -236,6 +279,7 @@ export class ManageAircrafts extends Component {
             variant="success"
             size="lg"
             onClick={() => this.setState({ showEdit: true })}
+            disabled={!this.state.itemSelected}
           >
             Edit Aircraft
           </Button>
@@ -249,7 +293,7 @@ export class ManageAircrafts extends Component {
             <Modal.Title>Aircraft Editor</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <AddAircraft id="airForm" />
+            <AddAircraft id="airForm" toggle={closeAdd}/>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="danger" onClick={closeAdd}>
@@ -262,7 +306,7 @@ export class ManageAircrafts extends Component {
             <Modal.Title>Aircraft Editor</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <EditAircraft name={ airSelect } toggle={closeEdit}/>
+            <EditAircraft name={ airSelect } toggle={closeEdit} render={this.gotData}/>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="danger" onClick={closeEdit}>
