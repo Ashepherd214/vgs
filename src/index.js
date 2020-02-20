@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import AddAircraft from './VGS Objects/AddAircraft.js'
 import ManageAircrafts from './VGS Objects/ManageAircrafts'
 import ManageRunways from './VGS Objects/ManageRunways'
+import ManageVGS from './Calculation Components/ManageVGS'
 import Runway from './VGS Objects/Runway.js'
 import { 
   Container,
@@ -17,6 +18,7 @@ class App extends Component {
       <div>
         <ManageAircrafts />
         <ManageRunways />
+        <ManageVGS />
       </div>
           
     )

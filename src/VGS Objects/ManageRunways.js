@@ -8,7 +8,10 @@ import AddRunway from "./AddRunway";
 import {
     Button,
     ButtonToolbar,
-    Modal
+    Container,
+    Col,
+    Modal,
+    Row
 } from "react-bootstrap";
 
 export class ManageRunways extends Component {
@@ -180,82 +183,142 @@ export class ManageRunways extends Component {
         const columns = [
             {
                 dataField: "name",
-                text: "Runway Name"
+                text: "Runway Name",
+                headerStyle: {
+                    backgroundColor: '#003E6A',
+                    color: '#FFFFFF'
+                }
             },
             {
                 dataField: "icao",
-                text: "ICAO"
+                text: "ICAO",
+                headerStyle: {
+                    backgroundColor: '#003E6A',
+                    color: '#FFFFFF'
+                }
             },
             {
                 dataField: "approachlights",
-                text: "Approach Lights type"
+                text: "Approach Lights type",
+                headerStyle: {
+                    backgroundColor: '#003E6A',
+                    color: '#FFFFFF'
+                }
             },
             {
                 dataField: "dh",
-                text: "Runway Decision Height"
+                text: "Runway Decision Height",
+                headerStyle: {
+                    backgroundColor: '#003E6A',
+                    color: '#FFFFFF'
+                }
             },
             {
                 dataField: "edgespacing",
-                text: "Runway Edge Light Spacing"
+                text: "Runway Edge Light Spacing",
+                headerStyle: {
+                    backgroundColor: '#003E6A',
+                    color: '#FFFFFF'
+                }
             },
             {
                 dataField: "gsx",
-                text: "GSOffsetX"
+                text: "GSOffsetX",
+                headerStyle: {
+                    backgroundColor: '#003E6A',
+                    color: '#FFFFFF'
+                }
             },
             {
                 dataField: "gsy",
-                text: "GSOffsetY"
+                text: "GSOffsetY",
+                headerStyle: {
+                    backgroundColor: '#003E6A',
+                    color: '#FFFFFF'
+                }
             },
             {
                 dataField: "glideslope",
-                text: "Glide Slope Angle"
+                text: "Glide Slope Angle",
+                headerStyle: {
+                    backgroundColor: '#003E6A',
+                    color: '#FFFFFF'
+                }
             },
             {
                 dataField: "tch",
                 text: "Runway TCH",
+                headerStyle: {
+                    backgroundColor: '#003E6A',
+                    color: '#FFFFFF'
+                }
             },
             {
                 dataField: "width",
-                text: "Runway Width"
+                text: "Runway Width",
+                headerStyle: {
+                    backgroundColor: '#003E6A',
+                    color: '#FFFFFF'
+                }
             },
             {
                 dataField: "units",
-                text: "Metric?"
+                text: "Metric?",
+                headerStyle: {
+                    backgroundColor: '#003E6A',
+                    color: '#FFFFFF'
+                }
             }
         ];
 
         return (
-            <div>
+            <div style={{ padding: 25 }} >
+                <h1 align='center'>Runway Table</h1>
                 <BootstrapTable
                     bootstrap4
                     ref={n => (this.node = n)}
-                    id="airTable"
+                    id="runTable"
                     keyField="name"
                     data={this.state.runways}
                     columns={columns}
                     selectRow={selectRowProp}
                     cellEdit={cellEditFactory({ mode: "click" })}
+                    headerClasses="header-class"
                 />
 
-                <ButtonToolbar>
-                    <Button
-                        variant="primary"
-                        size="lg"
-                        onClick={() => this.setState({ showAdd: true })}
-                    >
-                        Add Runway
-          </Button>
-                    <Button
-                        variant="success"
-                        size="lg"
-                        onClick={() => this.setState({ showEdit: true })}
-                        disabled={!this.state.itemSelected}
-                    >
-                        Edit Runway
-          </Button>
-                    <Button variant="danger" size="lg" onClick={this.delRunway}>
-                        Delete Runway
-          </Button>
+                <ButtonToolbar style={{ display: "flex" }}>
+                    <Container>
+                        <Row>
+                            <Col sm align='left'>
+                                <Button
+                                    variant="primary"
+                                    size="lg"
+                                    onClick={() => this.setState({ showAdd: true })}
+                                >
+                                    Add Runway
+                                </Button>
+                            </Col>
+                            <Col sm align='center'>
+                                <Button
+                                    variant="success"
+                                    size="lg"
+                                    onClick={() => this.setState({ showEdit: true })}
+                                    disabled={!this.state.itemSelected}
+                                >
+                                    Edit Runway
+                                </Button>
+                            </Col>
+                            <Col sm align='right'>
+                                <Button 
+                                    variant="danger" 
+                                    size="lg" 
+                                    onClick={this.delRunway} 
+                                >
+                                    Delete Runway
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Container>
                 </ButtonToolbar>
 
                 <Modal id="addRunModal" show={this.state.showAdd} onHide={closeAdd}>

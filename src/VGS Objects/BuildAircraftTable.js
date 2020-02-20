@@ -23,7 +23,7 @@ class BuildAircraftTable extends React.Component {
                     pitch: doc.data().pitch,
                     speed: doc.data().speed,
                     weight: doc.data().weight,
-                    unitsAir: doc.data().unitsAir 
+                    unitsair: doc.data().unitsAir 
                 })
             })
 
@@ -51,7 +51,7 @@ class BuildAircraftTable extends React.Component {
                                 <th>{v.pitch}</th>
                                 <th>{v.speed}</th>
                                 <th>{v.weight}</th>
-                                <th>{v.unitsAir.toString()}</th>
+                                <th>{v.unitsair}</th>
                             </tr>
                         )
                     })}

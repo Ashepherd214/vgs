@@ -8,7 +8,10 @@ import AddAircraft from "./AddAircraft";
 import {
   Button,
   ButtonToolbar,
-  Modal
+  Col,
+  Container,
+  Modal,
+  Row
 } from "react-bootstrap";
 
 export class ManageAircrafts extends Component {
@@ -181,31 +184,59 @@ export class ManageAircrafts extends Component {
     const columns = [
       {
         dataField: "name",
-        text: "Aircraft Name"
+        text: "Aircraft Name",
+        headerStyle: {
+          backgroundColor: '#003E6A',
+          color: '#FFFFFF'
+        }
       },
       {
         dataField: "xa",
-        text: "Aircraft Xa Value"
+        text: "Aircraft Xa Value",
+        headerStyle: {
+          backgroundColor: '#003E6A',
+          color: '#FFFFFF'
+        }
       },
       {
         dataField: "xe",
-        text: "Aircraft Xe Value"
+        text: "Aircraft Xe Value",
+        headerStyle: {
+          backgroundColor: '#003E6A',
+          color: '#FFFFFF'
+        }
       },
       {
         dataField: "za",
-        text: "Aircraft Za Value"
+        text: "Aircraft Za Value",
+        headerStyle: {
+          backgroundColor: '#003E6A',
+          color: '#FFFFFF'
+        }
       },
       {
         dataField: "ze",
-        text: "Aircraft Ze Value"
+        text: "Aircraft Ze Value",
+        headerStyle: {
+          backgroundColor: '#003E6A',
+          color: '#FFFFFF'
+        }
       },
       {
         dataField: "cg",
-        text: "Aircraft's CG"
+        text: "Aircraft's CG",
+        headerStyle: {
+          backgroundColor: '#003E6A',
+          color: '#FFFFFF'
+        }
       },
       {
         dataField: "flaps",
         text: "Aircraft Flaps Setting",
+        headerStyle: {
+          backgroundColor: '#003E6A',
+          color: '#FFFFFF'
+        },
         editor: {
           type: Type.SELECT,
           options: [
@@ -234,28 +265,49 @@ export class ManageAircrafts extends Component {
       },
       {
         dataField: "lookdown",
-        text: "Aircraft Lookdown Value"
+        text: "Aircraft Lookdown Value",
+        headerStyle: {
+          backgroundColor: '#003E6A',
+          color: '#FFFFFF'
+        }
       },
       {
         dataField: "pitch",
-        text: "Aircraft Pitch"
+        text: "Aircraft Pitch",
+        headerStyle: {
+          backgroundColor: '#003E6A',
+          color: '#FFFFFF'
+        }
       },
       {
         dataField: "speed",
-        text: "Aircraft Speed"
+        text: "Aircraft Speed",
+        headerStyle: {
+          backgroundColor: '#003E6A',
+          color: '#FFFFFF'
+        }
       },
       {
         dataField: "weight",
-        text: "Aircraft Weight"
+        text: "Aircraft Weight",
+        headerStyle: {
+          backgroundColor: '#003E6A',
+          color: '#FFFFFF'
+        }
       },
       {
         dataField: "unitAir",
-        text: "Metric?"
+        text: "Metric?",
+        headerStyle: {
+          backgroundColor: '#003E6A',
+          color: '#FFFFFF'
+        }
       }
     ];
 
     return (
-      <div>
+      <div style={{ padding: 25 }}>
+        <h1 align='center'>Aircraft Table</h1>
         <BootstrapTable
           bootstrap4
           ref={n => (this.node = n)}
@@ -265,27 +317,42 @@ export class ManageAircrafts extends Component {
           columns={columns}
           selectRow={selectRowProp}
           cellEdit={cellEditFactory({ mode: "click" })}
+          headerClasses="header-class"
         />
 
-        <ButtonToolbar>
-          <Button
-            variant="primary"
-            size="lg"
-            onClick={() => this.setState({ showAdd: true })}
-          >
-            Add Aircraft
-          </Button>
-          <Button
-            variant="success"
-            size="lg"
-            onClick={() => this.setState({ showEdit: true })}
-            disabled={!this.state.itemSelected}
-          >
-            Edit Aircraft
-          </Button>
-          <Button variant="danger" size="lg" onClick={this.delAircraft}>
-            Delete Aircraft
-          </Button>
+        <ButtonToolbar className='d-flex'>
+          <Container>
+            <Row>
+              <Col sm align='left'>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  onClick={() => this.setState({ showAdd: true })}
+                >
+                  Add Aircraft
+                </Button>
+              </Col>
+              <Col sm align='center'>
+                <Button
+                  variant="success"
+                  size="lg"
+                  onClick={() => this.setState({ showEdit: true })}
+                  disabled={!this.state.itemSelected}
+                >
+                  Edit Aircraft
+                </Button>
+              </Col>
+              <Col sm align='right'>
+                <Button 
+                  variant="danger" 
+                  size="lg" 
+                  onClick={this.delAircraft}
+                >
+                  Delete Aircraft
+                </Button>
+              </Col>
+            </Row>
+          </Container>
         </ButtonToolbar>
 
         <Modal id="addAirModal" show={this.state.showAdd} onHide={closeAdd}>

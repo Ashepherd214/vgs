@@ -11,6 +11,7 @@
     "firestore": "^1.1.6",
     "formik": "^2.1.1",
     "jquery": "^3.4.1",
+    "konva": "^4.1.5",
     "popper.js": "^1.16.0",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
@@ -18,6 +19,7 @@
     "react-bootstrap-table2-editor": "^1.4.0",
     "react-data-grid": "^6.1.0",
     "react-dom": "^16.12.0",
+    "react-konva": "^16.12.0-0",
     "react-scripts": "3.3.0",
     "reactstrap": "^8.2.0",
     "yup": "^0.28.0"
