@@ -8,24 +8,10 @@ import {
     Stage,
     Layer,
     Rect,
-} from 'react-konva'
+}   from 'react-konva'
+import Runway from './OutputVisual'
 
-const Runway = ({ scaleWidth, scaleHeight, runWidthShow }) => {
-  const rectWidth = (window.innerWidth * 0.5)
-  const rectHeight = (window.innerHeight * 0.60)
-  //const xPos = (scaleWidth)
-  //const yPos = (scaleHeight)
-  return (
-    <Rect
-      x={scaleWidth}
-      y={scaleHeight}
-      width={ runWidthShow }
-      height={ rectHeight }
-      fill={'gray'}
-      shadowBlur={3}
-    />
-  );
-}
+
 
 class ManageVGS extends Component {
     state = {
@@ -44,19 +30,26 @@ class ManageVGS extends Component {
     }
 
     checkSize = () => {
-      const width = this.container.offsetWidth
+      const width = window.innerWidth
+      const height = window.innerHeight
       this.setState({
-        stageWidth: width
+        stageWidth: width,
+        stageHeight: height
       })
     }
     render () {
         // All objects should be visible in a 900x900 scene
-        const CANVAS_VIRTUAL_WIDTH = 600
-        const CANVAS_VIRTUAL_HEIGHT = 900
-        const runWidthShow = this.state.stageWidth / 3
+        const runWidthShow = this.state.stageWidth / 2
+        const runLengthShow = this.state.stageHeight / 1.1
+        // console.log("Stage Height is: " + this.state.stageHeight)
         // Scale this to smaller screens
-        const scaleWidth = (window.innerWidth)
-        const scaleHeight = (window.innerHeight)
+        const scaleWidth = (runWidthShow)
+        const scaleHeight = (runLengthShow)
+        //console.log("Scaled Width is: " + scaleWidth)
+        //console.log("Scaled Height is: " + scaleHeight)
+
+//------------------This is where Runway function was -------------------------------------------------------------//
+
         return (
           <Container align="center" 
             ref={node => {
@@ -64,11 +57,9 @@ class ManageVGS extends Component {
             }}>
             <Row noGutters={false}>
               <Col xs={true} align="center">
-                <Stage width={this.state.stageWidth} height={scaleHeight}>
+                <Stage width={this.state.stageWidth} height={this.state.stageHeight}>
                   <Layer style={{ padding: 55 }}>
-                    <Runway xPos={scaleWidth} yPos={scaleHeight} runWidth={runWidthShow}/>
-                    {console.log("Stage Width is" + this.state.stageWidth)}
-                    {console.log("Runway Width is" + runWidthShow)}
+                    <Runway xPos={scaleWidth} yPos={scaleHeight} runWidth={runWidthShow} runLength={runLengthShow}/>
                   </Layer>
                 </Stage>
               </Col>
