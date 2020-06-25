@@ -1,7 +1,7 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 import ReactDOM from "react-dom";
-import firebase from "../Firestore";
+import firebase from "../../Firestore";
 import { Formik, Field, ErrorMessage } from "formik";
 
 class EditRunway extends React.Component {
@@ -43,7 +43,7 @@ class EditRunway extends React.Component {
 
   loadCurrentValues = () => {
     const select = this.props.name
-    const selString = select[0].toString()
+    const selString = `${select[0]}`
 
     const airRef = firebase.firestore().collection("Runways").doc(selString)
 

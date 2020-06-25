@@ -11,7 +11,7 @@ import {
     Layer,
     Rect,
 }   from 'react-konva'
-import { OutputVisuals} from './OutputVisual'
+import OutputVisuals from './OutputVisual'
 
 
 
@@ -60,7 +60,7 @@ class ManageVGS extends Component {
               <Container style ={{ margin: 0, marginRight: 0, padding: 5}}>
                 <Row >
                   <Col md={12}>
-                    <OutputVisuals></OutputVisuals>
+                    <OutputVisuals runwayName={this.props.runwayName} aircraftName={this.props.aircraftName}></OutputVisuals>
                   </Col>
                 </Row>
                 

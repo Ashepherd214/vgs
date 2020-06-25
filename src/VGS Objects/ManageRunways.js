@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import firebase from "../Firestore";
 import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
-import EditRunway from "./EditRunway";
-import AddRunway from "./AddRunway";
+import EditRunway from "../components/TableComponents/EditRunway";
+import AddRunway from "../components/TableComponents/AddRunway";
 import {
     Button,
     ButtonToolbar,
@@ -20,16 +20,18 @@ export class ManageRunways extends Component {
         //this.rerenderParent = this.rerenderParent.bind(this)
         this.gotData = this.gotData.bind(this)
         this.select = [];
+        // = this.props.valueForParent.bind(this)
+        //this.dataForParentCallback=this.props.dataForParentCallback
         this.state = {
             runways: [],
-            select: " ",
+            select: "",
             showAdd: false,
             showEdit: false,
             rerender: false,
-            itemSelected: false
+            itemSelected: true,
+            //childRunway: " ",
         };
-
-
+        //this.childFunction = this.childFunction.bind(this)
     }
 
     componentDidMount = () => {
@@ -100,12 +102,21 @@ export class ManageRunways extends Component {
 
 
 
-    rerenderParent() {
-        //this.forceUpdate()
-        // this.setState({ 
-        //   rerender: !this.state.rerender
-        // });
-    };
+    childFunction=()=> {
+        //let select = selected;
+        let selection = [this.node.selectionContext.selected]
+        this.props.parentFunction(selection[0])
+        console.log("Inside ChildFunction: ", selection[0])
+        const db = firebase.firestore().collection("Runways").doc(selection[0].toString());
+
+        db.get()
+        .then(function(doc) {
+            const data = doc.data()
+            console.log(selection[0])
+            console.log(data)
+            
+        })
+    }
 
     showModal = () => {
         this.setState({
@@ -120,13 +131,20 @@ export class ManageRunways extends Component {
         this.handleUpdate();
     };
 
-    handleOnSelect = (row, isSelect, rowKey) => {
+    handleOnSelect = (row, isSelect, rowIndex) => {
         // ...this.state.selected,
+        //const selected = this.node.selectionContext.selected 
+        this.childFunction=this.childFunction.bind(this)
+        setTimeout(() => {
         if (isSelect) {
             const craft = this.node.selectionContext.selected;
+            console.log(craft)
             this.setState(() => ({
                 selected: [row.id]
             }));
+            //
+            //console.log("row id inside if: ", [row.id])
+            //console.log("Selected inside if: ", `${this.state.selected}`)
         } else {
             this.setState(() => ({
                 selected: this.state.selected.filter(x => x !== row.id)
@@ -136,8 +154,12 @@ export class ManageRunways extends Component {
             select: this.node.selectionContext.selected
         }));
         this.setState({ itemSelected: true })
-        //console.log(this.state.select)
-        //alert(db.table.getPageByRowKey(rowKey))
+        }, 600);
+        console.log(this.state.select)
+        setTimeout(() => {
+            this.childFunction()
+        },600)
+        
     };
 
     // find selected row key and delete that aircraft from database
@@ -169,6 +191,7 @@ export class ManageRunways extends Component {
         let closeEdit = () => this.setState({ showEdit: false });
         //let rerenderParent = () => this.rerenderParent();
 
+        //const dataForParent = this.state.dataForParent
         const runSelect = this.state.select
         const selectRowProp = {
             mode: "radio",
@@ -176,8 +199,9 @@ export class ManageRunways extends Component {
             clickToEdit: false,
             clickToSelect: true, //enable click to select
             hideSelectColumn: true,
-            //selected: this.state.selected,
+            //selected: [],
             onSelect: this.handleOnSelect
+            
         };
 
         const columns = [
@@ -284,6 +308,7 @@ export class ManageRunways extends Component {
                     selectRow={selectRowProp}
                     cellEdit={cellEditFactory({ mode: "click" })}
                     headerClasses="header-class"
+                    
                 />
 
                 <ButtonToolbar style={{ display: "flex" }}>

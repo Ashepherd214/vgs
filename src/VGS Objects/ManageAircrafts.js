@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import firebase from "../Firestore";
 import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
-import EditAircraft from "./EditAircraft";
-import AddAircraft from "./AddAircraft";
+import EditAircraft from "../components/TableComponents/EditAircraft";
+import AddAircraft from "../components/TableComponents/AddAircraft";
 import {
   Button,
   ButtonToolbar,
@@ -99,7 +99,21 @@ export class ManageAircrafts extends Component {
       });
   };
 
-  
+  childFunction=()=> {
+    //let select = selected;
+    let selection = [this.node.selectionContext.selected]
+    this.props.parentFunction(selection[0])
+    console.log("Inside ChildFunction: ", selection[0])
+    const db = firebase.firestore().collection("Aircrafts").doc(selection[0].toString());
+
+    db.get()
+    .then(function(doc) {
+        const data = doc.data()
+        console.log(selection[0])
+        console.log(data)
+        
+    })
+}
 
   rerenderParent() {
     //this.forceUpdate()
@@ -123,6 +137,10 @@ export class ManageAircrafts extends Component {
 
   handleOnSelect = (row, isSelect, rowKey) => {
     // ...this.state.selected,
+    this.childFunction=this.childFunction.bind(this)
+    setTimeout(() => {
+
+    
     if (isSelect) {
       const craft = this.node.selectionContext.selected;
       this.setState(() => ({
@@ -137,8 +155,11 @@ export class ManageAircrafts extends Component {
       select: this.node.selectionContext.selected
     }));
     this.setState({ itemSelected: true })
-    //console.log(this.state.select)
-    //alert(db.table.getPageByRowKey(rowKey))
+  }, 600)
+    console.log(this.state.select)
+    setTimeout(() => {
+      this.childFunction()
+  },600)
   };
 
   // find selected row key and delete that aircraft from database

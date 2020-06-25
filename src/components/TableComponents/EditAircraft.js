@@ -1,9 +1,9 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 import ReactDOM from "react-dom";
-import firebase from "../Firestore";
+import firebase from "../../Firestore";
 import { Formik, Field, ErrorMessage } from "formik";
-import ManageAircrafts from "./ManageAircrafts";
+import ManageAircrafts from "../../VGS Objects/ManageAircrafts";
 
 class EditAircraft extends React.Component {
   _isMounted = false;

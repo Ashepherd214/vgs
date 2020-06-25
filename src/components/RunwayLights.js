@@ -41,14 +41,16 @@ import {
         // }
         // else {
 //------------------------End Section --------------------------------//
+
+//------------------------Light Drawings------------------------------//
 function generateMALSR() {
     const items = []
     for (let i=0; i < 10; i++) {
         
             for (let j=1; j <= 5; j++) {
                 items.push({
-                    x: (467 + (40 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
-                    y: (220 + (4*j)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
+                    x: (510 + (40 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                    y: (210 + (4*j)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
                     id: i + " , " + j,
                 })
             } 
@@ -56,6 +58,90 @@ function generateMALSR() {
     }
     return items
 }
+
+function generateMALSF() {
+    const items = []
+    for (let i=0; i < 10; i++) {
+        
+            for (let j=1; j <= 5; j++) {
+                items.push({
+                    x: (510 + (40 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                    y: (210 + (4*j)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
+                    id: i + " , " + j,
+                })
+            } 
+        
+    }
+    return items
+}
+
+function generateSSALR() {
+    const items = []
+    for (let i=0; i < 10; i++) {
+        
+            for (let j=1; j <= 5; j++) {
+                items.push({
+                    x: (510 + (40 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                    y: (210 + (4*j)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
+                    id: i + " , " + j,
+                })
+            } 
+        
+    }
+    return items
+}
+
+function generateSSALF() {
+    const items = []
+    for (let i=0; i < 10; i++) {
+        
+            for (let j=1; j <= 5; j++) {
+                items.push({
+                    x: (510 + (40 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                    y: (210 + (4*j)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
+                    id: i + " , " + j,
+                })
+            } 
+        
+    }
+    return items
+}
+
+function generateALSF1() {
+    const items = []
+    for (let i=0; i < 10; i++) {
+        
+            for (let j=1; j <= 5; j++) {
+                items.push({
+                    x: (510 + (40 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                    y: (210 + (4*j)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
+                    id: i + " , " + j,
+                })
+            } 
+        
+    }
+    return items
+}
+
+function generateALSF2() {
+    const items = []
+    for (let i=0; i < 10; i++) {
+        
+            for (let j=1; j <= 5; j++) {
+                items.push({
+                    x: (510 + (40 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                    y: (210 + (4*j)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
+                    id: i + " , " + j,
+                })
+            } 
+        
+    }
+    return items
+}
+
+//---------------------------End Section------------------------------//
+
+//---------------------------Light Classes----------------------------//
 
 class MALSR extends Component {
     state = {
@@ -80,30 +166,115 @@ class MALSR extends Component {
     }
 }
 
-const MALSF = () => {
-    return (
-        <Button variant="primary">Calculate VGS</Button>
-    )
+class MALSF extends Component {
+    state = {
+        items: generateMALSF()
+    }
+    render() {
+        return (
+            <Group>
+                {this.state.items.map(item => (
+                    <Circle
+                        key={item.id}
+                        x={item.x}
+                        y={item.y}
+                        fill="yellow"
+                        radius={1}
+                        shadowBlur={3}
+                    />
+                
+                ))}
+            </Group>
+        )
+    }
 }
-const SSALR = () => {
-    return (
-        <Button variant="primary">Calculate VGS</Button>
-    )
+class SSALR extends Component {
+    state = {
+        items: generateSSALR()
+    }
+    render() {
+        return (
+            <Group>
+                {this.state.items.map(item => (
+                    <Circle
+                        key={item.id}
+                        x={item.x}
+                        y={item.y}
+                        fill="red"
+                        radius={1}
+                        shadowBlur={3}
+                    />
+                
+                ))}
+            </Group>
+        )
+    }
 }
-const SSALF = () => {
-    return (
-        <Button variant="primary">Calculate VGS</Button>
-    )
+class SSALF extends Component {
+    state = {
+        items: generateSSALF()
+    }
+    render() {
+        return (
+            <Group>
+                {this.state.items.map(item => (
+                    <Circle
+                        key={item.id}
+                        x={item.x}
+                        y={item.y}
+                        fill="blue"
+                        radius={1}
+                        shadowBlur={3}
+                    />
+                
+                ))}
+            </Group>
+        )
+    }
 }
-const ALSF1 = () => {
-    return (
-        <Button variant="primary">Calculate VGS</Button>
-    )
+class ALSF1 extends Component {
+    state = {
+        items: generateALSF1()
+    }
+    render() {
+        return (
+            <Group>
+                {this.state.items.map(item => (
+                    <Circle
+                        key={item.id}
+                        x={item.x}
+                        y={item.y}
+                        fill="violet"
+                        radius={1}
+                        shadowBlur={3}
+                    />
+                
+                ))}
+            </Group>
+        )
+    }
 }
-const ALSF2 = () => {
-    return (
-        <Button variant="primary">Calculate VGS</Button>
-    )
+class ALSF2 extends Component {
+    state = {
+        items: generateALSF2()
+    }
+    render() {
+        return (
+            <Group>
+                {this.state.items.map(item => (
+                    <Circle
+                        key={item.id}
+                        x={item.x}
+                        y={item.y}
+                        fill="orange"
+                        radius={1}
+                        shadowBlur={3}
+                    />
+                
+                ))}
+            </Group>
+        )
+    }
 }
 
 export { MALSR, MALSF, SSALR, SSALF, ALSF1, ALSF2 };

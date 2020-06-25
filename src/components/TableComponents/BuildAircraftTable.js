@@ -1,5 +1,5 @@
 import React from 'react'
-import firebase from '../Firestore'
+import firebase from '../../Firestore'
 
 class BuildAircraftTable extends React.Component {
     state = { aircraft: [] }

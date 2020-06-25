@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import firebase from "../Firestore"
 import {
     Col,
     Container,
@@ -23,8 +24,8 @@ function Runway (props) {
     <Rect
       x={0}
       y={120}
-      width={ props.runWidth }
-      height= { props.runLength }
+      width={ props.runLength }
+      height= { props.runWidth }
       fill="gray"
 
       shadowBlur={3}
@@ -64,6 +65,7 @@ function LightType (props) {
     }
 }
 
+
 function Diagram (props) {
 
 } 
@@ -77,44 +79,153 @@ function DiagramTextbox (props) {
 }
 
 class OutputVisuals extends Component {
-    state = {
-        color: 'beige',
-        stageWidth: 1000,
-        stageHeight: 400,
+    constructor(props) {
+      super(props)
+    
+      this.state = {
+          color: 'beige',
+          stageWidth: 1600,
+          stageHeight: 500,
+          runLength: 550,
+          runWidth: 200,
+          //Runway state variables
+          icao: " ",
+          approachlights: " ",
+          dh: " ",
+          edgespacing: " ",
+          gsx: " ",
+          gsy: " ",
+          glideslope: " ",
+          tch: " ",
+          width: " ",
+          runUnits: true,
+          //Aircraft state variables
+          airName: " ",
+          ze: " ",
+          xe: " ",
+          lookdown: " ",
+          za: " ",
+          xa: " ",
+          flaps: " ",
+          speed: " ",
+          weight: " ",
+          cg: " ",
+          pitch: " ",
+          airUnits: false,
+      }
+      this.getRunwayData = this.getRunwayData.bind(this)
     }
-
     componentDidMount() {
-      this.checkSize();
-
-      window.addEventListener("resize", this.checkSize)
+      //this.checkSize();
+      this.getRunwayData(this.props.runwayName)
+      this.getAircraftData(this.props.aircraftName)
+      //window.addEventListener("resize", this.checkSize)
     }
 
     componentWillUnmount() {
-      window.removeEventListener("resize", this.checkSize)
+      //window.removeEventListener("resize", this.checkSize)
     }
 
-    checkSize = () => {
-      //const width = window.innerWidth
-      //const height = window.innerHeight
-      this.setState({
-        stageWidth: window.innerWidth,
-        stageHeight: window.innerHeight
+    getRunwayData(runwayName) {
+      //const runwayName = this.props.runwayName
+      console.log(runwayName)
+      const runDb = firebase.firestore().collection("Runways").doc(runwayName.toString())
+    
+      runDb.get()
+      .then(doc => {
+        const data = doc.data()
+        console.log(data)
+        this.setState({
+          icao: doc.data().ICAO,
+          approachlights: doc.data().ApproachLights,
+          dh: doc.data().DH,
+          edgespacing: doc.data().EdgeSpacing,
+          gsx: doc.data().GSOffsetX,
+          gsy: doc.data().GSOffsetY,
+          glideslope: doc.data().GlideSlope,
+          tch: doc.data().TCH,
+          width: doc.data().Width,
+          runUnits: String(doc.data().Units),
+        })
       })
     }
+
+    getAircraftData (aircraftName) {
+      console.log(aircraftName)
+      const airDb = firebase.firestore().collection("Aircrafts").doc(aircraftName.toString())
+    
+      airDb.get()
+      .then(doc => {
+        const data = doc.data()
+        console.log(data)
+        this.setState({
+          airName: doc.id,
+          ze: doc.data().Ze,
+          xe: doc.data().Xe,
+          lookdown: doc.data().lookdown,
+          za: doc.data().Za,
+          xa: doc.data().Xa,
+          flaps: doc.data().flaps,
+          speed: doc.data().speed,
+          weight: doc.data().weight,
+          cg: doc.data().cg,
+          pitch: doc.data().pitch,
+          airUnits: String(doc.data().unitsAir),
+        })
+      })
+    }
+    // checkSize = () => {
+    //   //const width = window.innerWidth
+    //   //const height = window.innerHeight
+    //   this.setState({
+    //     stageWidth: window.innerWidth,
+    //     stageHeight: window.innerHeight
+    //   })
+    // }
     render() {
-        const runLength = this.state.stageHeight * 0.36
-        const runWidth = this.state.stageWidth * 0.35
+        //const runLength = this.state.stageWidth * 0.50
+        //const runWidth = this.state.stageLength * 0.50
         //const scaleWidth = (runWidthShow)
         //const scaleHeight = (runLengthShow)
+        //getRunwayData(this.props.runwayName)
+        //console.log(this.state.approachlights)
+        
         return (
-            <Stage style={{ backgroundColor: "green", marginTop: 80, marginLeft: 0, marginRight: 0 }} width={this.state.stageWidth } height={this.state.stageHeight * 0.75}>
-                <Layer style={{ padding: 55 }}>
-                    <Runway runWidth={runWidth} runLength={runLength}/>
+          <div>
+            <label>Selected Runway Data: </label>
+            <h5>{"ICAO: " + this.state.icao}</h5>
+            <h5>{"Approach Lights: " + this.state.approachlights}</h5>
+            <h5>{"Decision Height: " + this.state.dh}</h5>
+            <h5>{"Edge Spacing: " + this.state.edgespacing}</h5>
+            <h5>{"GSX: " + this.state.gsx}</h5>
+            <h5>{"GSY: " + this.state.gsy}</h5>
+            <h5>{"Glide Slope: " + this.state.glideslope}</h5>
+            <h5>{"TCH: " + this.state.tch}</h5>
+            <h5>{"Width: " + this.state.width}</h5>
+            <h5>{"Metric?: " + this.state.runUnits}</h5> <br />
+            <label>Selected Aircraft Data: </label>
+            <h5>{"Aircraft: " + this.state.airName}</h5>
+            <h5>{"Ze: " + this.state.ze}</h5>
+            <h5>{"Xe: " + this.state.xe}</h5>
+            <h5>{"Lookdown Angle: " + this.state.lookdown}</h5>
+            <h5>{"Za: " + this.state.za}</h5>
+            <h5>{"Xa: " + this.state.xa}</h5>
+            <h5>{"Flaps: " + this.state.flaps}</h5>
+            <h5>{"Speed: " + this.state.speed}</h5>
+            <h5>{"Weight: " + this.state.weight}</h5>
+            <h5>{"Center of Gravity: " + this.state.cg}</h5>
+            <h5>{"Pitch Angle: " + this.state.pitch}</h5>
+            <h5>{"Metric?: " + this.state.airUnits}</h5> <br />
+            <Stage style={{ backgroundColor: "green", marginTop: 80, marginLeft: 0, marginRight: 0 }} width={this.state.stageWidth } height={this.state.stageHeight }>
+                {/* <Layer style={{ padding: 55 }}> */}
+                <Layer>
+                    <Runway runWidth={this.state.runWidth} runLength={this.state.runLength}/>
                     <LightType Lights={MALSR} />
                 </Layer>
             </Stage>
+            </div>
         );
     }
 }
-
-  export { OutputVisuals, Runway, LightType, Diagram, VisualOutputVals, DiagramTextbox };
+export {LightType, Runway}
+export default OutputVisuals
