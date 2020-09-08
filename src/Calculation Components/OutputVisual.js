@@ -10,6 +10,7 @@ import {
     Layer,
     Rect,
 }   from 'react-konva'
+import { ThresholdLights } from '../components/Threshold Lights Draw'
 import {
   MALSR,
   MALSF, 
@@ -47,6 +48,8 @@ function GrassApproach (props) {
 }
 
 function LightType (props) {
+  // const lights = props.Lights
+   console.log("Light Type prop detected: " + this.props.Lights)
     //Should accept props coming from Runways table to determine which lights to show on the outputs tab.
     //Based on incoming props, should call out to RunwayLights.js and render the respective component
     switch(props.Lights) {
@@ -88,6 +91,7 @@ class OutputVisuals extends Component {
           stageHeight: 500,
           runLength: 550,
           runWidth: 200,
+          lights: " ",
           //Runway state variables
           icao: " ",
           approachlights: " ",
@@ -146,6 +150,7 @@ class OutputVisuals extends Component {
           tch: doc.data().TCH,
           width: doc.data().Width,
           runUnits: String(doc.data().Units),
+          lights: doc.data().ApproachLights,
         })
       })
     }
@@ -158,6 +163,7 @@ class OutputVisuals extends Component {
       .then(doc => {
         const data = doc.data()
         console.log(data)
+        setTimeout(() => {
         this.setState({
           airName: doc.id,
           ze: doc.data().Ze,
@@ -171,7 +177,7 @@ class OutputVisuals extends Component {
           cg: doc.data().cg,
           pitch: doc.data().pitch,
           airUnits: String(doc.data().unitsAir),
-        })
+        })},600)
       })
     }
     // checkSize = () => {
@@ -188,11 +194,13 @@ class OutputVisuals extends Component {
         //const scaleWidth = (runWidthShow)
         //const scaleHeight = (runLengthShow)
         //getRunwayData(this.props.runwayName)
-        //console.log(this.state.approachlights)
+        console.log(this.state.approachlights)
+        const lights = this.state.approachlights
+        console.log("Variable lights: " + lights)
         
         return (
           <div>
-            <label>Selected Runway Data: </label>
+            {/* <label>Selected Runway Data: </label>
             <h5>{"ICAO: " + this.state.icao}</h5>
             <h5>{"Approach Lights: " + this.state.approachlights}</h5>
             <h5>{"Decision Height: " + this.state.dh}</h5>
@@ -215,14 +223,16 @@ class OutputVisuals extends Component {
             <h5>{"Weight: " + this.state.weight}</h5>
             <h5>{"Center of Gravity: " + this.state.cg}</h5>
             <h5>{"Pitch Angle: " + this.state.pitch}</h5>
-            <h5>{"Metric?: " + this.state.airUnits}</h5> <br />
-            <Stage style={{ backgroundColor: "green", marginTop: 80, marginLeft: 0, marginRight: 0 }} width={this.state.stageWidth } height={this.state.stageHeight }>
+            <h5>{"Metric?: " + this.state.airUnits}</h5> <br /> */}
+            <Stage style={{ backgroundColor: "green", marginTop: 80, marginLeft: 0, marginRight: 0, height: '500px', width: '1000px' }} width={this.state.stageWidth } height={this.state.stageHeight }>
                 {/* <Layer style={{ padding: 55 }}> */}
                 <Layer>
                     <Runway runWidth={this.state.runWidth} runLength={this.state.runLength}/>
-                    <LightType Lights={MALSR} />
+                    <LightType Lights={this.state.lights} />
+                    <ThresholdLights />
                 </Layer>
             </Stage>
+            <label>X Ahead:</label>
             </div>
         );
     }

@@ -57,10 +57,10 @@ class ManageVGS extends Component {
           //-------Tab Layout---------//
           <Tabs defaultActiveKey="outputs" id="data-tabs">
             <Tab eventKey="outputs" title="Output">
-              <Container style ={{ margin: 0, marginRight: 0, padding: 5}}>
+              <Container style ={{ height: '500px', width: '1000px', margin: 0, marginRight: 0, padding: 5}}>
                 <Row >
                   <Col md={12}>
-                    <OutputVisuals runwayName={this.props.runwayName} aircraftName={this.props.aircraftName}></OutputVisuals>
+                    <OutputVisuals style={{ height: '500px', width: '1000px' }} runwayName={this.props.runwayName} aircraftName={this.props.aircraftName}></OutputVisuals>
                   </Col>
                 </Row>
                 
