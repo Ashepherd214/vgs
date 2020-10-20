@@ -35,7 +35,7 @@ export class ManageRunways extends Component {
     }
 
     componentDidMount = () => {
-        const db = firebase.firestore().collection("Runways");
+
         this.gotData();
     };
 

@@ -33,43 +33,12 @@ export class ManageAircrafts extends Component {
   }
 
   componentDidMount = () => {
-    const db = firebase.firestore().collection("Aircrafts");
     this.gotData();
   };
 
   gotData = () => {
-    //let aircrafts = [];
 
     const db = firebase.firestore().collection("Aircrafts");
-
-    // db.onSnapshot(function(querySnapshot) {
-
-    
-    //   //.then(querySnapshot => {
-    //     var aircrafts = [];
-
-    //     querySnapshot.forEach(function (doc) {
-    //       aircrafts.push({
-    //         name: doc.id,
-    //         xa: doc.data().Xa,
-    //         xe: doc.data().Xe,
-    //         za: doc.data().Za,
-    //         ze: doc.data().Ze,
-    //         cg: doc.data().cg,
-    //         flaps: doc.data().flaps,
-    //         lookdown: doc.data().lookdown,
-    //         pitch: doc.data().pitch,
-    //         speed: doc.data().speed,
-    //         weight: doc.data().weight,
-    //         unitsAir: doc.data().unitsAir.toString()
-    //       });
-    //     });
-    //     console.log("Current Data: ", aircrafts )
-    //     this.setState({ aircrafts })
-    //   })
-      // .catch(function (error) {
-      //   console.log("Error getting documents: ", error);
-      // });
 
     db.get()
       .then(querySnapshot => {
@@ -142,7 +111,7 @@ export class ManageAircrafts extends Component {
 
     
     if (isSelect) {
-      const craft = this.node.selectionContext.selected;
+      //const craft = this.node.selectionContext.selected;
       this.setState(() => ({
         selected: [row.id]
       }));

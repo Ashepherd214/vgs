@@ -6,11 +6,6 @@ import {
     Tab,
     Tabs
 } from 'react-bootstrap'
-import {
-    Stage,
-    Layer,
-    Rect,
-}   from 'react-konva'
 import OutputVisuals from './OutputVisual'
 
 

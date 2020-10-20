@@ -1,24 +1,20 @@
-import React, { Component } from 'react'
+import React from 'react'
 import firebase from "../Firestore"
-import {
-    Col,
-    Container,
-    Row,
-} from 'react-bootstrap'
 import {
     Stage,
     Layer,
     Rect,
 }   from 'react-konva'
 import { ThresholdLights } from '../components/Threshold Lights Draw'
-import {
-  MALSR,
-  MALSF, 
-  SSALR,
-  SSALF,
-  ALSF1,
-  ALSF2
-} from '../components/RunwayLights'
+import { LightType } from '../components/LightType'
+// import {
+//   MALSR,
+//   MALSF, 
+//   SSALR,
+//   SSALF,
+//   ALSF1,
+//   ALSF2
+// } from '../components/RunwayLights'
 
 function Runway (props) {
   return (
@@ -34,58 +30,58 @@ function Runway (props) {
   );
 }
 
-function GrassApproach (props) {
-  return (
-    <Rect
-      x={10}
-      y={296}
-      width={ props.runLength }
-      height= { props.runWidth }
-      fill="green"
-      shadowBlur={3}
-    />
-  )
-}
+// function GrassApproach (props) {
+//   return (
+//     <Rect
+//       x={10}
+//       y={296}
+//       width={ props.runLength }
+//       height= { props.runWidth }
+//       fill="green"
+//       shadowBlur={3}
+//     />
+//   )
+// }
 
-function LightType (props) {
-  console.log(props)
-   console.log("Light Type prop detected: " + props.lights)
-    //Should accept props coming from Runways table to determine which lights to show on the outputs tab.
-    //Based on incoming props, should call out to RunwayLights.js and render the respective component
-    switch(props.lights) {
-      case MALSR:
-        return <MALSR />
-      case MALSF:
-        return <MALSF />
-      case SSALR:
-        return <SSALR />
-      case SSALF:
-        return <SSALF />
-      case ALSF1:
-        return <ALSF1 />
-      case ALSF2:
-        return <ALSF2 />
-    }
-}
+// function LightType (props) {
+//   console.log(props)
+//    console.log("Light Type prop detected: " + props.lights)
+//     //Should accept props coming from Runways table to determine which lights to show on the outputs tab.
+//     //Based on incoming props, should call out to RunwayLights.js and render the respective component
+//     switch(props.lights) {
+//       case MALSR:
+//         return <MALSR />
+//       case MALSF:
+//         return <MALSF />
+//       case SSALR:
+//         return <SSALR />
+//       case SSALF:
+//         return <SSALF />
+//       case ALSF1:
+//         return <ALSF1 />
+//       case ALSF2:
+//         return <ALSF2 />
+//     }
+// }
 
 
-function Diagram (props) {
+// function Diagram (props) {
 
-} 
+// } 
 
-function VisualOutputVals (props) {
+// function VisualOutputVals (props) {
 
-}
+// }
 
-function DiagramTextbox (props) {
+// function DiagramTextbox (props) {
 
-}
+// }
 
-class OutputVisuals extends Component {
+class OutputVisuals extends React.Component {
+  //_isMounted = false
+
     constructor(props) {
       super(props)
-
-      this._isMounted = false
     
       this.state = {
           color: 'beige',
@@ -117,13 +113,26 @@ class OutputVisuals extends Component {
           cg: " ",
           pitch: " ",
           airUnits: false,
+          _isMounted: false
       }
-      //this.getRunwayData = this.getRunwayData.bind(this)
+      this.componentDidMount = this.componentDidMount.bind(this)
+      this.getRunwayData = this.getRunwayData.bind(this)
+      //this.getRunwayData(this.props.runwayName)
     }
+
     componentDidMount() {
-      this._isMounted = true
-      this._isMounted && this.getRunwayData(this.props.runwayName) && this.getAircraftData(this.props.aircraftName)
+      this.state._isMounted = true
+
+      if (this.state._isMounted){
+        this.getRunwayData()
+        this.getAircraftData(this.props.aircraftName)
+        console.log("component has mounted")
+      } else {
+        console.log("components did not mount")
+      }
+      
       //window.addEventListener("resize", this.checkSize)
+      
     }
 
     componentWillUnmount() {
@@ -134,29 +143,81 @@ class OutputVisuals extends Component {
     /*---------------------------Begin getRunwayData---------------------------------------- */
 
     /*--------------------------New get Data function using Snapshot------------------------ */
-    async getRunwayData(runwayName) {
+    getRunwayData = () => {
       //const runwayName = this.props.runwayName
-      console.log(runwayName)
-      const runDb = firebase.firestore().collection("Runways").doc(String(runwayName))
+      console.log(this.props.runwayName)
+
+        try {
+        var runDb = firebase.firestore().collection("Runways").doc(String(this.props.runwayName))
+
+          if(this.state._isMounted){
+            runDb.get()
+            .then(doc => {
+              if(doc.exists){
+                setTimeout(() => {
+                this.setState({
+                  icao: doc.data().ICAO,
+                  approachlights: doc.data().ApproachLights,
+                  dh: doc.data().DH,
+                  edgespacing: doc.data().EdgeSpacing,
+                  gsx: doc.data().GSOffsetX,
+                  gsy: doc.data().GSOffsetY,
+                  glideslope: doc.data().GlideSlope,
+                  tch: doc.data().TCH,
+                  width: doc.data().Width,
+                  runUnits: String(doc.data().Units)
+                })}, 3000)
+                console.log("runway info found" + this.state.icao)
+              } else {console.log("Could not get runway info")}
+            })
+          } else {console.log("doc does not exist")}
+        }
+        catch (error) {
+          console.log("Unable to retrieve the doc", error)
+        }
+
+        console.log("Approach Lights: " + this.state.approachlights)
+
+      // runDb.get()
+      //   .then(function(doc) {
+      //     if (doc.exists) {
+      //     console.log("runway info :" + doc.data())
+      //     setTimeout(() => {
+      //     this.setState({
+      //         icao: doc.data().ICAO,
+      //         approachlights: doc.data().ApproachLights,
+      //         dh: doc.data().DH,
+      //         edgespacing: doc.data().EdgeSpacing,
+      //         gsx: doc.data().GSOffsetX,
+      //         gsy: doc.data().GSOffsetY,
+      //         glideslope: doc.data().GlideSlope,
+      //         tch: doc.data().TCH,
+      //         width: doc.data().Width,
+      //         runUnits: String(doc.data().Units)
+      //       })}, 6000)}
+      //     // } else {
+      //     //   console.log("Error grabbing runway information")
+      //     // }
+      //   }).catch(function (error) {
+      //     console.log("Error getting document: ", error)
+      //   })
+      // console.log("Getting runway data resulted in " + this.state.approachlights + " lights")
+      //let runwayInfo = await runDb.get()
+      //let runDb = firebase.firestore().collection("Runways")
+      //let runwaySelected = await runDb.where('ICAO', '==', runwayName).select().get()
+      // for (info of runwaySelected.docs) {
+        
+      // }
     
-      runDb.get()
-      .then(snapshot => {
-        const data = snapshot.data()
-        console.log(snapshot.data())
-        console.log(snapshot.data().ApproachLights)
-        this.setState({
-          icao: data.ICAO,
-          approachlights: data.ApproachLights,
-          dh: data.DH,
-          edgespacing: data.EdgeSpacing,
-          gsx: data.GSOffsetX,
-          gsy: data.GSOffsetY,
-          glideslope: data.GlideSlope,
-          tch: data.TCH,
-          width: data.Width,
-          runUnits: String(data.Units),
-        })
-      })
+      // await runDb.get()
+      // .then(function(doc) {
+      //   const data = await doc.data();
+          
+      //   })
+      //   .catch(function (error) {
+      //     console.log("Error getting runway data: ", error)
+      //   })
+        //console.log(this.state.runwayInfo.approachlights)
     }
 
 
@@ -189,30 +250,31 @@ class OutputVisuals extends Component {
 
 
     /*---------------------------End getRunwayData---------------------------------------- */
-    getAircraftData (aircraftName) {
+    async getAircraftData (aircraftName) {
       console.log(aircraftName)
       const airDb = firebase.firestore().collection("Aircrafts").doc(String(aircraftName))
     
-      airDb.get()
-      .then(doc => {
-        const data = doc.data()
-        console.log(data)
-        setTimeout(() => {
-        this.setState({
-          airName: doc.id,
-          ze: doc.data().Ze,
-          xe: doc.data().Xe,
-          lookdown: doc.data().lookdown,
-          za: doc.data().Za,
-          xa: doc.data().Xa,
-          flaps: doc.data().flaps,
-          speed: doc.data().speed,
-          weight: doc.data().weight,
-          cg: doc.data().cg,
-          pitch: doc.data().pitch,
-          airUnits: String(doc.data().unitsAir),
-        })},1000)
-      })
+      if(this.state._isMounted){
+        airDb.get()
+        .then(doc => {
+          const data = doc.data()
+          setTimeout(() => {
+          this.setState({
+            airName: doc.id,
+            ze: doc.data().Ze,
+            xe: doc.data().Xe,
+            lookdown: doc.data().lookdown,
+            za: doc.data().Za,
+            xa: doc.data().Xa,
+            flaps: doc.data().flaps,
+            speed: doc.data().speed,
+            weight: doc.data().weight,
+            cg: doc.data().cg,
+            pitch: doc.data().pitch,
+            airUnits: String(doc.data().unitsAir),
+          })},1000)
+        })
+      }
     }
     // checkSize = () => {
     //   //const width = window.innerWidth
@@ -262,7 +324,7 @@ class OutputVisuals extends Component {
                 {/* <Layer style={{ padding: 55 }}> */}
                 <Layer>
                     <Runway runWidth={this.state.runWidth} runLength={this.state.runLength}/>
-                    <LightType approachlights={String(this.state.approachlights)} />
+                    <LightType approachlights={this.state.approachlights} />
                     <ThresholdLights />
                 </Layer>
             </Stage>
@@ -271,5 +333,5 @@ class OutputVisuals extends Component {
         );
     }
 }
-export {LightType, Runway}
+export {Runway}
 export default OutputVisuals
