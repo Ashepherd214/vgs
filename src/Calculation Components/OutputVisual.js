@@ -48,11 +48,11 @@ function GrassApproach (props) {
 }
 
 function LightType (props) {
-  // const lights = props.Lights
-   console.log("Light Type prop detected: " + this.props.Lights)
+  console.log(props)
+   console.log("Light Type prop detected: " + props.lights)
     //Should accept props coming from Runways table to determine which lights to show on the outputs tab.
     //Based on incoming props, should call out to RunwayLights.js and render the respective component
-    switch(props.Lights) {
+    switch(props.lights) {
       case MALSR:
         return <MALSR />
       case MALSF:
@@ -84,6 +84,8 @@ function DiagramTextbox (props) {
 class OutputVisuals extends Component {
     constructor(props) {
       super(props)
+
+      this._isMounted = false
     
       this.state = {
           color: 'beige',
@@ -91,7 +93,6 @@ class OutputVisuals extends Component {
           stageHeight: 500,
           runLength: 550,
           runWidth: 200,
-          lights: " ",
           //Runway state variables
           icao: " ",
           approachlights: " ",
@@ -117,47 +118,80 @@ class OutputVisuals extends Component {
           pitch: " ",
           airUnits: false,
       }
-      this.getRunwayData = this.getRunwayData.bind(this)
+      //this.getRunwayData = this.getRunwayData.bind(this)
     }
     componentDidMount() {
-      //this.checkSize();
-      this.getRunwayData(this.props.runwayName)
-      this.getAircraftData(this.props.aircraftName)
+      this._isMounted = true
+      this._isMounted && this.getRunwayData(this.props.runwayName) && this.getAircraftData(this.props.aircraftName)
       //window.addEventListener("resize", this.checkSize)
     }
 
     componentWillUnmount() {
-      //window.removeEventListener("resize", this.checkSize)
+      this._isMounted = false
     }
 
-    getRunwayData(runwayName) {
+
+    /*---------------------------Begin getRunwayData---------------------------------------- */
+
+    /*--------------------------New get Data function using Snapshot------------------------ */
+    async getRunwayData(runwayName) {
       //const runwayName = this.props.runwayName
       console.log(runwayName)
-      const runDb = firebase.firestore().collection("Runways").doc(runwayName.toString())
+      const runDb = firebase.firestore().collection("Runways").doc(String(runwayName))
     
       runDb.get()
-      .then(doc => {
-        const data = doc.data()
-        console.log(data)
+      .then(snapshot => {
+        const data = snapshot.data()
+        console.log(snapshot.data())
+        console.log(snapshot.data().ApproachLights)
         this.setState({
-          icao: doc.data().ICAO,
-          approachlights: doc.data().ApproachLights,
-          dh: doc.data().DH,
-          edgespacing: doc.data().EdgeSpacing,
-          gsx: doc.data().GSOffsetX,
-          gsy: doc.data().GSOffsetY,
-          glideslope: doc.data().GlideSlope,
-          tch: doc.data().TCH,
-          width: doc.data().Width,
-          runUnits: String(doc.data().Units),
-          lights: doc.data().ApproachLights,
+          icao: data.ICAO,
+          approachlights: data.ApproachLights,
+          dh: data.DH,
+          edgespacing: data.EdgeSpacing,
+          gsx: data.GSOffsetX,
+          gsy: data.GSOffsetY,
+          glideslope: data.GlideSlope,
+          tch: data.TCH,
+          width: data.Width,
+          runUnits: String(data.Units),
         })
       })
     }
 
+
+    /*--------------------------Original get Data function --------------------------------- */
+    // getRunwayData(runwayName) {
+    //   //const runwayName = this.props.runwayName
+    //   console.log(runwayName)
+    //   const runDb = firebase.firestore().collection("Runways").doc(String(runwayName))
+    
+    //   runDb.get()
+    //   .then(doc => {
+    //     const data = doc.data()
+    //     console.log(data)
+    //     setTimeout(() => {
+    //     this.setState({
+    //       icao: doc.data().ICAO,
+    //       approachlights: doc.data().ApproachLights,
+    //       dh: doc.data().DH,
+    //       edgespacing: doc.data().EdgeSpacing,
+    //       gsx: doc.data().GSOffsetX,
+    //       gsy: doc.data().GSOffsetY,
+    //       glideslope: doc.data().GlideSlope,
+    //       tch: doc.data().TCH,
+    //       width: doc.data().Width,
+    //       runUnits: String(doc.data().Units),
+    //       lights: doc.data().ApproachLights,
+    //     })}, 100)
+    //   })
+    // }
+
+
+    /*---------------------------End getRunwayData---------------------------------------- */
     getAircraftData (aircraftName) {
       console.log(aircraftName)
-      const airDb = firebase.firestore().collection("Aircrafts").doc(aircraftName.toString())
+      const airDb = firebase.firestore().collection("Aircrafts").doc(String(aircraftName))
     
       airDb.get()
       .then(doc => {
@@ -177,7 +211,7 @@ class OutputVisuals extends Component {
           cg: doc.data().cg,
           pitch: doc.data().pitch,
           airUnits: String(doc.data().unitsAir),
-        })},600)
+        })},1000)
       })
     }
     // checkSize = () => {
@@ -194,9 +228,9 @@ class OutputVisuals extends Component {
         //const scaleWidth = (runWidthShow)
         //const scaleHeight = (runLengthShow)
         //getRunwayData(this.props.runwayName)
-        console.log(this.state.approachlights)
-        const lights = this.state.approachlights
-        console.log("Variable lights: " + lights)
+        //console.log(this.state.lights)
+        //const lights = this.state.approachlights
+        console.log("Variable lights: " + this.state.approachlights)
         
         return (
           <div>
@@ -228,7 +262,7 @@ class OutputVisuals extends Component {
                 {/* <Layer style={{ padding: 55 }}> */}
                 <Layer>
                     <Runway runWidth={this.state.runWidth} runLength={this.state.runLength}/>
-                    <LightType Lights={this.state.lights} />
+                    <LightType approachlights={String(this.state.approachlights)} />
                     <ThresholdLights />
                 </Layer>
             </Stage>

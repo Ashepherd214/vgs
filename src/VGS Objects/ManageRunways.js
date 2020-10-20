@@ -104,7 +104,7 @@ export class ManageRunways extends Component {
 
     childFunction=()=> {
         //let select = selected;
-        let selection = [this.node.selectionContext.selected]
+        let selection = [this.state.select]//this.node.selectionContext.selected]
         this.props.parentFunction(selection[0])
         console.log("Inside ChildFunction: ", selection[0])
         const db = firebase.firestore().collection("Runways").doc(selection[0].toString());
