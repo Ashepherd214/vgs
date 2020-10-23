@@ -13,17 +13,23 @@ export class App extends Component {
     super(props)
       this.state={
         data_from_runway: [],
-        data_from_aircraft: []
+        data_from_aircraft: [],
+        lights_data_from_runway: "",
       }
   }
   
 
 
-  parentRunwayCallbackFunction=(runwayData) => {
+  parentRunwayCallbackFunction=(runwayData, runwayLights) => {
     console.log(String(runwayData))
-    this.setState({data_from_runway:runwayData})
+    this.setState({
+      data_from_runway:runwayData,
+      lights_data_from_runway: runwayLights,
+    })
     console.log("The Runway data from child is: " + runwayData)
+    console.log("Runway Lights data from child is: " + runwayLights)
     console.log("The Runway data from parent is: " + this.state.data_from_runway)
+    console.log("The Runway Lights data from parent is: " + this.state.lights_data_from_runway)
     //this.setState({value_key:value_key})
     //this.forceUpdate()
     // this.setState({ 
@@ -68,7 +74,7 @@ export class App extends Component {
             </Link>
           </Route>
           <Route path="/VGS">
-            <ManageVGS runwayName={this.state.data_from_runway} aircraftName={this.state.data_from_aircraft} />
+            <ManageVGS runwayLights={this.state.lights_data_from_runway} runwayName={this.state.data_from_runway} aircraftName={this.state.data_from_aircraft} />
           </Route>
         </Switch>
         {/*</div>*/}

@@ -25,6 +25,7 @@ export class ManageRunways extends Component {
         this.state = {
             runways: [],
             select: "",
+            approachlights: "",
             showAdd: false,
             showEdit: false,
             rerender: false,
@@ -102,20 +103,34 @@ export class ManageRunways extends Component {
 
 
 
-    childFunction=()=> {
+    async childFunction () {
         //let select = selected;
         let selection = [this.state.select]//this.node.selectionContext.selected]
-        this.props.parentFunction(selection[0])
+        //this.props.parentFunction(selection[0])
         console.log("Inside ChildFunction: ", selection[0])
-        const db = firebase.firestore().collection("Runways").doc(selection[0].toString());
+        const db = await firebase.firestore().collection("Runways").doc(selection[0].toString());
+        const data = await firebase.firestore().collection("Runways").doc(selection[0].toString()).get()
+
+        console.log("obtained doc in child: " + data.data().ApproachLights)
+
+        this.setState({
+            approachlights: String(data.data().ApproachLights)
+        })
 
         db.get()
-        .then(function(doc) {
+        .then( doc => {
             const data = doc.data()
             console.log(selection[0])
             console.log(data)
-            
+            //console.log(doc.data().ApproachLights)
+            // setTimeout(() => {
+            //     this.setState({
+            //         approachlights: String(doc.data().ApproachLights)
+            //     })
+            // }, 600)
         })
+        console.log("Runway Lights after ManageRunways setState:" + this.state.approachlights)
+        this.props.parentFunction(selection[0], this.state.approachlights)
     }
 
     showModal = () => {

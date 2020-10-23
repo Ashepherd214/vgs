@@ -91,7 +91,7 @@ class OutputVisuals extends React.Component {
           runWidth: 200,
           //Runway state variables
           icao: " ",
-          approachlights: " ",
+          approachlights: this.props.runwayLights,
           dh: " ",
           edgespacing: " ",
           gsx: " ",
@@ -130,6 +130,8 @@ class OutputVisuals extends React.Component {
       } else {
         console.log("components did not mount")
       }
+
+      console.log("runway lights in Output Visual are" + this.props.runwayLights)
       
       //window.addEventListener("resize", this.checkSize)
       
@@ -143,81 +145,30 @@ class OutputVisuals extends React.Component {
     /*---------------------------Begin getRunwayData---------------------------------------- */
 
     /*--------------------------New get Data function using Snapshot------------------------ */
-    getRunwayData = () => {
+    async getRunwayData () {
       //const runwayName = this.props.runwayName
-      console.log(this.props.runwayName)
+      //console.log(this.props.runwayName)
 
         try {
-        var runDb = firebase.firestore().collection("Runways").doc(String(this.props.runwayName))
+          const runDb = await firebase.firestore().collection("Runways").doc(String(this.props.runwayName)).get()
+          this.setState({
+            icao: runDb.data().ICAO,
+            approachlights: String(runDb.data().ApproachLights),
+            dh: runDb.data().DH,
+            edgespacing: runDb.data().EdgeSpacing,
+            gsx: runDb.data().GSOffsetX,
+            gsy: runDb.data().GSOffsetY,
+            glideslope: runDb.data().GlideSlope,
+            tch: runDb.data().TCH,
+            width: runDb.data().Width,
+            runUnits: String(runDb.data().Units)
+          })
 
-          if(this.state._isMounted){
-            runDb.get()
-            .then(doc => {
-              if(doc.exists){
-                setTimeout(() => {
-                this.setState({
-                  icao: doc.data().ICAO,
-                  approachlights: doc.data().ApproachLights,
-                  dh: doc.data().DH,
-                  edgespacing: doc.data().EdgeSpacing,
-                  gsx: doc.data().GSOffsetX,
-                  gsy: doc.data().GSOffsetY,
-                  glideslope: doc.data().GlideSlope,
-                  tch: doc.data().TCH,
-                  width: doc.data().Width,
-                  runUnits: String(doc.data().Units)
-                })}, 3000)
-                console.log("runway info found" + this.state.icao)
-              } else {console.log("Could not get runway info")}
-            })
-          } else {console.log("doc does not exist")}
-        }
+              }
+
         catch (error) {
           console.log("Unable to retrieve the doc", error)
         }
-
-        console.log("Approach Lights: " + this.state.approachlights)
-
-      // runDb.get()
-      //   .then(function(doc) {
-      //     if (doc.exists) {
-      //     console.log("runway info :" + doc.data())
-      //     setTimeout(() => {
-      //     this.setState({
-      //         icao: doc.data().ICAO,
-      //         approachlights: doc.data().ApproachLights,
-      //         dh: doc.data().DH,
-      //         edgespacing: doc.data().EdgeSpacing,
-      //         gsx: doc.data().GSOffsetX,
-      //         gsy: doc.data().GSOffsetY,
-      //         glideslope: doc.data().GlideSlope,
-      //         tch: doc.data().TCH,
-      //         width: doc.data().Width,
-      //         runUnits: String(doc.data().Units)
-      //       })}, 6000)}
-      //     // } else {
-      //     //   console.log("Error grabbing runway information")
-      //     // }
-      //   }).catch(function (error) {
-      //     console.log("Error getting document: ", error)
-      //   })
-      // console.log("Getting runway data resulted in " + this.state.approachlights + " lights")
-      //let runwayInfo = await runDb.get()
-      //let runDb = firebase.firestore().collection("Runways")
-      //let runwaySelected = await runDb.where('ICAO', '==', runwayName).select().get()
-      // for (info of runwaySelected.docs) {
-        
-      // }
-    
-      // await runDb.get()
-      // .then(function(doc) {
-      //   const data = await doc.data();
-          
-      //   })
-      //   .catch(function (error) {
-      //     console.log("Error getting runway data: ", error)
-      //   })
-        //console.log(this.state.runwayInfo.approachlights)
     }
 
 
@@ -252,29 +203,22 @@ class OutputVisuals extends React.Component {
     /*---------------------------End getRunwayData---------------------------------------- */
     async getAircraftData (aircraftName) {
       console.log(aircraftName)
-      const airDb = firebase.firestore().collection("Aircrafts").doc(String(aircraftName))
+      const airDb = await firebase.firestore().collection("Aircrafts").doc(String(aircraftName)).get()
     
-      if(this.state._isMounted){
-        airDb.get()
-        .then(doc => {
-          const data = doc.data()
-          setTimeout(() => {
           this.setState({
-            airName: doc.id,
-            ze: doc.data().Ze,
-            xe: doc.data().Xe,
-            lookdown: doc.data().lookdown,
-            za: doc.data().Za,
-            xa: doc.data().Xa,
-            flaps: doc.data().flaps,
-            speed: doc.data().speed,
-            weight: doc.data().weight,
-            cg: doc.data().cg,
-            pitch: doc.data().pitch,
-            airUnits: String(doc.data().unitsAir),
-          })},1000)
-        })
-      }
+            airName: airDb.id,
+            ze: airDb.data().Ze,
+            xe: airDb.data().Xe,
+            lookdown: airDb.data().lookdown,
+            za: airDb.data().Za,
+            xa: airDb.data().Xa,
+            flaps: airDb.data().flaps,
+            speed: airDb.data().speed,
+            weight: airDb.data().weight,
+            cg: airDb.data().cg,
+            pitch: airDb.data().pitch,
+            airUnits: String(airDb.data().unitsAir),
+          })
     }
     // checkSize = () => {
     //   //const width = window.innerWidth

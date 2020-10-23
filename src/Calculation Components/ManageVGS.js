@@ -55,7 +55,7 @@ class ManageVGS extends Component {
               <Container style ={{ height: '500px', width: '1000px', margin: 0, marginRight: 0, padding: 5}}>
                 <Row >
                   <Col md={12}>
-                    <OutputVisuals style={{ height: '500px', width: '1000px' }} runwayName={this.props.runwayName} aircraftName={this.props.aircraftName}></OutputVisuals>
+                    <OutputVisuals style={{ height: '500px', width: '1000px' }} runwayLights={this.props.runwayLights} runwayName={this.props.runwayName} aircraftName={this.props.aircraftName}></OutputVisuals>
                   </Col>
                 </Row>
                 

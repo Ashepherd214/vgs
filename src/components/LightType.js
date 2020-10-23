@@ -10,21 +10,21 @@ import {
 
 function LightType(props) {
         console.log(props)
-        console.log("Light Type prop detected: " + this.props.approachlights)
+        console.log("Light Type prop detected: " + props.approachlights)
         //Should accept props coming from Runways table to determine which lights to show on the outputs tab.
         //Based on incoming props, should call out to RunwayLights.js and render the respective component
-        switch(this.props.approachlights) {
-        case MALSR:
+        switch(props.approachlights) {
+        case "MALSR":
             return <MALSR />
-        case MALSF:
+        case "MALSF":
             return <MALSF />
-        case SSALR:
+        case "SSALR":
             return <SSALR />
-        case SSALF:
+        case "SSALF":
             return <SSALF />
-        case ALSF1:
+        case "ALSF1":
             return <ALSF1 />
-        case ALSF2:
+        case "ALSF2":
             return <ALSF2 />
         }
 }
