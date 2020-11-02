@@ -1,16 +1,22 @@
-package VGSMath;
+import React, { Component } from 'react'
 
-public class Aircraft {
-    String ACName;
-    Double Ze;
-    Double Xe;
-    Double lookdown;
-    Double Za;
-    Double Xa;
-    Double flaps;
-    Double speed;
-    Double weight;
-    Double CG;
-    Double pitch;
-    int UnitsAir;
+class AircraftMath extends Component {
+    constructor(props) {
+        super(props)
+        state = {
+            ACName:;
+            Ze:;
+            Xe:;
+            Lookdown:;
+            Za:;
+            Xa:;
+            flaps:;
+            speed:;
+            weight:;
+            CG:;
+            pitch:;
+            UnitsAir:;
+        }
+    }
+    
 }

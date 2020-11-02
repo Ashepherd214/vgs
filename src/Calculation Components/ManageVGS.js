@@ -55,7 +55,33 @@ class ManageVGS extends Component {
               <Container style ={{ height: '500px', width: '1000px', margin: 0, marginRight: 0, padding: 5}}>
                 <Row >
                   <Col md={12}>
-                    <OutputVisuals style={{ height: '500px', width: '1000px' }} runwayLights={this.props.runwayLights} runwayName={this.props.runwayName} aircraftName={this.props.aircraftName}></OutputVisuals>
+                    <OutputVisuals 
+                      style={{ height: '500px', width: '1000px' }} 
+                      runwayLights={this.props.runwayLights} 
+                      runwayName={this.props.runwayName} 
+                      aircraftName={this.props.aircraftName}
+                      runwayIcao={this.props.runwayIcao}
+                      runwayDh={this.props.runwayDh}
+                      runwayEdgeSpacing={this.props.runwayEdgeSpacing}
+                      runwayGsx={this.props.runwayGsx}
+                      runwayGsy={this.props.runwayGsy}
+                      runwayGlideSlope={this.props.runwayGlideSlope}
+                      runwayTch={this.props.runwayTch}
+                      runwayWidth={this.props.runwayWidth}
+                      runwayUnits={this.props.runwayUnits}
+                      aircraftXa={this.props.aircraftXa}
+                      aircraftXe={this.props.aircraftXe}
+                      aircraftZa={this.props.aircraftZa}
+                      aircraftZe={this.props.aircraftZe}
+                      aircraftCg={this.props.aircraftCg}
+                      aircraftFlaps={this.props.aircraftFlaps}
+                      aircraftLookdown={this.props.aircraftLookdown}
+                      aircraftPitch={this.props.aircraftPitch}
+                      aircraftSpeed={this.props.aircraftSpeed}
+                      aircraftWeight={this.props.aircraftWeight}
+                      aircraftUnits={this.props.aircraftUnits}
+                    >
+                    </OutputVisuals>
                   </Col>
                 </Row>
                 

@@ -26,6 +26,16 @@ export class ManageRunways extends Component {
             runways: [],
             select: "",
             approachlights: "",
+            name: "",
+            icao: "",
+            dh: "",
+            edgespacing: "",
+            gsx: "",
+            gsy: "",
+            glideslope: "",
+            tch: "",
+            width: "",
+            units: "",
             showAdd: false,
             showEdit: false,
             rerender: false,
@@ -114,7 +124,17 @@ export class ManageRunways extends Component {
         console.log("obtained doc in child: " + data.data().ApproachLights)
 
         this.setState({
-            approachlights: String(data.data().ApproachLights)
+            approachlights: String(data.data().ApproachLights),
+            name: data.id,
+            icao: data.data().ICAO,
+            dh: data.data().DH,
+            edgespacing: data.data().EdgeSpacing,
+            gsx: data.data().GSOffsetX,
+            gsy: data.data().GSOffsetY,
+            glideslope: data.data().GlideSlope,
+            tch: data.data().TCH,
+            width: data.data().Width,
+            units: data.data().Units
         })
 
         db.get()
@@ -130,7 +150,20 @@ export class ManageRunways extends Component {
             // }, 600)
         })
         console.log("Runway Lights after ManageRunways setState:" + this.state.approachlights)
-        this.props.parentFunction(selection[0], this.state.approachlights)
+        this.props.parentFunction(
+            selection[0], 
+            this.state.approachlights,
+            this.state.name,
+            this.state.icao,
+            this.state.dh,
+            this.state.edgespacing,
+            this.state.gsx,
+            this.state.gsy,
+            this.state.glideslope,
+            this.state.tch,
+            this.state.width,
+            this.state.units
+            )
     }
 
     showModal = () => {

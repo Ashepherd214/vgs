@@ -7,6 +7,7 @@ import {
 }   from 'react-konva'
 import { ThresholdLights } from '../components/Threshold Lights Draw'
 import { LightType } from '../components/LightType'
+import { GroundSegment } from '../VGSMath/GroundSegment'
 // import {
 //   MALSR,
 //   MALSF, 
@@ -131,8 +132,16 @@ class OutputVisuals extends React.Component {
         console.log("components did not mount")
       }
 
-      console.log("runway lights in Output Visual are" + this.props.runwayLights)
-      
+      // console.log("runway lights in Output Visual are" + this.props.runwayLights)
+      // console.log("The Runway data from ManageVGS is: " + this.props.runwayIcao)
+      // console.log("The Runway data from ManageVGS is: " + this.props.runwayDh)
+      // console.log("The Runway data from ManageVGS is: " + this.props.runwayEdgeSpacing)
+      // console.log("The Runway data from ManageVGS is: " + this.props.runwayGsx)
+      // console.log("The Runway data from ManageVGS is: " + this.props.runwayGsy)
+      // console.log("The Runway data from ManageVGS is: " + this.props.runwayGlideSlope)
+      // console.log("The Runway data from ManageVGS is: " + this.props.runwayTch)
+      // console.log("The Runway data from ManageVGS is: " + this.props.runwayWidth)
+      // console.log("The Runway data from ManageVGS is: " + this.props.runwayUnits)      
       //window.addEventListener("resize", this.checkSize)
       
     }
@@ -270,6 +279,28 @@ class OutputVisuals extends React.Component {
                     <Runway runWidth={this.state.runWidth} runLength={this.state.runLength}/>
                     <LightType approachlights={this.state.approachlights} />
                     <ThresholdLights />
+                    <GroundSegment
+                      runwayIcao={this.props.runwayIcao}
+                      runwayDh={this.props.runwayDh}
+                      runwayEdgeSpacing={this.props.runwayEdgeSpacing}
+                      runwayGsx={this.props.runwayGsx}
+                      runwayGsy={this.props.runwayGsy}
+                      runwayGlideSlope={this.props.runwayGlideSlope}
+                      runwayTch={this.props.runwayTch}
+                      runwayWidth={this.props.runwayWidth}
+                      runwayUnits={this.props.runwayUnits}
+                      aircraftXa={this.props.aircraftXa}
+                      aircraftXe={this.props.aircraftXe}
+                      aircraftZa={this.props.aircraftZa}
+                      aircraftZe={this.props.aircraftZe}
+                      aircraftCg={this.props.aircraftCg}
+                      aircraftFlaps={this.props.aircraftFlaps}
+                      aircraftLookdown={this.props.aircraftLookdown}
+                      aircraftPitch={this.props.aircraftPitch}
+                      aircraftSpeed={this.props.aircraftSpeed}
+                      aircraftWeight={this.props.aircraftWeight}
+                      aircraftUnits={this.props.aircraftUnits}
+                    />
                 </Layer>
             </Stage>
             <label>X Ahead:</label>

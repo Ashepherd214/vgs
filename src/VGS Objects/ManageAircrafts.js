@@ -23,6 +23,17 @@ export class ManageAircrafts extends Component {
     this.state = {
       aircrafts: [],
       select: " ",
+      xa: "",
+      xe: "",
+      za: "",
+      ze: "",
+      cg: "",
+      flaps: "",
+      lookdown: "",
+      pitch: "",
+      speed: "",
+      weight: "",
+      unitsAir: "",
       showAdd: false,
       showEdit: false,
       rerender: false,
@@ -68,12 +79,27 @@ export class ManageAircrafts extends Component {
       });
   };
 
-  childFunction=()=> {
+  async childFunction() {
     //let select = selected;
     let selection = [this.node.selectionContext.selected]
-    this.props.parentFunction(selection[0])
+    
     console.log("Inside ChildFunction: ", selection[0])
-    const db = firebase.firestore().collection("Aircrafts").doc(selection[0].toString());
+    const db = await firebase.firestore().collection("Aircrafts").doc(selection[0].toString());
+    const data = await firebase.firestore().collection("Aircrafts").doc(selection[0].toString()).get()
+
+    this.setState({
+      xa: data.data().Xa,
+      xe: data.data().Xe,
+      za: data.data().Za,
+      ze: data.data().Ze,
+      cg: data.data().cg,
+      flaps: data.data().flaps,
+      lookdown: data.data().lookdown,
+      pitch: data.data().pitch,
+      speed: data.data().speed,
+      weight: data.data().weight,
+      unitsAir: data.data().unitsAir.toString()
+    })
 
     db.get()
     .then(function(doc) {
@@ -82,6 +108,21 @@ export class ManageAircrafts extends Component {
         console.log(data)
         
     })
+
+    this.props.parentFunction(
+      selection[0],
+      this.state.xa,
+      this.state.xe,
+      this.state.za,
+      this.state.ze,
+      this.state.cg,
+      this.state.flaps,
+      this.state.lookdown,
+      this.state.pitch,
+      this.state.speed,
+      this.state.weight,
+      this.state.unitsAir
+      )
 }
 
   rerenderParent() {
