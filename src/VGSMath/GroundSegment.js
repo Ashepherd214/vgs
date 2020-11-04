@@ -1,4 +1,4 @@
-/**constiable descriptions
+/**letiable descriptions
  * zeg - pilot's eye above ground
  * zag - GS antenna above ground
  * xanteye - horizontal distance from eye to gs ant
@@ -28,7 +28,7 @@
  * xbeyond = FOV - xahead
  */
 
- /**Needed constiables from props
+ /**Needed letiables from state
   * dh
   * ze
   * za
@@ -38,175 +38,90 @@
   * glide slope
   */
 
-/** All available props
- * runwayIcao={this.props.runwayIcao}
-    runwayDh={this.props.runwayDh} - dh
-    runwayEdgeSpacing={this.props.runwayEdgeSpacing}
-    runwayGsx={this.props.runwayGsx}
-    runwayGsy={this.props.runwayGsy}
-    runwayGlideSlope={this.props.runwayGlideSlope} - glide slope
-    runwayTch={this.props.runwayTch}
-    runwayWidth={this.props.runwayWidth}
-    runwayUnits={this.props.runwayUnits}
-    aircraftXa={this.props.aircraftXa} - xa
-    aircraftXe={this.props.aircraftXe} - xe
-    aircraftZa={this.props.aircraftZa} - za
-    aircraftZe={this.props.aircraftZe} - ze
-    aircraftCg={this.props.aircraftCg}
-    aircraftFlaps={this.props.aircraftFlaps}
-    aircraftLookdown={this.props.aircraftLookdown}
-    aircraftPitch={this.props.aircraftPitch} - pitch angle
-    aircraftSpeed={this.props.aircraftSpeed}
-    aircraftWeight={this.props.aircraftWeight}
-    aircraftUnits={this.props.aircraftUnits}
+/** All available state
+ * runwayIcao={this.state.runwayIcao}
+    runwayDh={this.state.runwayDh} - dh
+    runwayEdgeSpacing={this.state.runwayEdgeSpacing}
+    runwayGsx={this.state.runwayGsx}
+    runwayGsy={this.state.runwayGsy}
+    runwayGlideSlope={this.state.runwayGlideSlope} - glide slope
+    runwayTch={this.state.runwayTch}
+    runwayWidth={this.state.runwayWidth}
+    runwayUnits={this.state.runwayUnits}
+    aircraftXa={this.state.aircraftXa} - xa
+    aircraftXe={this.state.aircraftXe} - xe
+    aircraftZa={this.state.aircraftZa} - za
+    aircraftZe={this.state.aircraftZe} - ze
+    aircraftCg={this.state.aircraftCg}
+    aircraftFlaps={this.state.aircraftFlaps}
+    aircraftLookdown={this.state.aircraftLookdown}
+    aircraftPitch={this.state.aircraftPitch} - pitch angle
+    aircraftSpeed={this.state.aircraftSpeed}
+    aircraftWeight={this.state.aircraftWeight}
+    aircraftUnits={this.state.aircraftUnits}
  */
 
-import React, { Component, useState } from 'react'
+import React from 'react'
+import GroundSegmentRender from '../VGSMath/GroundSegmentRender'
 
-function CalculateGroundSegment(props) {
+const GroundSegment = (props) => {
+        let dh= props.runwayDh
+        let glideSlope= props.runwayGlideSlope
+        let xa= props.aircraftXa
+        let xe= props.aircraftXe
+        let za= props.aircraftZa
+        let ze= props.aircraftZe
+        let pitch= props.aircraftPitch
+        let gsx= props.runwayGsx
+        let gsy= props.runwayGsy
+        let lookdown= props.aircraftLookdown
+    
+        let xcutoff =  lookdown - pitch
+        let zeg = (dh + ze)* Math.cos(pitch)+ xe * Math.sin(pitch)
+        let zag = (dh + za)* Math.cos(pitch) + xa * Math.sin(pitch)
+        let xanteye = (xa -xe) * Math.cos(glideSlope) + (ze-za) * Math.sin(glideSlope) 
+        let obseg = zeg / Math.tan(xcutoff)
+        let gndrvr = 1200//Math.sqrt( xrvr^2 - zeg^2)
+        let fov = gndrvr - obseg
+        let xax = Math.sqrt( (zag/Math.tan(3))^2 - (gsy^2))
+        let xrvr = Math.sqrt(((fov + obseg)^2) + (zeg)^2)
+        let xthres = xax - gsx
+        let xeyethres = xthres + xanteye
+        let xahead = xthres - (obseg - xanteye)
+        let xbeyond = fov - xahead
 
-    dh= this.props.runwayDh
-    glideSlope= this.props.runwayGlideSlope
-    xa= this.props.aircraftXa
-    xe= this.props.aircraftXe
-    za= this.props.aircraftZa
-    ze= this.props.aircraftZe
-    pitch= this.props.aircraftPitch
-    gsx= this.props.runwayGsx
-    gsy= this.props.runwayGsy
-    lookdown= this.props.aircraftLookdown
-
-    const xcutoff =  lookdown - pitch
-    const zeg = (dh + ze)* Math.cos(pitch)+ xe * Math.sin(pitch)
-    const zag = (dh + za)* Math.cos(pitch) + xa * Math.sin(pitch)
-    const xanteye = (xa -xe) * Math.cos(glideSlope) + (ze-za) * Math.sin(glideSlope) 
-    const obseg = zeg / Math.tan(xcutoff)
-    const gndrvr = 1200//Math.sqrt( xrvr^2 - zeg^2)
-    const fov = gndrvr - obseg
-    const xax = Math.sqrt( (zag/Math.tan(3))^2 - (gsy^2))
-    const xrvr = Math.sqrt(((fov + obseg)^2) + (zeg)^2)
-    const xthres = xax - gsx
-    const xeyethres = xthres + xanteye
-    const xahead = xthres - (obseg - xanteye)
-    const xbeyond = fov - xahead
+        return <GroundSegmentRender 
+            xcutoff={xcutoff}
+            zeg={zeg}
+            zag={zag}
+            xanteye={xanteye}
+            obseg={obseg}
+            gndrvr={gndrvr}
+            fov={fov}
+            xax={xax}
+            xrvr={xrvr}
+            xthres={xthres}
+            xeyethres={xeyethres}
+            xahead={xahead}
+            xbeyond={xbeyond} 
+        />
 }
-
-class GroundSegment extends Component {
-    
-    
-    constructor(props) {
-        super(props)
-
-            // const dh = this.props.dh
-            // const glideSlope = this.props.glideslope
-            // const xa = this.props.xa
-            // const xe = this.props.xe
-            // const za = this.props.za
-            // const ze = this.props.ze
-            // const pitch = this.props.pitch
-            // const gsx = this.props.gsx
-            // const gsy = this.props.gsy
-            // const lookdown = this.props.lookdown
-
-            
-        
-
-        this.state = {
-            dh: this.props.runwayDh,
-            glideSlope: this.props.runwayGlideSlope,
-            xa: this.props.aircraftXa,
-            xe: this.props.aircraftXe,
-            za: this.props.aircraftZa,
-            ze: this.props.aircraftZe,
-            pitch: this.props.aircraftPitch,
-            gsx: this.props.runwayGsx,
-            gsy: this.props.runwayGsy,
-            lookdown: this.props.aircraftLookdown,
-            xahead: "",
-            xbeyond: "",
-            zeg: "",
-            zag: "",
-            xanteye: "",
-            xax: "",
-            gndrvr: "",
-            xcutoff: "",
-            obseg: "",
-            xthre: "",
-            xeyethres: "",
-            XAhead: "",
-            XBeyond: "",
-            Zeg: "",
-            Zag: "",
-            Xanteye: "", 
-            Xax: "",
-            Gndrvr: "",
-            Xcutoff: "",
-            Obseg: "",
-            Xthres: "",
-            Xeyethres: "",
-            RealXAhead: "",
-            RealXBeyond: "",
-            FOV: "",
-            XAheadTCH: "",
-            XBeyondTCH: "",
-            RealXAheadTCH: "",
-            RealXBeyondTCH: "",
-            
-        }
-        
-        this.setState({
-            xcutoff:  lookdown - pitch,
-            zeg: (dh + ze)* Math.cos(pitch)+ xe * Math.sin(pitch),
-            zag: (dh + za)* Math.cos(pitch) + xa * Math.sin(pitch),
-            xanteye: (xa -xe) * Math.cos(glideSlope) + (ze-za) * Math.sin(glideSlope),
-            obseg: zeg / Math.tan(xcutoff),
-            gndrvr: 1200,//Math.sqrt( xrvr^2 - zeg^2)
-            fov: gndrvr - obseg,
-            xax: Math.sqrt( (zag/Math.tan(3))^2 - (gsy^2)),
-            xrvr: Math.sqrt(((fov + obseg)^2) + (zeg)^2),
-            xthres: xax - gsx,
-            xeyethres: xthres + xanteye,
-            xahead: xthres - (obseg - xanteye),
-            xbeyond: fov - xahead
-            })
-        
-
-        console.log("Zeg = " + this.state.Zeg)
-        console.log("Zag = " + this.state.Zag)
-        console.log("Xanteye = " + this.state.Xanteye)
-        console.log("Xax = " + this.state.Xax)
-        console.log("Gndrvr = " + this.state.Gndrvr)
-        console.log("Xcutoff = " + this.state.Xcutoff)
-        console.log("Obseg = " + this.state.Obseg)
-        console.log("Xthres = " + this.state.Xthres)
-        console.log("Xeyethes = " + this.state.Xeyethes)
-    }
-    componentDidMount() {
-        this.setState({
-            XAhead: this.state.xahead,
-            XBeyond: this.state.xbeyond,
-            Zeg: this.state.zeg,
-            Zag: this.state.zag,
-            Xanteye: this.state.xanteye, 
-            Xax: this.state.xax,
-            Gndrvr: this.state.gndrvr,
-            Xcutoff: this.state.xcutoff,
-            Obseg: this.state.obseg,
-            Xthres: this.state.xthres,
-            Xeyethres: this.state.xeyethres,
-        })
-    }
-    
-    render () {
-        return 
-            //return lines for the Visual indicators according to the calculated data
-            // and pass the values back up to display the outputs and input values.
-        
-    }
-    
-}
-
-
 
 
  export {GroundSegment}
+
+ // this.setState({
+        //     xcutoff:  lookdown - pitch,
+        //     zeg: (dh + ze)* Math.cos(pitch)+ xe * Math.sin(pitch),
+        //     zag: (dh + za)* Math.cos(pitch) + xa * Math.sin(pitch),
+        //     xanteye: (xa -xe) * Math.cos(glideSlope) + (ze-za) * Math.sin(glideSlope),
+        //     obseg: zeg / Math.tan(xcutoff),
+        //     gndrvr: 1200,//Math.sqrt( xrvr^2 - zeg^2)
+        //     fov: gndrvr - obseg,
+        //     xax: Math.sqrt( (zag/Math.tan(3))^2 - (gsy^2)),
+        //     xrvr: Math.sqrt(((fov + obseg)^2) + (zeg)^2),
+        //     xthres: xax - gsx,
+        //     xeyethres: xthres + xanteye,
+        //     xahead: xthres - (obseg - xanteye),
+        //     xbeyond: fov - xahead
+        //     })

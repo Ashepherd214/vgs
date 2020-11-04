@@ -120,7 +120,7 @@ function generateMALSFGreenLight() {
         items.push({
             x: 650,
             y: (140 + (4*t)),
-            id: t + "malsf",
+            id: t + "malsfup",
         })
     }
     //For extra forest green lights below center at row 5
@@ -128,7 +128,7 @@ function generateMALSFGreenLight() {
         items.push({
             x: 650,
             y: (268 + (4*t)),
-            id: t + "malsf",
+            id: t + "malsfdown",
         })
     }
     return items
