@@ -8,6 +8,7 @@ import {
 import { ThresholdLights } from '../components/Threshold Lights Draw'
 import { LightType } from '../components/LightType'
 import { GroundSegment } from '../VGSMath/GroundSegment'
+import { RunwayMarkingsDraw } from '../components/RunwayMarkingsDraw'
 // import {
 //   MALSR,
 //   MALSF, 
@@ -279,6 +280,7 @@ class OutputVisuals extends React.Component {
                     <Runway runWidth={this.state.runWidth} runLength={this.state.runLength}/>
                     <LightType approachlights={this.state.approachlights} />
                     <ThresholdLights />
+                    <RunwayMarkingsDraw />
                     <GroundSegment
                       runwayIcao={this.props.runwayIcao}
                       runwayDh={this.props.runwayDh}

@@ -30,13 +30,15 @@ class GroundSegmentRender extends Component {
 		return(
 			<Group>
 				<Line
-					x={20}
-					y={200}
-					points={[0, 0, 100]}
+					points={[500, 100, 500, 250, 500, 350]}
 					closed
 					stroke="yellow"
 				/>
-				<Line />
+				<Line 
+					points={[300, 100, 300, 250, 300, 350]}
+					closed
+					stroke="yellow"
+				/>
 			</Group>
 		)
 	}
