@@ -93,7 +93,7 @@ function generateMALSF() {
             items.push({
                 x: (650 + (40 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
                 y: (210 + (4*t)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
-                id: i + "t",
+                id: i + "." + t + "l",
             })
         }
         for (let t=1; t <= 5; t++) {

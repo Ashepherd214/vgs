@@ -7,7 +7,8 @@ import {
 }   from 'react-konva'
 import { ThresholdLights } from '../components/Threshold Lights Draw'
 import { LightType } from '../components/LightType'
-import { GroundSegment } from '../VGSMath/GroundSegment'
+import outputImg from '../img/Outputs Variable chart.png'
+import GroundSegmentRender from '../VGSMath/GroundSegmentRender'
 import { RunwayMarkingsDraw } from '../components/RunwayMarkingsDraw'
 // import {
 //   MALSR,
@@ -247,10 +248,12 @@ class OutputVisuals extends React.Component {
         //console.log(this.state.lights)
         //const lights = this.state.approachlights
         console.log("Variable lights: " + this.state.approachlights)
+        console.log("OutputVisual xAhead: " + this.props.xahead)
+        console.log("OutputVisual xBeyond: " + this.props.xbeyond)
         
         return (
           <div>
-            {/* <label>Selected Runway Data: </label>
+            {/* 
             <h5>{"ICAO: " + this.state.icao}</h5>
             <h5>{"Approach Lights: " + this.state.approachlights}</h5>
             <h5>{"Decision Height: " + this.state.dh}</h5>
@@ -274,6 +277,7 @@ class OutputVisuals extends React.Component {
             <h5>{"Center of Gravity: " + this.state.cg}</h5>
             <h5>{"Pitch Angle: " + this.state.pitch}</h5>
             <h5>{"Metric?: " + this.state.airUnits}</h5> <br /> */}
+            
             <Stage style={{ backgroundColor: "green", marginTop: 80, marginLeft: 0, marginRight: 0, height: '500px', width: '1000px' }} width={this.state.stageWidth } height={this.state.stageHeight }>
                 {/* <Layer style={{ padding: 55 }}> */}
                 <Layer>
@@ -281,31 +285,13 @@ class OutputVisuals extends React.Component {
                     <LightType approachlights={this.state.approachlights} />
                     <ThresholdLights />
                     <RunwayMarkingsDraw />
-                    <GroundSegment
-                      runwayIcao={this.props.runwayIcao}
-                      runwayDh={this.props.runwayDh}
-                      runwayEdgeSpacing={this.props.runwayEdgeSpacing}
-                      runwayGsx={this.props.runwayGsx}
-                      runwayGsy={this.props.runwayGsy}
-                      runwayGlideSlope={this.props.runwayGlideSlope}
-                      runwayTch={this.props.runwayTch}
-                      runwayWidth={this.props.runwayWidth}
-                      runwayUnits={this.props.runwayUnits}
-                      aircraftXa={this.props.aircraftXa}
-                      aircraftXe={this.props.aircraftXe}
-                      aircraftZa={this.props.aircraftZa}
-                      aircraftZe={this.props.aircraftZe}
-                      aircraftCg={this.props.aircraftCg}
-                      aircraftFlaps={this.props.aircraftFlaps}
-                      aircraftLookdown={this.props.aircraftLookdown}
-                      aircraftPitch={this.props.aircraftPitch}
-                      aircraftSpeed={this.props.aircraftSpeed}
-                      aircraftWeight={this.props.aircraftWeight}
-                      aircraftUnits={this.props.aircraftUnits}
+                    <GroundSegmentRender 
+                      xahead={this.props.xahead}
+                      xbeyond={this.props.xbeyond}
                     />
                 </Layer>
             </Stage>
-            <label>X Ahead:</label>
+            <img src={outputImg} alt="Output Variable Chart" />
             </div>
         );
     }

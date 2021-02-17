@@ -4,44 +4,67 @@ import {
 	Line
 } from 'react-konva'
 
-class GroundSegmentRender extends Component {
-	constructor(props) {
-		super(props)
+// class GroundSegmentRender extends Component {
+// 	constructor(props) {
+// 		super(props)
 
-		this.state={
-			Xcutoff: this.props.xcutoff,
-			Zeg: this.props.zeg,
-			Zag: this.props.zag,
-			Xanteye: this.props.xanteye,
-			Obseg: this.props.obseg,
-			Gndrvr: this.props.gndrvr,
-			FOV: this.props.fov,
-			Xax: this.props.xax,
-			Xrvr: this.props.xrvr,
-			Xthres: this.props.xthres,
-			Xeyethres: this.props.xeyethres,
-			Xahead: this.props.xahead,
-			Xbeyond: this.props.xbeyond
-		}
+// 		// this.state={
+// 		// 	xahead: this.props.xahead,
+// 		// 	xbeyond: this.props.xbeyond
+// 		// }
+// 		//console.log("Graound Segment Render's props are: " + props)
+// 		console.log("XAhead in the GS Render Component before conversion is: " + this.props.xahead)
+// 		console.log("XBeyond in the GS Render Component before conversion is: " + this.props.xbeyond)
+// 		let Xahead = Number(550 - (this.props.xahead*0.229))
+// 		let Xbeyond = Number(550 - (this.props.xbeyond*0.229))
 		
-	}
-	render() {
-		console.log("XCutoff in the GS Render Component is: " + this.state.Xcutoff)
-		return(
-			<Group>
+// 		console.log("XAhead in the GS Render Component is: " + Xahead)
+// 		console.log("XBeyond in the GS Render Component is: " + Xbeyond)
+// 	}
+// 	render() {
+		
+// 		return(
+// 			<Group>
+// 				<Line
+// 					points={[Xahead, 100, Xahead, 250, Xahead, 350]}
+// 					closed
+// 					stroke="yellow"
+// 				/>
+// 				<Line 
+// 					points={[Xbeyond, 100, Xbeyond, 250, Xbeyond, 350]}
+// 					closed
+// 					stroke="yellow"
+// 				/>
+// 			</Group>
+// 		)
+// 	}
+// }
+
+const GroundSegmentRender = (props) => {
+	console.log("Ground Segment Render's props are: " + props)
+	console.log("XAhead in the GS Render Component before conversion is: " + props.xahead)
+	console.log("XBeyond in the GS Render Component before conversion is: " + props.xbeyond)
+
+	//originally xahead was subtraction but changed to addition to push line behind threshold in pixel format.
+	//Because of this the multiplier may need to be changed as well to scale the behind threshold spacing to be smaller.
+	let Xahead = Number(550 + (props.xahead*0.229)) 
+	let Xbeyond = Number(550 - (props.xbeyond*0.229))
+		
+	console.log("XAhead in the GS Render Component is: " + Xahead)
+	console.log("XBeyond in the GS Render Component is: " + Xbeyond)
+	return	<Group>
 				<Line
-					points={[500, 100, 500, 250, 500, 350]}
+					points={[Xahead, 100, Xahead, 250, Xahead, 350]}
 					closed
 					stroke="yellow"
 				/>
 				<Line 
-					points={[300, 100, 300, 250, 300, 350]}
+					points={[Xbeyond, 100, Xbeyond, 250, Xbeyond, 350]}
 					closed
 					stroke="yellow"
 				/>
 			</Group>
-		)
-	}
+		
 }
 
 export default GroundSegmentRender

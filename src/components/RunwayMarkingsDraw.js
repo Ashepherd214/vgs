@@ -14,9 +14,9 @@ import {
 
 function generateUpperMarkings() {
     const upperEdge = []
-        for (let t=1; t <=6; t++) {
+        for (let t=1; t <=12; t++) {
             upperEdge.push({
-                x: (550 - (91.66*t)),
+                x: (550 - (45.8*t)),
                 y: 120,
                 id: "ue" + t
             })
@@ -26,9 +26,9 @@ function generateUpperMarkings() {
 
 function generateLowerMarkings() {
     const lowerEdge = []
-        for (let t=1; t <=6; t++) {
+        for (let t=1; t <=12; t++) {
             lowerEdge.push({
-                x: (550 - (91.66*t)),
+                x: (550 - (45.8*t)),
                 y: 320,
                 id: "le" + t
             })

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import ReactDOM from "react-dom";
 import firebase from "../Firestore";
 import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
@@ -17,11 +16,8 @@ import {
 export class ManageRunways extends Component {
     constructor(props) {
         super(props);
-        //this.rerenderParent = this.rerenderParent.bind(this)
         this.gotData = this.gotData.bind(this)
         this.select = [];
-        // = this.props.valueForParent.bind(this)
-        //this.dataForParentCallback=this.props.dataForParentCallback
         this.state = {
             runways: [],
             select: "",
@@ -40,9 +36,7 @@ export class ManageRunways extends Component {
             showEdit: false,
             rerender: false,
             itemSelected: true,
-            //childRunway: " ",
         };
-        //this.childFunction = this.childFunction.bind(this)
     }
 
     componentDidMount = () => {
@@ -51,39 +45,7 @@ export class ManageRunways extends Component {
     };
 
     gotData = () => {
-        //let aircrafts = [];
-
         const db = firebase.firestore().collection("Runways");
-
-        // db.onSnapshot(function(querySnapshot) {
-
-
-        //   //.then(querySnapshot => {
-        //     var aircrafts = [];
-
-        //     querySnapshot.forEach(function (doc) {
-        //       aircrafts.push({
-        //         name: doc.id,
-        //         xa: doc.data().Xa,
-        //         xe: doc.data().Xe,
-        //         za: doc.data().Za,
-        //         ze: doc.data().Ze,
-        //         cg: doc.data().cg,
-        //         flaps: doc.data().flaps,
-        //         lookdown: doc.data().lookdown,
-        //         pitch: doc.data().pitch,
-        //         speed: doc.data().speed,
-        //         weight: doc.data().weight,
-        //         unitsAir: doc.data().unitsAir.toString()
-        //       });
-        //     });
-        //     console.log("Current Data: ", aircrafts )
-        //     this.setState({ aircrafts })
-        //   })
-        // .catch(function (error) {
-        //   console.log("Error getting documents: ", error);
-        // });
-
         db.get()
             .then(querySnapshot => {
                 const runways = [];
@@ -114,9 +76,7 @@ export class ManageRunways extends Component {
 
 
     async childFunction () {
-        //let select = selected;
-        let selection = [this.state.select]//this.node.selectionContext.selected]
-        //this.props.parentFunction(selection[0])
+        let selection = [this.state.select]
         console.log("Inside ChildFunction: ", selection[0])
         const db = await firebase.firestore().collection("Runways").doc(selection[0].toString());
         const data = await firebase.firestore().collection("Runways").doc(selection[0].toString()).get()
@@ -141,13 +101,6 @@ export class ManageRunways extends Component {
         .then( doc => {
             const data = doc.data()
             console.log(selection[0])
-            console.log(data)
-            //console.log(doc.data().ApproachLights)
-            // setTimeout(() => {
-            //     this.setState({
-            //         approachlights: String(doc.data().ApproachLights)
-            //     })
-            // }, 600)
         })
         console.log("Runway Lights after ManageRunways setState:" + this.state.approachlights)
         this.props.parentFunction(
@@ -180,8 +133,6 @@ export class ManageRunways extends Component {
     };
 
     handleOnSelect = (row, isSelect, rowIndex) => {
-        // ...this.state.selected,
-        //const selected = this.node.selectionContext.selected 
         this.childFunction=this.childFunction.bind(this)
         setTimeout(() => {
         if (isSelect) {
@@ -190,9 +141,6 @@ export class ManageRunways extends Component {
             this.setState(() => ({
                 selected: [row.id]
             }));
-            //
-            //console.log("row id inside if: ", [row.id])
-            //console.log("Selected inside if: ", `${this.state.selected}`)
         } else {
             this.setState(() => ({
                 selected: this.state.selected.filter(x => x !== row.id)
@@ -237,9 +185,6 @@ export class ManageRunways extends Component {
     render() {
         let closeAdd = () => this.setState({ showAdd: false });
         let closeEdit = () => this.setState({ showEdit: false });
-        //let rerenderParent = () => this.rerenderParent();
-
-        //const dataForParent = this.state.dataForParent
         const runSelect = this.state.select
         const selectRowProp = {
             mode: "radio",
