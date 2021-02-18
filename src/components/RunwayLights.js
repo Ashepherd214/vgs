@@ -41,7 +41,7 @@ function generateMALSR() {
     for (let i=0; i < 5; i++) {
         for (let j=1; j <= 5; j++) {
             items.push({
-                x: (550 + (20 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                x: (550 + (45.8 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
                 y: (210 + (4*j)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
                 id: i + " , " + j,
             })
@@ -49,7 +49,7 @@ function generateMALSR() {
         // For further spaced white light bars after row 5
         for (let t=1; t <= 1; t++) {
             items.push({
-                x: (650 + (20 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                x: (779 + (45.8 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
                 y: (222),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
                 id: i + "t",
             })
@@ -80,7 +80,7 @@ function generateMALSF() {
     for (let i=0; i < 4; i++) {
         for (let j=1; j <= 5; j++) {
             items.push({
-                x: (550 + (20 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                x: (550 + (45.8 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
                 y: (210 + (4*j)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
                 id: i + " , " + j,
             })
@@ -91,14 +91,14 @@ function generateMALSF() {
     for (let i=0; i < 2; i++){
         for (let t=1; t <= 5; t++) {
             items.push({
-                x: (650 + (40 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                x: (779 + (45.8 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
                 y: (210 + (4*t)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
                 id: i + "." + t + "l",
             })
         }
         for (let t=1; t <= 5; t++) {
             items.push({
-                x: (665 + (40 * (i+1))),
+                x: (871.6 + (45.8 * (i+1))),
                 y: 222
             })
         }
@@ -152,11 +152,11 @@ function generateSSALR() {
 
 function generateSSALF() {
     const items = []
-    for (let i=0; i < 10; i++) {
+    for (let i=0; i < 5; i++) {
         
             for (let j=1; j <= 5; j++) {
                 items.push({
-                    x: (550 + (40 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                    x: (550 + (45.8 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
                     y: (210 + (4*j)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
                     id: i + " , " + j,
                 })
@@ -173,7 +173,7 @@ function generateALSF1() {
         
             for (let j=1; j <= 5; j++) {
                 items.push({
-                    x: (570 + (10 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                    x: (570 + (22.9 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
                     y: (210 + (4*j)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
                     id: i + " , " + j,
                 })
@@ -181,22 +181,22 @@ function generateALSF1() {
         
     }
     // For main center white light bars past row 10
-    for (let i=0; i < 14; i++) {
+    for (let i=0; i < 10; i++) {
         
         for (let j=1; j <= 5; j++) {
             items.push({
-                x: (650 + (40 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                x: (799 + (22.9 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
                 y: (210 + (4*j)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
                 id: i + "af2",
             })
         }     
     }
     // For single bright directional LEDS in between after row 10 light bars
-    for (let i=0; i < 15; i++) {
+    for (let i=0; i < 10; i++) {
         
         for (let j=1; j <= 1; j++) {
             items.push({
-                x: (670 + (40 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                x: (801 + (22.9 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
                 y: 222 ,//(297 + (20 * (i+1))), // Needed to change to the next row down. 
                 id: i + "aft2",
             })
@@ -227,7 +227,7 @@ function generateALSF2() {
         
             for (let j=1; j <= 5; j++) {
                 items.push({
-                    x: (550 + (10 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                    x: (550 + (22.9 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
                     y: (210 + (4*j)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
                     id: i + " , " + j,
                 })
@@ -235,22 +235,22 @@ function generateALSF2() {
         
     }
     // For main center white light bars past row 10
-    for (let i=0; i < 14; i++) {
+    for (let i=0; i < 10; i++) {
         
         for (let j=1; j <= 5; j++) {
             items.push({
-                x: (650 + (40 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                x: (779 + (22.9 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
                 y: (210 + (4*j)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
                 id: i + "af2",
             })
         }     
     }
     // For single bright directional LEDS in between after row 10 light bars
-    for (let i=0; i < 15; i++) {
+    for (let i=0; i < 10; i++) {
         
         for (let j=1; j <= 1; j++) {
             items.push({
-                x: (670 + (40 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                x: (780 + (22.9 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
                 y: 222 ,//(297 + (20 * (i+1))), // Needed to change to the next row down. 
                 id: i + "aft2",
             })
@@ -259,14 +259,14 @@ function generateALSF2() {
     // The extra lights at row 5
     for (let i=1; i <= 3; i++) {
         items.push({
-            x: 600,
+            x: 664.5,
             y: (182 + (4*i)),
             id: i + "r",
         })
     }
     for (let i=1; i <= 3; i++) {
         items.push({
-            x: 600,
+            x: 664.5,
             y: (250 + (4*i)),
             id: i + "r",
         })
@@ -274,14 +274,14 @@ function generateALSF2() {
     // The extra white lights at row 10
     for (let i=1; i <= 8; i++) {
         items.push({
-            x: 650,
+            x: 779,
             y: (132 + (4*i)),
             id: i + "r",
         })
     }
     for (let i=1; i <= 8; i++) {
         items.push({
-            x: 650,
+            x: 779,
             y: (280 + (4*i)),
             id: i + "r",
         })
@@ -297,7 +297,7 @@ function generateALSF1RedLights() {
             // Middle red led bar on second row
             for (let j=1; j <= 5; j++) {
                 items.push({
-                    x: (550 + (20 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+                    x: (550 + (22.9 * (i+1))),//(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
                     y: (210 + (4*j)),//(297 + (20 * (i+1))), // Needed to change to the next row down. 
                     id: i + " , " + j,
                 })
@@ -305,7 +305,7 @@ function generateALSF1RedLights() {
                 // For extra red lights above first row
                 for (let t=1; t <= 5; t++) {
                     items.push({
-                        x: (550 + (10 * (i+1))),
+                        x: (550 + (11.45 * (i+1))),
                         y: (140 + (4*t)),
                         id: t + "alt",
                     })
@@ -313,7 +313,7 @@ function generateALSF1RedLights() {
                 //For extra red lights below first row
                 for (let t=1; t <= 5; t++) {
                     items.push({
-                        x: (550 + (10 * (i+1))),
+                        x: (550 + (11.45 * (i+1))),
                         y: (292 + (4*t)),
                         id: t + "alt",
                     })
@@ -326,7 +326,7 @@ function generateALSF1RedLights() {
                 // For extra red lights above second row
                 for (let t=1; t <= 5; t++) {
                     items.push({
-                        x: (550 + (20 * (i+1))),
+                        x: (550 + (45.8 * (i+1))),
                         y: (160 + (4*t)),
                         id: t + "alt",
                     })
@@ -334,7 +334,7 @@ function generateALSF1RedLights() {
                 //For extra red lights below second row
                 for (let t=1; t <= 5; t++) {
                     items.push({
-                        x: (550 + (20 * (i+1))),
+                        x: (550 + (45.8 * (i+1))),
                         y: (272 + (4*t)),
                         id: t + "alt",
                     })
@@ -352,7 +352,7 @@ function generateALSF2RedLights() {
                 // For extra red lights above center
                 for (let t=1; t <= 3; t++) {
                     items.push({
-                        x: (550 + (10 * (i+1))),
+                        x: (550 + (22.9 * (i+1))),
                         y: (140 + (4*t)),
                         id: t + "alt",
                     })
@@ -360,7 +360,7 @@ function generateALSF2RedLights() {
                 //For extra red lights below center
                 for (let t=1; t <= 3; t++) {
                     items.push({
-                        x: (550 + (10 * (i+1))),
+                        x: (550 + (22.9 * (i+1))),
                         y: (292 + (4*t)),
                         id: t + "alt",
                     })
