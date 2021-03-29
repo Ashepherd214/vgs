@@ -1,36 +1,31 @@
-import React from 'react'
-import firebase from "../Firestore"
-import {
-    Stage,
-    Layer,
-    Rect,
-}   from 'react-konva'
-import { ThresholdLights } from '../components/Threshold Lights Draw'
-import { LightType } from '../components/LightType'
-import outputImg from '../img/Outputs Variable chart.png'
-import GroundSegmentRender from '../VGSMath/GroundSegmentRender'
-import { RunwayMarkingsDraw } from '../components/RunwayMarkingsDraw'
+import React from "react";
+import firebase from "../Firestore";
+import { Stage, Layer, Rect } from "react-konva";
+import { ThresholdLights } from "../components/Threshold Lights Draw";
+import { LightType } from "../components/LightType";
+import outputImg from "../img/Outputs Variable chart.png";
+import GroundSegmentRender from "../VGSMath/GroundSegmentRender";
+import { RunwayMarkingsDraw } from "../components/RunwayMarkingsDraw";
 // import {
 //   MALSR,
-//   MALSF, 
+//   MALSF,
 //   SSALR,
 //   SSALF,
 //   ALSF1,
 //   ALSF2
 // } from '../components/RunwayLights'
 
-function Runway (props) {
-  return (
-    <Rect
-      x={0}
-      y={120}
-      width={ props.runLength }
-      height= { props.runWidth }
-      fill="gray"
-
-      shadowBlur={3}
-    />
-  );
+function Runway(props) {
+	return (
+		<Rect
+			x={0}
+			y={120}
+			width={props.runLength}
+			height={props.runWidth}
+			fill='gray'
+			shadowBlur={3}
+		/>
+	);
 }
 
 // function GrassApproach (props) {
@@ -67,10 +62,9 @@ function Runway (props) {
 //     }
 // }
 
-
 // function Diagram (props) {
 
-// } 
+// }
 
 // function VisualOutputVals (props) {
 
@@ -81,179 +75,180 @@ function Runway (props) {
 // }
 
 class OutputVisuals extends React.Component {
-  //_isMounted = false
+	//_isMounted = false
 
-    constructor(props) {
-      super(props)
-    
-      this.state = {
-          color: 'beige',
-          stageWidth: 1600,
-          stageHeight: 500,
-          runLength: 550,
-          runWidth: 200,
-          //Runway state variables
-          icao: " ",
-          approachlights: this.props.runwayLights,
-          dh: " ",
-          edgespacing: " ",
-          gsx: " ",
-          gsy: " ",
-          glideslope: " ",
-          tch: " ",
-          width: " ",
-          runUnits: true,
-          //Aircraft state variables
-          airName: " ",
-          ze: " ",
-          xe: " ",
-          lookdown: " ",
-          za: " ",
-          xa: " ",
-          flaps: " ",
-          speed: " ",
-          weight: " ",
-          cg: " ",
-          pitch: " ",
-          airUnits: false,
-          _isMounted: false
-      }
-      this.componentDidMount = this.componentDidMount.bind(this)
-      this.getRunwayData = this.getRunwayData.bind(this)
-      //this.getRunwayData(this.props.runwayName)
-    }
+	constructor(props) {
+		super(props);
 
-    componentDidMount() {
-      this.state._isMounted = true
+		this.state = {
+			color: "beige",
+			stageWidth: 1600,
+			stageHeight: 500,
+			runLength: 550,
+			runWidth: 200,
+			//Runway state variables
+			icao: " ",
+			approachlights: this.props.runwayLights,
+			dh: " ",
+			edgespacing: " ",
+			gsx: " ",
+			gsy: " ",
+			glideslope: " ",
+			tch: " ",
+			width: " ",
+			runUnits: true,
+			//Aircraft state variables
+			airName: " ",
+			ze: " ",
+			xe: " ",
+			lookdown: " ",
+			za: " ",
+			xa: " ",
+			flaps: " ",
+			speed: " ",
+			weight: " ",
+			cg: " ",
+			pitch: " ",
+			airUnits: false,
+			_isMounted: false,
+		};
+		this.componentDidMount = this.componentDidMount.bind(this);
+		this.getRunwayData = this.getRunwayData.bind(this);
+		//this.getRunwayData(this.props.runwayName)
+	}
 
-      if (this.state._isMounted){
-        this.getRunwayData()
-        this.getAircraftData(this.props.aircraftName)
-        console.log("component has mounted")
-      } else {
-        console.log("components did not mount")
-      }
+	componentDidMount() {
+		this.state._isMounted = true;
 
-      // console.log("runway lights in Output Visual are" + this.props.runwayLights)
-      // console.log("The Runway data from ManageVGS is: " + this.props.runwayIcao)
-      // console.log("The Runway data from ManageVGS is: " + this.props.runwayDh)
-      // console.log("The Runway data from ManageVGS is: " + this.props.runwayEdgeSpacing)
-      // console.log("The Runway data from ManageVGS is: " + this.props.runwayGsx)
-      // console.log("The Runway data from ManageVGS is: " + this.props.runwayGsy)
-      // console.log("The Runway data from ManageVGS is: " + this.props.runwayGlideSlope)
-      // console.log("The Runway data from ManageVGS is: " + this.props.runwayTch)
-      // console.log("The Runway data from ManageVGS is: " + this.props.runwayWidth)
-      // console.log("The Runway data from ManageVGS is: " + this.props.runwayUnits)      
-      //window.addEventListener("resize", this.checkSize)
-      
-    }
+		if (this.state._isMounted) {
+			this.getRunwayData();
+			this.getAircraftData(this.props.aircraftName);
+			console.log("component has mounted");
+		} else {
+			console.log("components did not mount");
+		}
 
-    componentWillUnmount() {
-      this._isMounted = false
-    }
+		// console.log("runway lights in Output Visual are" + this.props.runwayLights)
+		// console.log("The Runway data from ManageVGS is: " + this.props.runwayIcao)
+		// console.log("The Runway data from ManageVGS is: " + this.props.runwayDh)
+		// console.log("The Runway data from ManageVGS is: " + this.props.runwayEdgeSpacing)
+		// console.log("The Runway data from ManageVGS is: " + this.props.runwayGsx)
+		// console.log("The Runway data from ManageVGS is: " + this.props.runwayGsy)
+		// console.log("The Runway data from ManageVGS is: " + this.props.runwayGlideSlope)
+		// console.log("The Runway data from ManageVGS is: " + this.props.runwayTch)
+		// console.log("The Runway data from ManageVGS is: " + this.props.runwayWidth)
+		// console.log("The Runway data from ManageVGS is: " + this.props.runwayUnits)
+		//window.addEventListener("resize", this.checkSize)
+	}
 
+	componentWillUnmount() {
+		this._isMounted = false;
+	}
 
-    /*---------------------------Begin getRunwayData---------------------------------------- */
+	/*---------------------------Begin getRunwayData---------------------------------------- */
 
-    /*--------------------------New get Data function using Snapshot------------------------ */
-    async getRunwayData () {
-      //const runwayName = this.props.runwayName
-      //console.log(this.props.runwayName)
+	/*--------------------------New get Data function using Snapshot------------------------ */
+	async getRunwayData() {
+		//const runwayName = this.props.runwayName
+		//console.log(this.props.runwayName)
 
-        try {
-          const runDb = await firebase.firestore().collection("Runways").doc(String(this.props.runwayName)).get()
-          this.setState({
-            icao: runDb.data().ICAO,
-            approachlights: String(runDb.data().ApproachLights),
-            dh: runDb.data().DH,
-            edgespacing: runDb.data().EdgeSpacing,
-            gsx: runDb.data().GSOffsetX,
-            gsy: runDb.data().GSOffsetY,
-            glideslope: runDb.data().GlideSlope,
-            tch: runDb.data().TCH,
-            width: runDb.data().Width,
-            runUnits: String(runDb.data().Units)
-          })
+		try {
+			const runDb = await firebase
+				.firestore()
+				.collection("Runways")
+				.doc(String(this.props.runwayName))
+				.get();
+			this.setState({
+				icao: runDb.data().ICAO,
+				approachlights: String(runDb.data().ApproachLights),
+				dh: runDb.data().DH,
+				edgespacing: runDb.data().EdgeSpacing,
+				gsx: runDb.data().GSOffsetX,
+				gsy: runDb.data().GSOffsetY,
+				glideslope: runDb.data().GlideSlope,
+				tch: runDb.data().TCH,
+				width: runDb.data().Width,
+				runUnits: String(runDb.data().Units),
+			});
+		} catch (error) {
+			console.log("Unable to retrieve the doc", error);
+		}
+	}
 
-              }
+	/*--------------------------Original get Data function --------------------------------- */
+	// getRunwayData(runwayName) {
+	//   //const runwayName = this.props.runwayName
+	//   console.log(runwayName)
+	//   const runDb = firebase.firestore().collection("Runways").doc(String(runwayName))
 
-        catch (error) {
-          console.log("Unable to retrieve the doc", error)
-        }
-    }
+	//   runDb.get()
+	//   .then(doc => {
+	//     const data = doc.data()
+	//     console.log(data)
+	//     setTimeout(() => {
+	//     this.setState({
+	//       icao: doc.data().ICAO,
+	//       approachlights: doc.data().ApproachLights,
+	//       dh: doc.data().DH,
+	//       edgespacing: doc.data().EdgeSpacing,
+	//       gsx: doc.data().GSOffsetX,
+	//       gsy: doc.data().GSOffsetY,
+	//       glideslope: doc.data().GlideSlope,
+	//       tch: doc.data().TCH,
+	//       width: doc.data().Width,
+	//       runUnits: String(doc.data().Units),
+	//       lights: doc.data().ApproachLights,
+	//     })}, 100)
+	//   })
+	// }
 
+	/*---------------------------End getRunwayData---------------------------------------- */
+	async getAircraftData(aircraftName) {
+		console.log(aircraftName);
+		const airDb = await firebase
+			.firestore()
+			.collection("Aircrafts")
+			.doc(String(aircraftName))
+			.get();
 
-    /*--------------------------Original get Data function --------------------------------- */
-    // getRunwayData(runwayName) {
-    //   //const runwayName = this.props.runwayName
-    //   console.log(runwayName)
-    //   const runDb = firebase.firestore().collection("Runways").doc(String(runwayName))
-    
-    //   runDb.get()
-    //   .then(doc => {
-    //     const data = doc.data()
-    //     console.log(data)
-    //     setTimeout(() => {
-    //     this.setState({
-    //       icao: doc.data().ICAO,
-    //       approachlights: doc.data().ApproachLights,
-    //       dh: doc.data().DH,
-    //       edgespacing: doc.data().EdgeSpacing,
-    //       gsx: doc.data().GSOffsetX,
-    //       gsy: doc.data().GSOffsetY,
-    //       glideslope: doc.data().GlideSlope,
-    //       tch: doc.data().TCH,
-    //       width: doc.data().Width,
-    //       runUnits: String(doc.data().Units),
-    //       lights: doc.data().ApproachLights,
-    //     })}, 100)
-    //   })
-    // }
+		this.setState({
+			airName: airDb.id,
+			ze: airDb.data().Ze,
+			xe: airDb.data().Xe,
+			lookdown: airDb.data().lookdown,
+			za: airDb.data().Za,
+			xa: airDb.data().Xa,
+			flaps: airDb.data().flaps,
+			speed: airDb.data().speed,
+			weight: airDb.data().weight,
+			cg: airDb.data().cg,
+			pitch: airDb.data().pitch,
+			airUnits: String(airDb.data().unitsAir),
+		});
+	}
+	// checkSize = () => {
+	//   //const width = window.innerWidth
+	//   //const height = window.innerHeight
+	//   this.setState({
+	//     stageWidth: window.innerWidth,
+	//     stageHeight: window.innerHeight
+	//   })
+	// }
+	render() {
+		//const runLength = this.state.stageWidth * 0.50
+		//const runWidth = this.state.stageLength * 0.50
+		//const scaleWidth = (runWidthShow)
+		//const scaleHeight = (runLengthShow)
+		//getRunwayData(this.props.runwayName)
+		//console.log(this.state.lights)
+		//const lights = this.state.approachlights
+		console.log("Variable lights: " + this.state.approachlights);
+		console.log("OutputVisual xAhead: " + this.props.xahead);
+		console.log("OutputVisual xBeyond: " + this.props.xbeyond);
 
-
-    /*---------------------------End getRunwayData---------------------------------------- */
-    async getAircraftData (aircraftName) {
-      console.log(aircraftName)
-      const airDb = await firebase.firestore().collection("Aircrafts").doc(String(aircraftName)).get()
-    
-          this.setState({
-            airName: airDb.id,
-            ze: airDb.data().Ze,
-            xe: airDb.data().Xe,
-            lookdown: airDb.data().lookdown,
-            za: airDb.data().Za,
-            xa: airDb.data().Xa,
-            flaps: airDb.data().flaps,
-            speed: airDb.data().speed,
-            weight: airDb.data().weight,
-            cg: airDb.data().cg,
-            pitch: airDb.data().pitch,
-            airUnits: String(airDb.data().unitsAir),
-          })
-    }
-    // checkSize = () => {
-    //   //const width = window.innerWidth
-    //   //const height = window.innerHeight
-    //   this.setState({
-    //     stageWidth: window.innerWidth,
-    //     stageHeight: window.innerHeight
-    //   })
-    // }
-    render() {
-        //const runLength = this.state.stageWidth * 0.50
-        //const runWidth = this.state.stageLength * 0.50
-        //const scaleWidth = (runWidthShow)
-        //const scaleHeight = (runLengthShow)
-        //getRunwayData(this.props.runwayName)
-        //console.log(this.state.lights)
-        //const lights = this.state.approachlights
-        console.log("Variable lights: " + this.state.approachlights)
-        console.log("OutputVisual xAhead: " + this.props.xahead)
-        console.log("OutputVisual xBeyond: " + this.props.xbeyond)
-        
-        return (
-          <div>
-            {/* 
+		return (
+			<div>
+				{/* 
             <h5>{"ICAO: " + this.state.icao}</h5>
             <h5>{"Approach Lights: " + this.state.approachlights}</h5>
             <h5>{"Decision Height: " + this.state.dh}</h5>
@@ -277,24 +272,38 @@ class OutputVisuals extends React.Component {
             <h5>{"Center of Gravity: " + this.state.cg}</h5>
             <h5>{"Pitch Angle: " + this.state.pitch}</h5>
             <h5>{"Metric?: " + this.state.airUnits}</h5> <br /> */}
-            
-            <Stage style={{ backgroundColor: "green", marginTop: 80, marginLeft: 0, marginRight: 0, height: '500px', width: '1000px' }} width={this.state.stageWidth } height={this.state.stageHeight }>
-                {/* <Layer style={{ padding: 55 }}> */}
-                <Layer>
-                    <Runway runWidth={this.state.runWidth} runLength={this.state.runLength}/>
-                    <LightType approachlights={this.state.approachlights} />
-                    <ThresholdLights />
-                    <RunwayMarkingsDraw />
-                    <GroundSegmentRender 
-                      xahead={this.props.xahead}
-                      xbeyond={this.props.xbeyond}
-                    />
-                </Layer>
-            </Stage>
-            <img src={outputImg} alt="Output Variable Chart" />
-            </div>
-        );
-    }
+
+				<Stage
+					style={{
+						backgroundColor: "green",
+						marginTop: 80,
+						marginLeft: 0,
+						marginRight: 0,
+						height: "500px",
+						width: "1000px",
+					}}
+					width={this.state.stageWidth}
+					height={this.state.stageHeight}
+				>
+					{/* <Layer style={{ padding: 55 }}> */}
+					<Layer>
+						<Runway
+							runWidth={this.state.runWidth}
+							runLength={this.state.runLength}
+						/>
+						<LightType approachlights={this.state.approachlights} />
+						<ThresholdLights />
+						<RunwayMarkingsDraw />
+						<GroundSegmentRender
+							xahead={this.props.xahead}
+							xbeyond={this.props.xbeyond}
+						/>
+					</Layer>
+				</Stage>
+				{/* <img src={outputImg} alt="Output Variable Chart" /> */}
+			</div>
+		);
+	}
 }
-export {Runway}
-export default OutputVisuals
+export { Runway };
+export default OutputVisuals;
