@@ -177,12 +177,45 @@ function generateMALSR() {
 
 function generateSSALF() {
 	const items = [];
-	for (let i = 0; i < 5; i++) {
+	for (let i = 0; i < 7; i++) {
 		for (let j = 1; j <= 5; j++) {
 			items.push({
 				x: 550 + 45.8 * (i + 1), //(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
 				y: 210 + 4 * j, //(297 + (20 * (i+1))), // Needed to change to the next row down.
 				id: i + " , " + j,
+			});
+		}
+		if ( i == 4) {
+			// Draw the extra running light next to the bars
+			// Specifically at the 5th bar draw the two decision light bars on either side of the center light bar
+			items.push({
+				x: 781,
+				y: 222,
+				id: "SSALFrunner1"
+			});
+			// For extra white lights above center
+			for (let t = 1; t <= 5; t++) {
+				items.push({
+					x: 779,
+					y: 183 + 4 * t,
+					id: "SSALFdecTop" + t,
+				});
+			}
+			//For extra white lights below center
+			for (let t = 1; t <= 5; t++) {
+				items.push({
+					x: 779,
+					y: 239 + 4 * t,
+					id: "SSALFdecBot" + t,
+				});
+			}
+		}
+		if (i > 4) {
+			// Draw the extra running light next to the bars
+			items.push({
+				x: 553 + 45.8 * (i + 1),
+				y: 222,
+				id: "SSALFrunner1"
 			});
 		}
 	}
@@ -199,6 +232,24 @@ function generateSSALR() {
 				id: i + " , " + j,
 			});
 		}
+		if ( i == 4) {
+			// For extra white lights above center
+			for (let t = 1; t <= 5; t++) {
+				items.push({
+					x: 779,
+					y: 183 + 4 * t,
+					id: "SSALRdecTop" + t,
+				});
+			}
+			//For extra white lights below center
+			for (let t = 1; t <= 5; t++) {
+				items.push({
+					x: 779,
+					y: 239 + 4 * t,
+					id: "SSALRdecBot" + t,
+				});
+			}
+		}
 	}
 	for (let i = 7; i < 12; i++) {
 		for (let j = 3; j <= 5; j++) {
@@ -208,6 +259,7 @@ function generateSSALR() {
 				id: i + " , " + j,
 			});
 		}
+
 	}
 	return items;
 }
@@ -442,118 +494,126 @@ function generateRAIL() {
 
 function generateCALVERT() {
 	const items = [];
-	// For main center white light bars up to 10 rows
+	// Currently need to ceck the spacing for the extra lights at the respective rows. The beginning y value needs to be changed for each row or the math needs to be flipped to work accordingly.
+	// For main center white lights up to 10 rows
 	for (let i = 0; i < 10; i++) {
-		for (let j = 1; j <= 5; j++) {
 			items.push({
-				x: 570 + 22.9 * (i + 1), //(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
-				y: 210 + 4 * j, //(297 + (20 * (i+1))), // Needed to change to the next row down.
-				id: "ALSF-1-before:" + i + " _ " + j,
-			});
-		}
-	}
-	// For main center white light bars past row 10
-	for (let i = 0; i < 10; i++) {
-		for (let j = 1; j <= 5; j++) {
-			items.push({
-				x: 799 + 22.9 * (i + 1), //(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
-				y: 210 + 4 * j, //(297 + (20 * (i+1))), // Needed to change to the next row down.
-				id: "ALSF-1-after:" + i,
-			});
-		}
-	}
-	// For single bright directional LEDS in between after row 10 light bars
-	for (let i = 0; i < 10; i++) {
-		for (let j = 1; j <= 1; j++) {
-			items.push({
-				x: 801 + 22.9 * (i + 1), //(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+				x: 550 + 22.54 * (i + 1), //(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
 				y: 222, //(297 + (20 * (i+1))), // Needed to change to the next row down.
-				id: "ALSF-1-after-single:" + i,
+				id: "CALVERT-single:" + i,
+			});
+			// Add the additional Lights on either side of Row 5
+			if (i == 4) {
+				for (let i = 1; i <= 4; i++) {
+				items.push({
+					x: 550 + 22.54 * (i + 1),
+					y: 132 + 4 * i,
+					id: i + "r",
+				});
+				}
+				for (let i = 1; i <= 4; i++) {
+					items.push({
+						x: 550 + 22.54 * (i + 1),
+						y: 280 + 4 * i,
+						id: i + "r",
+					});
+				}
+			}
+			// For Row 10
+			if (i == 9) {
+				for (let i = 1; i <= 5; i++) {
+				items.push({
+					x: 650,
+					y: 132 + 4 * i,
+					id: i + "r",
+				});
+				}
+				for (let i = 1; i <= 5; i++) {
+					items.push({
+						x: 650,
+						y: 280 + 4 * i,
+						id: i + "r",
+					});
+				}
+			}
+	}
+	// For main center white light bars between rows 10 to 20 i.e. 2 lights light bars
+	for (let i = 10; i < 20; i++) {
+		for (let j = 1; j <= 2; j++) {
+			items.push({
+				x: 550 + 22.54 * (i + 1), //(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+				y: 217.5 + 4.5 * j, //(297 + (20 * (i+1))), // Needed to change to the next row down.
+				id: "CALVERT-double:" + i,
 			});
 		}
+		// For the additional lights on the sides of Row 15
+		if (i == 14) {
+			for (let i = 1; i <= 6; i++) {
+			items.push({
+				x: 550 + 22.54 * (i + 1),
+				y: 132 + 4 * i,
+				id: i + "r",
+			});
+			}
+			for (let i = 1; i <= 6; i++) {
+				items.push({
+					x: 550 + 22.54 * (i + 1),
+					y: 280 + 4 * i,
+					id: i + "r",
+				});
+			}
+		}
+		// For Row 20
+		if (i == 19) {
+			for (let i = 1; i <= 7; i++) {
+			items.push({
+				x: 650,
+				y: 132 + 4 * i,
+				id: i + "r",
+			});
+			}
+			for (let i = 1; i <= 7; i++) {
+				items.push({
+					x: 650,
+					y: 280 + 4 * i,
+					id: i + "r",
+				});
+			}
+		}
 	}
-	// The extra white lights at row 10
-	for (let i = 1; i <= 8; i++) {
-		items.push({
-			x: 650,
-			y: 132 + 4 * i,
-			id: i + "r",
-		});
+	// For center lights past row 20 i.e. 3 lights light-bar
+	for (let i = 20; i < 30; i++) {
+		for (let j = 1; j <= 3; j++) {
+			items.push({
+				x: 550 + 22.54 * (i + 1), //(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
+				y: 216 + 4.5 * j, //(297 + (20 * (i+1))), // Needed to change to the next row down.
+				id: "CALVERT-triple" + i,
+			});
+		}
+		// For the additional lights on the sides of Row 25
+		if (i == 24) {
+			for (let i = 1; i <= 8; i++) {
+			items.push({
+				x: 550 + 22.54 * (i + 1),
+				y: 132 + 4 * i,
+				id: i + "r",
+			});
+			}
+			for (let i = 1; i <= 8; i++) {
+				items.push({
+					x: 550 + 22.54 * (i + 1),
+					y: 280 + 4 * i,
+					id: i + "r",
+				});
+			}
+		}
 	}
-	for (let i = 1; i <= 8; i++) {
-		items.push({
-			x: 650,
-			y: 280 + 4 * i,
-			id: i + "r",
-		});
-	}
+	// The extra white lights on either side of Rows: 5, 10, 15, 20, 25
+
+	
 	return items;
 }
 
-function generateALSF2() {
-	const items = [];
-	// For main center white light bars up to 10 rows
-	for (let i = 0; i < 10; i++) {
-		for (let j = 1; j <= 5; j++) {
-			items.push({
-				x: 550 + 22.9 * (i + 1), //(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
-				y: 210 + 4 * j, //(297 + (20 * (i+1))), // Needed to change to the next row down.
-				id: i + " , " + j,
-			});
-		}
-	}
-	// For main center white light bars past row 10
-	for (let i = 0; i < 10; i++) {
-		for (let j = 1; j <= 5; j++) {
-			items.push({
-				x: 779 + 22.9 * (i + 1), //(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
-				y: 210 + 4 * j, //(297 + (20 * (i+1))), // Needed to change to the next row down.
-				id: i + "af2",
-			});
-		}
-	}
-	// For single bright directional LEDS in between after row 10 light bars
-	for (let i = 0; i < 10; i++) {
-		for (let j = 1; j <= 1; j++) {
-			items.push({
-				x: 780 + 22.9 * (i + 1), //(85 + (4*j)), //needs to loop to draw series of lights from left to right on each row
-				y: 222, //(297 + (20 * (i+1))), // Needed to change to the next row down.
-				id: i + "aft2",
-			});
-		}
-	}
-	// The extra lights at row 5
-	for (let i = 1; i <= 3; i++) {
-		items.push({
-			x: 664.5,
-			y: 182 + 4 * i,
-			id: i + "r",
-		});
-	}
-	for (let i = 1; i <= 3; i++) {
-		items.push({
-			x: 664.5,
-			y: 250 + 4 * i,
-			id: i + "r",
-		});
-	}
-	// The extra white lights at row 10
-	for (let i = 1; i <= 8; i++) {
-		items.push({
-			x: 779,
-			y: 132 + 4 * i,
-			id: i + "r",
-		});
-	}
-	for (let i = 1; i <= 8; i++) {
-		items.push({
-			x: 779,
-			y: 280 + 4 * i,
-			id: i + "r",
-		});
-	}
-	return items;
-}
 
 function generateCALVERT2() {
 	const items = [];
