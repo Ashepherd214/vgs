@@ -279,8 +279,8 @@ class OutputVisuals extends React.Component {
 						marginTop: 80,
 						marginLeft: 0,
 						marginRight: 0,
-						height: "500px",
-						width: "1000px",
+						height: "450px",
+						width: "1500px",
 					}}
 					width={this.state.stageWidth}
 					height={this.state.stageHeight}

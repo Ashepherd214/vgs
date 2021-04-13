@@ -1,21 +1,12 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
-import { Route, Switch, Link, BrowserRouter as Router } from "react-router-dom";
-import { Col, Container, Row, Tab, Tabs } from "react-bootstrap";
-import "tachyons";
 import ManageAircrafts from "./VGS Objects/ManageAircrafts";
 import ManageRunways from "./VGS Objects/ManageRunways";
 import CalculateButton from "./components/CalculateButton";
-import ManageVGS from "./Calculation Components/ManageVGS";
-import "./index.css";
-import NavigationBar from "./components/NavigationBar";
-import Authentication from "./components/AuthenticationComponents/AuthenticationPage";
+import { Container } from "react-bootstrap";
 import firebaseapp from "firebase";
-import PrivateRoute from "./PrivateRoute";
-import { Dashboard } from "./Dashboard";
-import history from "history";
+import { Link } from "react-router-dom";
 
-export class App extends Component {
+export class Dashboard extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -97,12 +88,6 @@ export class App extends Component {
 		// });
 	};
 
-	componentDidMount() {
-		firebaseapp.auth().onAuthStateChanged((me) => {
-			this.setState({ me });
-		});
-	}
-
 	parentAircraftCallbackFunction = (
 		aircraftData,
 		aircraftXa,
@@ -143,101 +128,15 @@ export class App extends Component {
 		// });
 	};
 
-	// handleSignIn = history => (email, password) => {
-	// 	return firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
-	// 	  return history.push("/Dashboard");
-	// 	});
-	//   };
-
 	render() {
 		return (
-			<Router>
-				{/* <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/VGS">VGS visual</Link>
-              </li>
-            </ul>
-          </nav> */}
-				<NavigationBar />
-				<Switch>
-					<Route path='/Login'>
-						<Authentication />
-					</Route>
-					<PrivateRoute exact path='/Dashboard' component={Dashboard} />
-
-					{/*Original setup below*/}
-
-					{/* <Route path='/Dashboard'>
-						<ManageAircrafts
-							parentFunction={this.parentAircraftCallbackFunction}
-						/>
-						<ManageRunways parentFunction={this.parentRunwayCallbackFunction} />
-						<Link to='/VGS'>
-							<CalculateButton />
-						</Link>
-					</Route> */}
-					<Route path='/VGS'>
-						<ManageVGS
-							runwayLights={this.state.lights_data_from_runway}
-							runwayName={this.state.data_from_runway}
-							aircraftName={this.state.data_from_aircraft}
-							//runwayName={this.state.runway_name}
-							runwayIcao={this.state.runway_icao}
-							runwayDh={this.state.runway_decision_height}
-							runwayEdgeSpacing={this.state.runway_edge_light_spacing}
-							runwayGsx={this.state.runway_gs_x}
-							runwayGsy={this.state.runway_gs_y}
-							runwayGlideSlope={this.state.runway_glideslope}
-							runwayTch={this.state.runway_tch}
-							runwayWidth={this.state.runway_width}
-							runwayUnits={this.state.runway_unit_choice}
-							aircraftXa={this.state.aircraft_xa}
-							aircraftXe={this.state.aircraft_xe}
-							aircraftZa={this.state.aircraft_za}
-							aircraftZe={this.state.aircraft_ze}
-							aircraftCg={this.state.aircraft_cg}
-							aircraftFlaps={this.state.aircraft_flaps}
-							aircraftLookdown={this.state.aircraft_lookdown}
-							aircraftPitch={this.state.aircraft_pitch}
-							aircraftSpeed={this.state.aircraft_speed}
-							aircraftWeight={this.state.aircraft_weight}
-							aircraftUnits={this.state.aircraft_units}
-						/>
-					</Route>
-				</Switch>
-				{/*</div>*/}
-			</Router>
+			<Container>
+				<ManageAircrafts parentFunction={this.parentAircraftCallbackFunction} />
+				<ManageRunways parentFunction={this.parentRunwayCallbackFunction} />
+				<Link to='/VGS'>
+					<CalculateButton />
+				</Link>
+			</Container>
 		);
 	}
 }
-
-// class App extends Component {
-//   render () {
-//     return (
-//       <div>
-//         <ManageAircrafts />
-//         <ManageRunways />
-//         <CalculateButton />
-//       </div>
-
-//     )
-//   }
-// }
-
-// export default App
-
-// const routing = (
-//   <Router>
-//     <div>
-//       <Route exact path="/" component={App} />
-//       <Route path="/VGS" component={ManageVGS} />
-//     </div>
-//   </Router>
-// );
-
-ReactDOM.render(<App />, document.getElementById("root"));

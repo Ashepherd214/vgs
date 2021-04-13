@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Col, Container, Row, Tab, Tabs } from "react-bootstrap";
 import OutputVisuals from "./OutputVisual";
 import outputImg from "../img/Outputs Variable chart.png";
+import inputImg from "../img/PlaneSide.jpg";
 //-------------Expermintal calculations function---------//
 function SegmentCalculations() {}
 
@@ -131,74 +132,143 @@ class ManageVGS extends Component {
 						</Row>
 					</Container>
 				</Tab>
-				<Tab eventKey='inputs' title='Input'></Tab>
+				<Tab eventKey='inputs' title='Input'>
+					<Container>
+						<Row>
+							<Col md={6}>
+								<label>
+									Aircraft <br /> {this.props.aircraftName}
+								</label>
+							</Col>
+							<Col md={6}>
+								<label>
+									Aircraft <br /> {this.props.runwayIcao}
+								</label>
+							</Col>
+						</Row>
+					</Container>
+					<Container>
+						<img src={inputImg} alt='Input Aircraft Visual' />
+					</Container>
+					<Container>
+						<Row>
+							<label className='paramlabel'>ze: {this.props.aircraftZe} </label>
+						</Row>
+						<Row>
+							<label className='paramlabel'>xe: {this.props.aircraftXe} </label>
+						</Row>
+						<Row>
+							<label className='paramlabel'>za: {this.props.aircraftZa} </label>
+						</Row>
+						<Row>
+							<label className='paramlabel'>xa: {this.props.aircraftXa} </label>
+						</Row>
+						<Row>
+							<label className='paramlabel'>
+								pitch angle: {this.props.aircraftPitch}{" "}
+							</label>
+						</Row>
+						<Row>
+							<label className='paramlabel'>
+								max lookdown: {this.props.aircraftLookdown}{" "}
+							</label>
+						</Row>
+						<br />
+						<br />
+						<Row>
+							<Col md={2}>
+								<label className='inputLabel2'>
+									Aircraft Weight <br /> {this.props.aircraftWeight}
+								</label>
+							</Col>
+							<Col md={2}>
+								<label className='inputLabel2'>
+									Aircraft Speed <br /> {this.props.aircraftSpeed}
+								</label>
+							</Col>
+							<Col md={2}>
+								<label className='inputLabel2'>
+									%CG <br /> {this.props.aircraftCg}
+								</label>
+							</Col>
+							<Col md={2}>
+								<label className='inputLabel2'>
+									Flaps Setting <br /> {this.props.aircraftFlaps}
+								</label>
+							</Col>
+						</Row>
+					</Container>
+				</Tab>
 				<Tab eventKey='aircraft-location' title='Aircraft Location'></Tab>
 				<Tab eventKey='parameters' title='Parameters'>
-					<img src={outputImg} alt='Output Variable Chart' />
-					<Row>
-						<Col md={3}>
-							<label className='paramlabel'>
-								Decision Height: {this.props.runwayDh}{" "}
-							</label>
-							<br />
-							<label className='paramlabel'>
-								Pilot's eye above ground(zeg): {zeg}{" "}
-							</label>
-							<label className='paramlabel'>
-								Ground Segment antenna above ground(zag): {zag}{" "}
-							</label>
-							<br />
-							<label className='paramlabel'>
-								Horizontal distance of eye ground segment(xanteye): {xanteye}{" "}
-							</label>
-							<label className='paramlabel'>
-								Obscured Segment (obseg): {obseg}{" "}
-							</label>
-							<br />
-							<label className='paramlabel'>
-								Aircraft ground segment to Threshold(xthres): {xthres}{" "}
-							</label>
-							<label className='paramlabel'>
-								Eyepoint to threshold(xeyethres): {xeyethres}{" "}
-							</label>
-							<br />
-							<label className='paramlabel'>
-								Slant RVR(xrvr): {this.state.xrvr}{" "}
-							</label>
-						</Col>
-						<Col md={3}>
-							<label className='paramlabel'>
-								Effective ground rvr(gndrvr) {gndrvr}
-							</label>
-							<br />
-							{/* <label className='outputlabel'>
+					<Container>
+						<img src={outputImg} alt='Output Variable Chart' />
+
+						<Row>
+							<Col md={6}>
+								<label className='paramlabel'>
+									Decision Height: {this.props.runwayDh}{" "}
+								</label>
+								<br />
+								<label className='paramlabel'>
+									Pilot's eye above ground(zeg): {zeg}{" "}
+								</label>
+								<label className='paramlabel'>
+									Ground Segment antenna above ground(zag): {zag}{" "}
+								</label>
+								<br />
+								<label className='paramlabel'>
+									Horizontal distance of eye ground segment(xanteye): {xanteye}{" "}
+								</label>
+								<label className='paramlabel'>
+									Obscured Segment (obseg): {obseg}{" "}
+								</label>
+								<br />
+								<label className='paramlabel'>
+									Aircraft ground segment to Threshold(xthres): {xthres}{" "}
+								</label>
+								<label className='paramlabel'>
+									Eyepoint to threshold(xeyethres): {xeyethres}{" "}
+								</label>
+								<br />
+								<label className='paramlabel'>
+									Slant RVR(xrvr): {this.state.xrvr}{" "}
+								</label>
+							</Col>
+							<Col md={6}>
+								<label className='paramlabel'>
+									Effective ground rvr(gndrvr) {gndrvr}
+								</label>
+								<br />
+								{/* <label className='outputlabel'>
 								Slant rvr(xrvr) {this.state.runwayUnits}
 							</label>
 							<br /> */}
-							<label className='paramlabel'>
-								Threshold crossing height(TCH): {this.props.runwayTch}
-							</label>
-							<br />
-							<label className='paramlabel'>Field of view(FOV) {fov}</label>
-							<br />
-							<label className='paramlabel'>
-								Transmitter antenna horizontal offset(xxmtr) {xax}
-							</label>
-							<br />
-							<label className='paramlabel'>
-								Cutoff angle(xcutoff) {xcutoff}
-							</label>
-							<br />
-							<label className='paramlabel'>
-								Visible before threshold(xahead) {xahead}
-							</label>
-							<br />
-							<label className='paramlabel'>
-								Visible after threshold(xbeyond) {xbeyond}
-							</label>
-							<br />
-						</Col>
-					</Row>
+								<label className='paramlabel'>
+									Threshold crossing height(TCH): {this.props.runwayTch}
+								</label>
+								<br />
+								<label className='paramlabel'>Field of view(FOV) {fov}</label>
+								<br />
+								<label className='paramlabel'>
+									Transmitter antenna horizontal offset(xxmtr) {xax}
+								</label>
+								<br />
+								<label className='paramlabel'>
+									Cutoff angle(xcutoff) {xcutoff}
+								</label>
+								<br />
+								<label className='paramlabel'>
+									Visible before threshold(xahead) {xahead}
+								</label>
+								<br />
+								<label className='paramlabel'>
+									Visible after threshold(xbeyond) {xbeyond}
+								</label>
+								<br />
+							</Col>
+						</Row>
+					</Container>
 				</Tab>
 			</Tabs>
 		);
