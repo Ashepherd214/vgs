@@ -12,7 +12,7 @@ import NavigationBar from "./components/NavigationBar";
 import Authentication from "./components/AuthenticationComponents/AuthenticationPage";
 import firebaseapp from "firebase";
 import PrivateRoute from "./PrivateRoute";
-import { Dashboard } from "./Dashboard";
+import Dashboard from "./Dashboard.js";
 import history from "history";
 
 export class App extends Component {
@@ -152,27 +152,19 @@ export class App extends Component {
 	render() {
 		return (
 			<Router>
-				{/* <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/VGS">VGS visual</Link>
-              </li>
-            </ul>
-          </nav> */}
 				<NavigationBar />
 				<Switch>
 					<Route path='/Login'>
 						<Authentication />
 					</Route>
-					<PrivateRoute exact path='/Dashboard' component={Dashboard} />
-
+					{/* <PrivateRoute redirectTo="/Login" path="/Dashboard" >
+		  				{/* <Dashboard /> 
+					</PrivateRoute>  {component={Dashboard} />} */}
+		  			{/* <Route path='/Dashboard' >
+						  <Dashboard />
+					  </Route> */}
 					{/*Original setup below*/}
-
-					{/* <Route path='/Dashboard'>
+					<Route path='/Dashboard'>
 						<ManageAircrafts
 							parentFunction={this.parentAircraftCallbackFunction}
 						/>
@@ -180,7 +172,7 @@ export class App extends Component {
 						<Link to='/VGS'>
 							<CalculateButton />
 						</Link>
-					</Route> */}
+					</Route>
 					<Route path='/VGS'>
 						<ManageVGS
 							runwayLights={this.state.lights_data_from_runway}
@@ -209,35 +201,13 @@ export class App extends Component {
 							aircraftUnits={this.state.aircraft_units}
 						/>
 					</Route>
+					<Route path='/Logoff' >
+						
+					</Route>
 				</Switch>
-				{/*</div>*/}
 			</Router>
 		);
 	}
 }
-
-// class App extends Component {
-//   render () {
-//     return (
-//       <div>
-//         <ManageAircrafts />
-//         <ManageRunways />
-//         <CalculateButton />
-//       </div>
-
-//     )
-//   }
-// }
-
-// export default App
-
-// const routing = (
-//   <Router>
-//     <div>
-//       <Route exact path="/" component={App} />
-//       <Route path="/VGS" component={ManageVGS} />
-//     </div>
-//   </Router>
-// );
 
 ReactDOM.render(<App />, document.getElementById("root"));

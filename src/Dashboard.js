@@ -6,7 +6,7 @@ import { Container } from "react-bootstrap";
 import firebaseapp from "firebase";
 import { Link } from "react-router-dom";
 
-export class Dashboard extends Component {
+class Dashboard extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -140,3 +140,5 @@ export class Dashboard extends Component {
 		);
 	}
 }
+
+export default Dashboard;

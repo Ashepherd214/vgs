@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 // import ReactDOM from "react-dom";
-import firebase from "../Firestore";
+import firebaseapp from "../Firestore";
 import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import EditAircraft from "../components/TableComponents/EditAircraft";
@@ -49,7 +49,7 @@ export class ManageAircrafts extends Component {
 
   gotData = () => {
 
-    const db = firebase.firestore().collection("Aircrafts");
+    const db = firebaseapp.firestore().collection("Aircrafts");
 
     db.get()
       .then(querySnapshot => {
@@ -84,8 +84,8 @@ export class ManageAircrafts extends Component {
     let selection = [this.node.selectionContext.selected]
     
     console.log("Inside ChildFunction: ", selection[0])
-    const db = await firebase.firestore().collection("Aircrafts").doc(selection[0].toString());
-    const data = await firebase.firestore().collection("Aircrafts").doc(selection[0].toString()).get()
+    const db = await firebaseapp.firestore().collection("Aircrafts").doc(selection[0].toString());
+    const data = await firebaseapp.firestore().collection("Aircrafts").doc(selection[0].toString()).get()
 
     this.setState({
       xa: data.data().Xa,
@@ -176,7 +176,7 @@ export class ManageAircrafts extends Component {
   delAircraft = () => {
     alert(this.node.selectionContext.selected);
     const selections = [this.node.selectionContext.selected];
-    const db = firebase.firestore().collection("Aircrafts");
+    const db = firebaseapp.firestore().collection("Aircrafts");
 
     selections.forEach(key => {
       db.doc(key.toString())

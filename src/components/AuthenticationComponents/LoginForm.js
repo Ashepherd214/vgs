@@ -55,7 +55,7 @@ class LoginForm extends Component {
 		}
 	};
 
-	handleSubmit = (values, { setSubmitting, resetForm }) => {
+	handleSubmit = (event) => (values, { setSubmitting, resetForm }) => {
 		var email = values.email;
 		var password = values.password;
 		firebase
@@ -99,10 +99,11 @@ class LoginForm extends Component {
 						handleChange,
 						values,
 					}) => ( */}
-				<Form>
+				<Form onSubmit={this.handleSubmit}>
 					<Form.Group>
 						<Form.Label>Email</Form.Label>
 						<Form.Control
+							required
 							type='email'
 							placeholder='Enter Email Name'
 							name='email'
@@ -113,6 +114,7 @@ class LoginForm extends Component {
 					<Form.Group>
 						<Form.Label>Password</Form.Label>
 						<Form.Control
+							required
 							type='password'
 							placeholder='Enter Password Name'
 							name='password'
@@ -123,9 +125,6 @@ class LoginForm extends Component {
 					<Button
 						variant='primary'
 						type='submit'
-						onClick={(event) => {
-							this.handleSubmit();
-						}}
 					>
 						Submit
 					</Button>
