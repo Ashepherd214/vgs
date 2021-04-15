@@ -3,6 +3,7 @@ import firebase from "../Firestore";
 import { Stage, Layer, Rect } from "react-konva";
 import { ThresholdLights } from "../components/Threshold Lights Draw";
 import { LightType } from "../components/LightType";
+import { ThresholdBars } from "../components/ThresholdBars";
 import outputImg from "../img/Outputs Variable chart.png";
 import GroundSegmentRender from "../VGSMath/GroundSegmentRender";
 import { RunwayMarkingsDraw } from "../components/RunwayMarkingsDraw";
@@ -15,6 +16,7 @@ import { RunwayMarkingsDraw } from "../components/RunwayMarkingsDraw";
 //   ALSF2
 // } from '../components/RunwayLights'
 
+// Draws Runway
 function Runway(props) {
 	return (
 		<Rect
@@ -90,12 +92,12 @@ class OutputVisuals extends React.Component {
 			icao: " ",
 			approachlights: this.props.runwayLights,
 			dh: " ",
-			edgespacing: " ",
+			edgespacing: this.props.runwayEdgeSpacing,
 			gsx: " ",
 			gsy: " ",
 			glideslope: " ",
 			tch: " ",
-			width: " ",
+			width: this.props.runwayWidth,
 			runUnits: true,
 			//Aircraft state variables
 			airName: " ",
@@ -243,6 +245,9 @@ class OutputVisuals extends React.Component {
 		//console.log(this.state.lights)
 		//const lights = this.state.approachlights
 		console.log("Variable lights: " + this.state.approachlights);
+		console.log(
+			"Edge Lights spacing in Output: " + this.state.runwayEdgeSpacing
+		);
 		console.log("OutputVisual xAhead: " + this.props.xahead);
 		console.log("OutputVisual xBeyond: " + this.props.xbeyond);
 
@@ -293,7 +298,8 @@ class OutputVisuals extends React.Component {
 						/>
 						<LightType approachlights={this.state.approachlights} />
 						<ThresholdLights />
-						<RunwayMarkingsDraw />
+						<ThresholdBars runwidth={this.state.width} />
+						<RunwayMarkingsDraw edgespacing={this.state.edgespacing} />
 						<GroundSegmentRender
 							xahead={this.props.xahead}
 							xbeyond={this.props.xbeyond}
