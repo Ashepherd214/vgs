@@ -1,7 +1,7 @@
 import React from "react";
 import { Form } from 'react-bootstrap'
 import ReactDOM from "react-dom";
-import firebase from "../../Firestore";
+import firestore from "../../Firestore";
 import { Formik, Field, ErrorMessage } from'formik'
 import ManageAircrafts from "../../VGS Objects/ManageAircrafts"
 
@@ -27,7 +27,7 @@ class AddAircraft extends React.Component {
 
   addAircraft = (values) => {
 
-    const db = firebase.firestore();
+    const db = firestore;
     console.log(values)
     db.collection("Aircrafts")
       .doc(String(values.acName))

@@ -1,7 +1,7 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 import ReactDOM from "react-dom";
-import firebase from "../../Firestore";
+import firestore from "../../Firestore";
 import { Formik, Field, ErrorMessage } from "formik";
 import ManageAircrafts from "../../VGS Objects/ManageAircrafts";
 
@@ -47,7 +47,7 @@ class EditAircraft extends React.Component {
     const select = this.props.name
     const selString = select[0].toString()
 
-    const airRef = firebase.firestore().collection("Aircrafts").doc(selString)
+    const airRef = firestore.collection("Aircrafts").doc(selString)
 
     airRef.get()
     .then(doc => {
@@ -78,7 +78,7 @@ class EditAircraft extends React.Component {
     const select = this.selectName
     const selString = select[0].toString()
 
-    const db = firebase.firestore().collection("Aircrafts");
+    const db = firestore.collection("Aircrafts");
     //const select = db.doc(selString) old name
     //const select = db.doc(values.acName) form edit name
     //compare old name to form name. If same update, if different 

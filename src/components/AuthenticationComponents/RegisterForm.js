@@ -1,66 +1,50 @@
-import firebaseapp from "firebase";
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
+import { Redirect } from "react-router";
+import { firestore, auth, generateUserDocument } from "../../Firestore";
 
-class RegisterForm extends Component {
-	constructor(props) {
-		super(props);
+const RegisterForm = () => {
+	const [email, setEmail] = useState("")
+	const [password, setPassword] = useState("")
+	const [firstName, setFirstName] = useState("")
+	const [lastName, setLastName] = useState("")
+	const [error, setError] = useState(null)
 
-		this.state = {
-			FirstName: "",
-			LastName: "",
-			Email: "",
-			Password: "",
-		};
-	}
-
-	handleChange = (event) => {
+	const handleChange = (event) => {
 		const { name, value } = event.currentTarget;
 
 		if (name === "firstname") {
-			this.setState({ FirstName: value });
+			setFirstName(value)
 		} else if (name === "lastname") {
-			this.setState({ LastName: value });
+			setLastName(value)
 		} else if (name === "email") {
-			this.setState({ Email: value });
+			setEmail(value)
 		} else if (name === "password") {
-			this.setState({ Password: value });
+			setPassword(value)
 		}
 	};
 
-	handleSubmit = (values, { setSubmitting, resetForm }) => {
-		var email = values.email;
-		var password = values.password;
-		var firstname = values.firstname;
-		var lastname = values.lastname;
-		firebaseapp
-			.auth()
-			.createUserWithEmailAndPassword(email, password)
-			.then((userCredentials) => {
-				//Signed in
-				var user = userCredentials.user;
-			})
-			.catch((error) => {
-				var errorCode = error.code;
-				var errorMessage = error.message;
-			});
-		setSubmitting(false);
+	const handleSubmit = async (event, email, password, firstname, lastname) => {
+		event.preventDefault()
+
+		const user = await auth.createUserWithEmailAndPassword(email, password)
+		.then(() => {
+			generateUserDocument(user, firstName, lastName)
+			console.log("Login Successful")
+			
+			setEmail("")
+			setPassword("")
+			setFirstName("")
+			setLastName("")
+			return <Redirect to="/Login" />
+		})
+		.catch((error) => {
+			setError("Error Signing up with email and password")
+		})
 	};
 
-	render() {
 		return (
 			<Container>
-				{/* <Form
-					initialValues={{
-						firstname: "",
-						lastname: "",
-						email: "",
-						password: "",
-					}}
-					validate={(values) => {}}
-					onSubmit={this.handleSubmit}
-				>
-					{({ touched, errors, isSubmitting, handleSubmit, values }) => ( */}
 				<Form>
 					<Form.Group>
 						<Form.Label>First Name</Form.Label>
@@ -68,8 +52,9 @@ class RegisterForm extends Component {
 							type='name'
 							placeholder='Enter First Name'
 							name='firstname'
-							value={this.state.FirstName}
-							onChange={this.handleChange}
+							id='firstname'
+							value={firstName}
+							onChange={event => handleChange(event)}
 						/>
 					</Form.Group>
 					<Form.Group>
@@ -78,8 +63,9 @@ class RegisterForm extends Component {
 							type='name'
 							placeholder='Enter Last Name'
 							name='lastname'
-							value={this.state.LastName}
-							onChange={this.handleChange}
+							id='lastname'
+							value={lastName}
+							onChange={event => handleChange(event)}
 						/>
 					</Form.Group>
 					<Form.Group>
@@ -88,8 +74,9 @@ class RegisterForm extends Component {
 							type='email'
 							placeholder='Enter Email Name'
 							name='email'
-							value={this.state.Email}
-							onChange={this.handleChange}
+							id="email"
+							value={email}
+							onChange={event => handleChange(event)}
 						/>
 					</Form.Group>
 					<Form.Group>
@@ -98,25 +85,23 @@ class RegisterForm extends Component {
 							type='password'
 							placeholder='Enter Password Name'
 							name='password'
-							value={this.state.Password}
-							onChange={this.handleChange}
+							id='password'
+							value={password}
+							onChange={event => handleChange(event)}
 						/>
 					</Form.Group>
 					<Button
 						variant='primary'
 						type='submit'
-						onClick={(event) => {
-							this.handleSubmit();
+						onClick={event => {
+							handleSubmit(event, email, password, firstName, lastName)
 						}}
 					>
 						Submit
 					</Button>
 				</Form>
-				{/* )}
-				</Formik> */}
 			</Container>
 		);
-	}
 }
 
 export default RegisterForm;

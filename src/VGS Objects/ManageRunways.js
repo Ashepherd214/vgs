@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import firebaseapp from "../Firestore";
+import firestore from "../Firestore";
 import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import EditRunway from "../components/TableComponents/EditRunway";
@@ -44,7 +44,7 @@ export class ManageRunways extends Component {
 	};
 
 	gotData = () => {
-		const db = firebaseapp.firestore().collection("Runways");
+		const db = firestore.collection("Runways");
 		db.get()
 			.then((querySnapshot) => {
 				const runways = [];
@@ -75,12 +75,12 @@ export class ManageRunways extends Component {
 	async childFunction() {
 		let selection = [this.state.select];
 		console.log("Inside ChildFunction: ", selection[0]);
-		const db = await firebaseapp
-			.firestore()
+		const db = await
+			firestore
 			.collection("Runways")
 			.doc(selection[0].toString());
-		const data = await firebaseapp
-			.firestore()
+		const data = await
+			firestore
 			.collection("Runways")
 			.doc(selection[0].toString())
 			.get();
@@ -167,7 +167,7 @@ export class ManageRunways extends Component {
 	delRunway = () => {
 		alert(this.node.selectionContext.selected);
 		const selections = [this.node.selectionContext.selected];
-		const db = firebaseapp.firestore().collection("Runways");
+		const db = firestore.collection("Runways");
 
 		selections.forEach((key) => {
 			db.doc(key.toString())

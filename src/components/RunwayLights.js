@@ -185,7 +185,7 @@ function generateSSALF() {
 				id: i + " , " + j,
 			});
 		}
-		if (i == 4) {
+		if (i === 4) {
 			// Draw the extra running light next to the bars
 			// Specifically at the 5th bar draw the two decision light bars on either side of the center light bar
 			items.push({
@@ -232,7 +232,7 @@ function generateSSALR() {
 				id: i + " , " + j,
 			});
 		}
-		if (i == 4) {
+		if (i === 4) {
 			// For extra white lights above center
 			for (let t = 1; t <= 5; t++) {
 				items.push({
@@ -379,7 +379,7 @@ function generateALSF2() {
 				id: i + " , " + j,
 			});
 		}
-		if (i == 4) {
+		if (i === 4) {
 			// The extra lights at row 5
 			for (let t = 1; t <= 3; t++) {
 				items.push({
@@ -397,7 +397,7 @@ function generateALSF2() {
 			}
 		}
 
-		if (i == 9) {
+		if (i === 9) {
 			// The extra white lights at row 10
 			for (let t = 1; t <= 8; t++) {
 				items.push({
@@ -506,7 +506,7 @@ function generateCALVERT() {
 			id: "CALVERT-single:" + i,
 		});
 		// Add the additional Lights on either side of Row 5
-		if (i == 4) {
+		if (i === 4) {
 			for (let l = 1; l <= 4; l++) {
 				items.push({
 					x: 550 + 22.54 * (i + 1),
@@ -523,7 +523,7 @@ function generateCALVERT() {
 			}
 		}
 		// For Row 10
-		if (i == 9) {
+		if (i === 9) {
 			for (let t = 1; t <= 5; t++) {
 				items.push({
 					x: 550 + 22.54 * (i + 1),
@@ -550,7 +550,7 @@ function generateCALVERT() {
 			});
 		}
 		// For the additional lights on the sides of Row 15
-		if (i == 14) {
+		if (i === 14) {
 			for (let l = 1; l <= 6; l++) {
 				items.push({
 					x: 550 + 22.54 * (i + 1),
@@ -567,7 +567,7 @@ function generateCALVERT() {
 			}
 		}
 		// For Row 20
-		if (i == 19) {
+		if (i === 19) {
 			for (let l = 1; l <= 7; l++) {
 				items.push({
 					x: 550 + 22.54 * (i + 1),
@@ -594,7 +594,7 @@ function generateCALVERT() {
 			});
 		}
 		// For the additional lights on the sides of Row 25
-		if (i == 24) {
+		if (i === 24) {
 			for (let l = 1; l <= 8; l++) {
 				items.push({
 					x: 550 + 22.54 * (i + 1),
@@ -628,7 +628,7 @@ function generateCALVERT2() {
 				id: i + " , " + j,
 			});
 		}
-		if (i == 4) {
+		if (i === 4) {
 			// The extra lights at row 5
 			for (let t = 1; t <= 3; t++) {
 				items.push({
@@ -646,7 +646,7 @@ function generateCALVERT2() {
 			}
 		}
 
-		if (i == 9) {
+		if (i === 9) {
 			// The extra white lights at row 10
 			for (let t = 1; t <= 8; t++) {
 				items.push({
@@ -674,7 +674,7 @@ function generateCALVERT2() {
 			id: "CALVERT-single:" + i,
 		});
 		// Add the additional Lights on either side of Row 15
-		if (i == 14) {
+		if (i === 14) {
 			for (let l = 1; l <= 6; l++) {
 				items.push({
 					x: 550 + 22.54 * (i + 1),
@@ -691,7 +691,7 @@ function generateCALVERT2() {
 			}
 		}
 		// For Row 20
-		if (i == 19) {
+		if (i === 19) {
 			for (let t = 1; t <= 7; t++) {
 				items.push({
 					x: 550 + 22.54 * (i + 1),
@@ -718,7 +718,7 @@ function generateCALVERT2() {
 			});
 		}
 		// For the additional lights on the sides of Row 15
-		if (i == 24) {
+		if (i === 24) {
 			for (let l = 1; l <= 8; l++) {
 				items.push({
 					x: 550 + 22.54 * (i + 1),

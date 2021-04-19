@@ -13,8 +13,53 @@ const firebaseConfig = {
 	measurementId: "G-J8ZDDB5LGS",
 };
 
+
 // Initialize Firebase
-const firebaseapp = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 firebase.analytics();
-// const auth = firebaseapp.auth()
-export default firebaseapp;
+
+const firestore = firebase.firestore()
+export const auth = firebase.auth()
+
+
+
+export const generateUserDocument = async (user, additionalData) => {
+	if (!user){
+		return
+	} 
+	const userRef = firestore.doc(`users/${user.uid}`)
+	const snapshot = await userRef.get()
+	if (!snapshot.exists) {
+		const { email, firstName, lastName } = user
+		console.log("First Name is: " + firstName + " and last name is: " + lastName)
+		try {
+			await userRef.set({
+				firstName,
+				lastName,
+				email,
+				...additionalData
+			})
+		} catch (error) {
+			console.error("Error creating user document", error)
+		}
+	}
+	return generateUserDocument(user.uid)
+}
+
+const getUserDocument = async uid => {
+	if (!uid) {
+		return null
+	}
+	try {
+		const userDocument = await firestore.doc(`users/${uid}`).get()
+		return {
+			uid,
+			...userDocument.data()
+		}
+	} catch (error) {
+		console.error("Error fetching user", error)
+	}
+}
+
+
+export default firestore

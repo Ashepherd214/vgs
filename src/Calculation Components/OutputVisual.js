@@ -1,5 +1,5 @@
 import React from "react";
-import firebase from "../Firestore";
+import firestore from "../Firestore";
 import { Stage, Layer, Rect } from "react-konva";
 import { ThresholdLights } from "../components/Threshold Lights Draw";
 import { LightType } from "../components/LightType";
@@ -155,8 +155,8 @@ class OutputVisuals extends React.Component {
 		//console.log(this.props.runwayName)
 
 		try {
-			const runDb = await firebase
-				.firestore()
+			const runDb = await
+				firestore
 				.collection("Runways")
 				.doc(String(this.props.runwayName))
 				.get();
@@ -207,8 +207,8 @@ class OutputVisuals extends React.Component {
 	/*---------------------------End getRunwayData---------------------------------------- */
 	async getAircraftData(aircraftName) {
 		console.log(aircraftName);
-		const airDb = await firebase
-			.firestore()
+		const airDb = await
+			firestore
 			.collection("Aircrafts")
 			.doc(String(aircraftName))
 			.get();

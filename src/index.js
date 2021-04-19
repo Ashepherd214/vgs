@@ -14,6 +14,7 @@ import firebaseapp from "firebase";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "./Dashboard.js";
 import history from "history";
+import UserProvider from "./Auth";
 
 export class App extends Component {
 	constructor(props) {
@@ -150,7 +151,19 @@ export class App extends Component {
 	//   };
 
 	render() {
+		const user = null
 		return (
+			user ?
+			<Route path='/Dashboard'>
+				<ManageAircrafts
+					parentFunction={this.parentAircraftCallbackFunction}
+				/>
+				<ManageRunways parentFunction={this.parentRunwayCallbackFunction} />
+				<Link to='/VGS'>
+					<CalculateButton />
+				</Link>
+			</Route> 
+			: 
 			<Router>
 				<NavigationBar />
 				<Switch>
@@ -158,13 +171,13 @@ export class App extends Component {
 						<Authentication />
 					</Route>
 					{/* <PrivateRoute redirectTo="/Login" path="/Dashboard" >
-		  				{/* <Dashboard /> 
-					</PrivateRoute>  {component={Dashboard} />} */}
+		  				<Dashboard /> 
+					</PrivateRoute>  component={Dashboard} />  */}
 		  			{/* <Route path='/Dashboard' >
 						  <Dashboard />
 					  </Route> */}
 					{/*Original setup below*/}
-					<Route path='/Dashboard'>
+					{/* <Route path='/Dashboard'>
 						<ManageAircrafts
 							parentFunction={this.parentAircraftCallbackFunction}
 						/>
@@ -172,7 +185,7 @@ export class App extends Component {
 						<Link to='/VGS'>
 							<CalculateButton />
 						</Link>
-					</Route>
+					</Route> */}
 					<Route path='/VGS'>
 						<ManageVGS
 							runwayLights={this.state.lights_data_from_runway}
@@ -210,4 +223,4 @@ export class App extends Component {
 	}
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<UserProvider><App /></UserProvider> , document.getElementById("root"));

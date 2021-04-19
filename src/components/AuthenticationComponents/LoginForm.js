@@ -1,105 +1,39 @@
-import React, { useCallback, useContext, Component } from "react";
+import React, { useCallback, useContext, Component, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
-import firebase from "../../Firestore";
+import { firestore, auth } from "../../Firestore";
 import { withRouter, Redirect } from "react-router";
 import { AuthContext } from "../../Auth.js";
 
-class LoginForm extends Component {
-	constructor(props) {
-		super(props);
 
-		this.state = {
-			Email: "",
-			Password: "",
-		};
-	}
+const LoginForm = () => {
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
+	const [error, setError] = useState(null)
 
-	// LoginForm = ({ history }) => {
-	// handleLogin = useCallback(
-	// 	async (event) => {
-	// 		event.preventDefault();
-	// 		const { email, password } = event.target.elements;
-	// 		try {
-	// 			await firebase
-	// 				.auth()
-	// 				.signInWithEmailAndPassword(email.value, password.value)
-	// 				.then((userCredential) => {
-	// 					var user = userCredential.user;
-	// 					if (user) {
-	// 						props.history.push("/Dashboard");
-	// 					} else {
-	// 						return <Redirect to='/Login' />;
-	// 					}
-	// 				});
-	// 		} catch (error) {
-	// 			alert(error);
-	// 		}
-	// 	},
-	// 	[history]
-	// );
-
-	// };
-	// const { currentUser } = useContext(AuthContext);
-
-	// if (!currentUser) {
-	// 	return <Redirect to='/Login' />;
-	// }
-
-	handleChange = (event) => {
+	const handleChange = (event) => {
 		const { name, value } = event.currentTarget;
 
 		if (name === "email") {
-			this.setState({ Email: value });
+			setEmail(value)
 		} else if (name === "password") {
-			this.setState({ Password: value });
+			setPassword(value)
 		}
-	};
+	}
 
-	handleSubmit = (event) => (values, { setSubmitting, resetForm }) => {
-		var email = values.email;
-		var password = values.password;
-		firebase
-			.auth()
+
+	const handleSubmit = (event, email, password) => {
+		event.preventDefault()
+			auth
 			.signInWithEmailAndPassword(email, password)
-			.then((userCredentials) => {
-				//Signed in
-				var user = userCredentials.user;
-				if (user) {
-					console.log("Sign in Successful");
-					return <Redirect to='/Dashboard' />;
-				} else {
-					return <Redirect to='/Login' />;
-				}
-				//return history.push("/Dashboard");
-			})
-			.catch((error) => {
-				var errorCode = error.code;
-				var errorMessage = error.message;
-				console.log(errorMessage);
+			.catch(error => {
+				setError("Error signing in with password and email.")
+				console.error("Error signing in with password and email.", error)
 			});
-		setSubmitting(false);
-	};
+		}
 
-	render() {
 		return (
 			<Container>
-				{/* <Formik
-					initialValues={{
-						email: "",
-						password: "",
-					}}
-					validate={(values) => {}}
-					onSubmit={this.handleSubmit}
-				>
-					{({
-						touched,
-						errors,
-						isSubmitting,
-						handleSubmit,
-						handleChange,
-						values,
-					}) => ( */}
-				<Form onSubmit={this.handleSubmit}>
+				<Form onSubmit={handleSubmit}>
 					<Form.Group>
 						<Form.Label>Email</Form.Label>
 						<Form.Control
@@ -107,8 +41,8 @@ class LoginForm extends Component {
 							type='email'
 							placeholder='Enter Email Name'
 							name='email'
-							value={this.state.Email}
-							onChange={this.handleChange}
+							value={email}
+							onChange={(event) => handleChange}
 						/>
 					</Form.Group>
 					<Form.Group>
@@ -118,8 +52,8 @@ class LoginForm extends Component {
 							type='password'
 							placeholder='Enter Password Name'
 							name='password'
-							value={this.state.Password}
-							onChange={this.handleChange}
+							value={password}
+							onChange={handleChange}
 						/>
 					</Form.Group>
 					<Button
@@ -131,7 +65,6 @@ class LoginForm extends Component {
 				</Form>
 			</Container>
 		);
-	}
 }
 
 export default LoginForm;

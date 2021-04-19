@@ -1,45 +1,29 @@
-import React, { createContext, useEffect, useState } from "react";
-import { auth } from "firebase"
-import firebaseapp from "./Firestore";
+import React, { Component, createContext, useEffect, useState } from "react";
+import { auth, firestore, generateUserDocument } from "./Firestore";
 
-export const AuthContext = createContext({userPresent:false, user:null});
+export const AuthContext = createContext({ user:null });
 
-export default function FirebaseAuthContext(props){
 
-	let [state, changeState] = useState({
-		userDataPresent:false,
-		user:null,
-		listener:null
+
+class UserProvider extends Component {
+	state = {
+		user: null
+	}
+
+	componentDidMount = async () => {
+	auth.onAuthStateChanged(async userAuth => {
+		const user = await generateUserDocument(userAuth)
+		this.setState({ user })
 	})
-
-
-	// const [currentUser, setCurrentUser] = useState();
-	// const [pending, setPending] = useState(true);
-
-	useEffect(() => {
-		if(state.listener == null){
-			changeState({...state, listener:firebaseapp.auth().onAuthStateChanged((user) => {
-				if(user){
-					changeState(oldState => ({...oldState, userDataPresent: true, user: user}))
-				} else {
-					changeState(oldState => ({...oldState, userDataPresent: true, user: null}))
-				}
-			})})
-		}
-		return () => {
-			if(state.listener) {
-				state.listener()
-			}
-
-		}
-	}, []);
-
-	return (
-		<AuthContext.Provider
-			value={state}
-		>
-			{props.children}
-		</AuthContext.Provider>
-	);
+}
+	render() {
+		return (
+			<AuthContext.Provider value={this.state.user}>
+				{this.props.children}
+			</AuthContext.Provider>
+		)
+	}
 };
 
+
+export default UserProvider;

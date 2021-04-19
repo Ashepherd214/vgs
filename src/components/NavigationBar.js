@@ -24,9 +24,7 @@ const Styles = styled.div`
 	}
 `;
 const NavigationBar = () => (
-	<Styles>
-		{/* <Navbar expand='lg'> */}
-		<Nav className='ml-auto'>
+		<Navbar className='ml-auto' style={{ backgroundColor: '#222'}}>
 			<Navbar.Brand href='/'>
 				<img
 					src={logo}
@@ -35,21 +33,13 @@ const NavigationBar = () => (
 					alt='RSi logo with dark background'
 				/>
 			</Navbar.Brand>
-			{/* <Navbar.Toggle aria-controls='basic-navbar-nav' /> */}
-			{/* <Navbar.Collapse id='basic-navbar-nav'> */}
-			<Nav.Item>
+			<Navbar.Toggle aria-controls='basic-navbar-nav' />
+			<Navbar.Collapse id='basic-navbar-nav'>
 				<Nav.Link href='/Login'>Login</Nav.Link>
-			</Nav.Item>
-			<Nav.Item>
 				<Nav.Link href='/Dashboard'>Home</Nav.Link>
-			</Nav.Item>
-			{/* <Nav.Item>
-				<Nav.Link href='/about'>About</Nav.Link>
-			</Nav.Item> */}
-		</Nav>
-		{/* </Navbar.Collapse> */}
-		{/* </Navbar> */}
-	</Styles>
+				<Nav.Link href='/Logoff'>Sign Out</Nav.Link>
+			</Navbar.Collapse>
+		</Navbar>
 );
 
 export default NavigationBar;

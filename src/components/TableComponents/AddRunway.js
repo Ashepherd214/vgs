@@ -1,7 +1,7 @@
 import React from "react";
 import { Form } from "react-bootstrap";
 import ReactDOM from "react-dom";
-import firebase from "../../Firestore";
+import firestore from "../../Firestore";
 import { Formik, Field, ErrorMessage } from "formik";
 
 class AddRunway extends React.Component {
@@ -24,7 +24,7 @@ class AddRunway extends React.Component {
 	}
 
 	addRunway = (values) => {
-		const db = firebase.firestore();
+		const db = firestore;
 		console.log(values);
 		db.collection("Runways")
 			.doc(String(values.runName))
