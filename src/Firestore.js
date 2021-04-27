@@ -1,5 +1,5 @@
 import firebase from "firebase";
-import "firebase/auth"
+import "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -13,53 +13,49 @@ const firebaseConfig = {
 	measurementId: "G-J8ZDDB5LGS",
 };
 
-
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 firebase.analytics();
 
-const firestore = firebase.firestore()
-export const auth = firebase.auth()
-
-
+const firestore = firebase.firestore();
+export const auth = firebase.auth();
 
 export const generateUserDocument = async (user, additionalData) => {
-	if (!user){
-		return
-	} 
-	const userRef = firestore.doc(`users/${user.uid}`)
-	const snapshot = await userRef.get()
+	if (!user) {
+		return;
+	}
+	const userRef = firestore.doc(`users/${user.uid}`);
+	const snapshot = await userRef.get();
+
 	if (!snapshot.exists) {
-		const { email, firstName, lastName } = user
-		console.log("First Name is: " + firstName + " and last name is: " + lastName)
+		const { email, firstName, lastName } = user;
 		try {
 			await userRef.set({
 				firstName,
 				lastName,
 				email,
-				...additionalData
-			})
+				...additionalData,
+			});
 		} catch (error) {
-			console.error("Error creating user document", error)
+			console.error("Error creating user document", error);
 		}
 	}
-	return generateUserDocument(user.uid)
-}
+	return generateUserDocument(user.uid);
+};
 
-const getUserDocument = async uid => {
+const getUserDocument = async (uid) => {
 	if (!uid) {
-		return null
+		return null;
 	}
 	try {
-		const userDocument = await firestore.doc(`users/${uid}`).get()
+		const userDocument = await firestore.doc(`users/${uid}`).get();
 		return {
 			uid,
-			...userDocument.data()
-		}
+			...userDocument.data(),
+		};
 	} catch (error) {
-		console.error("Error fetching user", error)
+		console.error("Error fetching user", error);
 	}
-}
+};
 
-
-export default firestore
+export default firestore;
