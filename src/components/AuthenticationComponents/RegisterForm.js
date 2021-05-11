@@ -31,14 +31,14 @@ const RegisterForm = () => {
 		}
 	};
 
-	const handleSubmit = async (event, email, password) => {
+	const handleSubmit = (event, email, password, firstName, lastName) => {
 		event.preventDefault();
+		console.log("Name is: " + firstName + " " + lastName);
+		console.log("Email submitting as: " + email);
 		try {
-			const { user } = await auth.createUserWithEmailAndPassword(
-				email,
-				password
-			);
-			generateUserDocument(user, { firstName }, { lastName }, { email });
+			const user = auth.createUserWithEmailAndPassword(email, password);
+			console.log("User created on submit: " + user);
+			generateUserDocument(user, firstName, lastName, email);
 			console.log("Login Successful");
 		} catch (error) {
 			setError("Error Signing up with email and password");

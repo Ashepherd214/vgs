@@ -1,5 +1,6 @@
 import React from "react";
 import { Nav, Navbar, Form, FormControl } from "react-bootstrap";
+import { Redirect } from "react-router";
 import styled from "styled-components";
 import { auth } from "../Firestore";
 import logo from "../img/RSiIconDark.png";
@@ -42,6 +43,7 @@ const NavigationBar = () => (
 				href='/Logoff'
 				onClick={() => {
 					auth.signOut();
+					return <Redirect to='/Login' />;
 				}}
 			>
 				Sign Out

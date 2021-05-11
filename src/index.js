@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import { Redirect } from "react-router";
 import { Route, Switch, Link, BrowserRouter as Router } from "react-router-dom";
 import { Col, Container, Row, Tab, Tabs } from "react-bootstrap";
 import "tachyons";
@@ -10,11 +11,12 @@ import ManageVGS from "./Calculation Components/ManageVGS";
 import "./index.css";
 import NavigationBar from "./components/NavigationBar";
 import Authentication from "./components/AuthenticationComponents/AuthenticationPage";
-import firebaseapp from "firebase";
+import firebaseapp, { auth } from "firebase";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "./Dashboard.js";
 import history from "history";
 import UserProvider from "./Auth";
+import firebase from "firebase";
 
 export class App extends Component {
 	constructor(props) {
@@ -44,7 +46,7 @@ export class App extends Component {
 			aircraft_speed: "",
 			aircraft_weight: "",
 			aircraft_units: "",
-			me: firebaseapp.auth().currentUser,
+			me: auth.currentUser,
 		};
 	}
 
@@ -99,7 +101,7 @@ export class App extends Component {
 	};
 
 	componentDidMount() {
-		firebaseapp.auth().onAuthStateChanged((me) => {
+		firebase.auth().onAuthStateChanged((me) => {
 			this.setState({ me });
 		});
 	}
@@ -151,29 +153,40 @@ export class App extends Component {
 	//   };
 
 	render() {
-		const user = null
 		return (
-			user ?
-			<Route path='/Dashboard'>
-				<ManageAircrafts
-					parentFunction={this.parentAircraftCallbackFunction}
-				/>
-				<ManageRunways parentFunction={this.parentRunwayCallbackFunction} />
-				<Link to='/VGS'>
-					<CalculateButton />
-				</Link>
-			</Route> 
-			: 
 			<Router>
 				<NavigationBar />
 				<Switch>
-					<Route path='/Login'>
-						<Authentication />
-					</Route>
+					<Route
+						path='/Login'
+						render={() =>
+							!this.state.me ? <Authentication /> : <Redirect to='/Dashboard' />
+						}
+					/>
+					<Route
+						path='/Dashboard'
+						render={() =>
+							this.state.me ? (
+								<Container>
+									<ManageAircrafts
+										parentFunction={this.parentAircraftCallbackFunction}
+									/>
+									<ManageRunways
+										parentFunction={this.parentRunwayCallbackFunction}
+									/>
+									<Link to='/VGS'>
+										<CalculateButton />
+									</Link>{" "}
+								</Container>
+							) : (
+								<Redirect to='/Login' />
+							)
+						}
+					/>
 					{/* <PrivateRoute redirectTo="/Login" path="/Dashboard" >
 		  				<Dashboard /> 
 					</PrivateRoute>  component={Dashboard} />  */}
-		  			{/* <Route path='/Dashboard' >
+					{/* <Route path='/Dashboard' >
 						  <Dashboard />
 					  </Route> */}
 					{/*Original setup below*/}
@@ -214,13 +227,16 @@ export class App extends Component {
 							aircraftUnits={this.state.aircraft_units}
 						/>
 					</Route>
-					<Route path='/Logoff' >
-						
-					</Route>
+					<Route path='/Logoff'></Route>
 				</Switch>
 			</Router>
 		);
 	}
 }
 
-ReactDOM.render(<UserProvider><App /></UserProvider> , document.getElementById("root"));
+ReactDOM.render(
+	<UserProvider>
+		<App />
+	</UserProvider>,
+	document.getElementById("root")
+);

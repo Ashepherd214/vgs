@@ -20,21 +20,30 @@ firebase.analytics();
 const firestore = firebase.firestore();
 export const auth = firebase.auth();
 
-export const generateUserDocument = async (user, additionalData) => {
+export const generateUserDocument = (user, firstName, lastName, email) => {
 	if (!user) {
 		return;
 	}
+	console.log("User ID is: " + user.uid);
 	const userRef = firestore.doc(`users/${user.uid}`);
-	const snapshot = await userRef.get();
+	console.log("User found: " + user);
+	const snapshot = userRef.get();
 
 	if (!snapshot.exists) {
-		const { email, firstName, lastName } = user;
+		// const { email, firstName, lastName } = user;
+		console.log(
+			"Info for generating user doc: " +
+				firstName +
+				" " +
+				lastName +
+				" " +
+				email
+		);
 		try {
-			await userRef.set({
-				firstName,
-				lastName,
-				email,
-				...additionalData,
+			userRef.set({
+				firstName: firstName,
+				lastName: lastName,
+				email: email,
 			});
 		} catch (error) {
 			console.error("Error creating user document", error);
