@@ -24,7 +24,7 @@ class EditRunway extends React.Component {
       glideslope: " ",
       tch: " ",
       width: " ",
-      units: true
+      units: false
     };
     this.componentDidMount = this.componentDidMount.bind(this)
     this.loadCurrentValues = this.loadCurrentValues.bind(this)
@@ -43,26 +43,27 @@ class EditRunway extends React.Component {
 
   loadCurrentValues = () => {
     const select = this.props.name
-    const selString = `${select[0]}`
+    const selString = select[0].toString()
 
-    const airRef = firestore.collection("Runways").doc(selString)
+    const runRef = firestore.collection("Runways").doc(selString)
 
-    airRef.get()
+    runRef.get()
     .then(doc => {
       if (doc.exists) {
         this.setState({
-          name: doc.id,
-          icao: doc.data().icao,
-          approachlights: doc.data().approachlights,
-          dh: doc.data().dh,
-          edgespacing: doc.data().edgespacing,
-          gsx: doc.data().gsx,
-          gsy: doc.data().gsy,
-          glideslope: doc.data().glideslope,
-          tch: doc.data().tch,
-          width: doc.data().width,
-          units: doc.data().units.toString()
+          runName: doc.id,
+          icao: doc.data().ICAO,
+          approachlights: doc.data().ApproachLights,
+          dh: doc.data().DH,
+          edgespacing: doc.data().EdgeSpacing,
+          gsx: doc.data().GSOffsetX,
+          gsy: doc.data().GSOffsetY,
+          glideslope: doc.data().GlideSlope,
+          tch: doc.data().TCH,
+          width: doc.data().Width,
+          units: doc.data().Units
         })
+        console.log("loaded approach lights: " + this.state.approachlights)
       } else {
         console.log("No such document!")
       }
@@ -71,7 +72,7 @@ class EditRunway extends React.Component {
     })
   }  
 
-  updateAircraft = values => {
+  updateRunway = values => {
     const select = this.selectName
     const selString = select[0].toString()
 
@@ -79,10 +80,11 @@ class EditRunway extends React.Component {
     //const select = db.doc(selString) old name
     //const select = db.doc(values.acName) form edit name
     //compare old name to form name. If same update, if different 
-    console.log("Current aircraft in Form: ", values.runName)
-    console.log("Aircraft information from cloud: ", db.id.toString())
+    console.log("Current Runway in Form: ", values.runName)
+    console.log("Current Runway approach lights in Form: ", values.approachlights)
+    console.log("Runway information from cloud: ", db.id.toString())
     
-    if (db.doc(selString).id.toString() === values.acName) {
+    if (db.doc(selString).id.toString() === values.runName) {
       db.doc(selString).update({
         ApproachLights: Number(values.approachlights),
         DH: Number(values.dh),
@@ -90,7 +92,7 @@ class EditRunway extends React.Component {
         GSOffsetX: Number(values.gsx),
         GSOffsetY: Number(values.gsy),
         GlideSlope: Number(values.glideslope),
-        ICAO: Number(values.icao),
+        ICAO: String(values.icao),
         TCH: Number(values.tch),
         Units: Boolean(values.units),
         Width: Number(values.width)
@@ -103,7 +105,7 @@ class EditRunway extends React.Component {
         GSOffsetX: Number(values.gsx),
         GSOffsetY: Number(values.gsy),
         GlideSlope: Number(values.glideslope),
-        ICAO: Number(values.icao),
+        ICAO: String(values.icao),
         TCH: Number(values.tch),
         Units: Boolean(values.units),
         Width: Number(values.width)
@@ -118,7 +120,7 @@ class EditRunway extends React.Component {
 
   handleSubmit = (values, actions) => {
     setTimeout(() => {
-      this.updateAircraft(values);
+      this.updateRunway(values);
       //setSubmitting(false);
       }, 600);
     if (this._isMounted) {
@@ -133,12 +135,12 @@ class EditRunway extends React.Component {
 
     //onSubmit is not calling the inside function so I think without the prop in the <Form> component
     //it doesn't seem to be calling to my onSubmit method.
-
+    console.log("loaded approach lights: " + this.state.approachlights)
     return (
       <div className="container">
         <div className="row mb-5">
           <div className="col-lg-12 text-center">
-            <h1 className="mt-5">Edit Aircraft</h1>
+            <h1 className="mt-5">Edit Runway</h1>
           </div>
         </div>
         <div className="row">
@@ -185,7 +187,8 @@ class EditRunway extends React.Component {
                       value={values.runName}
                       //defaultValue={values.acName}
                       //onChange={this.setState({acName: values.acName})}
-                      name="acName"
+                      id="runName"
+                      name="runName"
                       type="text"
                       placeholder={values.runName}
                       className={`form-control ${

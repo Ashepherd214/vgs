@@ -24,10 +24,33 @@ export const generateUserDocument = (user, firstName, lastName, email) => {
 	if (!user) {
 		return;
 	}
-	console.log("User ID is: " + user.uid);
-	const userRef = firestore.doc(`users/${user.uid}`);
+	console.log("User ID is: " + `${user.uid}`);
+	const userRef = firestore.collection("users");
 	console.log("User found: " + user);
 	const snapshot = userRef.get();
+
+
+	// if (!user.uid) {
+	// 	// const { email, firstName, lastName } = user;
+	// 	console.log(
+	// 		"Info for generating user doc: " +
+	// 			firstName +
+	// 			" " +
+	// 			lastName +
+	// 			" " +
+	// 			email
+	// 	);
+	// 	try {
+	// 		//needs to change to a form os firestore.collection("users").add({data})
+	// 		userRef.set({
+	// 			firstName: firstName,
+	// 			lastName: lastName,
+	// 			email: email,
+	// 		});
+	// 	} catch (error) {
+	// 		console.error("Error creating user document", error);
+	// 	}
+	// }
 
 	if (!snapshot.exists) {
 		// const { email, firstName, lastName } = user;
@@ -37,10 +60,11 @@ export const generateUserDocument = (user, firstName, lastName, email) => {
 				" " +
 				lastName +
 				" " +
-				email
+				email + " " + user
 		);
 		try {
-			userRef.set({
+			//needs to change to a form os firestore.collection("users").add({data})
+			userRef.add({
 				firstName: firstName,
 				lastName: lastName,
 				email: email,
@@ -59,7 +83,7 @@ const getUserDocument = async (uid) => {
 	try {
 		const userDocument = await firestore.doc(`users/${uid}`).get();
 		return {
-			uid,
+			uid: uid,
 			...userDocument.data(),
 		};
 	} catch (error) {

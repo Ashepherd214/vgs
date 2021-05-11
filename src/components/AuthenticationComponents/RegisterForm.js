@@ -5,8 +5,8 @@ import { Redirect } from "react-router";
 import { firestore, auth, generateUserDocument } from "../../Firestore";
 
 const RegisterForm = () => {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const [regEmail, setEmail] = useState("");
+	const [regPassword, setPassword] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [error, setError] = useState(null);
@@ -24,21 +24,21 @@ const RegisterForm = () => {
 			console.log("last in reg: " + lastName);
 		} else if (name === "regEmail") {
 			setEmail(value);
-			console.log("email in reg: " + email);
+			console.log("email in reg: " + regEmail);
 		} else if (name === "regPassword") {
 			setPassword(value);
-			console.log(password);
+			console.log(regPassword);
 		}
 	};
 
-	const handleSubmit = (event, email, password, firstName, lastName) => {
+	const handleSubmit = (event, regEmail, regPassword, firstName, lastName) => {
 		event.preventDefault();
 		console.log("Name is: " + firstName + " " + lastName);
-		console.log("Email submitting as: " + email);
+		console.log("Email submitting as: " + regEmail);
 		try {
-			const user = auth.createUserWithEmailAndPassword(email, password);
+			const user = auth.createUserWithEmailAndPassword(regEmail, regPassword);
 			console.log("User created on submit: " + user);
-			generateUserDocument(user, firstName, lastName, email);
+			generateUserDocument(user, firstName, lastName, regEmail);
 			console.log("Login Successful");
 		} catch (error) {
 			setError("Error Signing up with email and password");
@@ -83,7 +83,7 @@ const RegisterForm = () => {
 						placeholder='Enter Email Name'
 						name='regEmail'
 						id='regEmail'
-						value={email}
+						value={regEmail}
 						onChange={(event) => handleChange(event)}
 					/>
 				</Form.Group>
@@ -94,7 +94,7 @@ const RegisterForm = () => {
 						placeholder='Enter Password Name'
 						name='regPassword'
 						id='regPassword'
-						value={password}
+						value={regPassword}
 						onChange={(event) => handleChange(event)}
 					/>
 				</Form.Group>
@@ -103,7 +103,7 @@ const RegisterForm = () => {
 					type='submit'
 					value='registerbtn'
 					onClick={(event) => {
-						handleSubmit(event, email, password, firstName, lastName);
+						handleSubmit(event, regEmail, regPassword, firstName, lastName);
 					}}
 				>
 					Submit

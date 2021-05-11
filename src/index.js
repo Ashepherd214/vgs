@@ -157,6 +157,7 @@ export class App extends Component {
 			<Router>
 				<NavigationBar />
 				<Switch>
+					
 					<Route
 						path='/Login'
 						render={() =>
@@ -183,22 +184,6 @@ export class App extends Component {
 							)
 						}
 					/>
-					{/* <PrivateRoute redirectTo="/Login" path="/Dashboard" >
-		  				<Dashboard /> 
-					</PrivateRoute>  component={Dashboard} />  */}
-					{/* <Route path='/Dashboard' >
-						  <Dashboard />
-					  </Route> */}
-					{/*Original setup below*/}
-					{/* <Route path='/Dashboard'>
-						<ManageAircrafts
-							parentFunction={this.parentAircraftCallbackFunction}
-						/>
-						<ManageRunways parentFunction={this.parentRunwayCallbackFunction} />
-						<Link to='/VGS'>
-							<CalculateButton />
-						</Link>
-					</Route> */}
 					<Route path='/VGS'>
 						<ManageVGS
 							runwayLights={this.state.lights_data_from_runway}
@@ -227,7 +212,12 @@ export class App extends Component {
 							aircraftUnits={this.state.aircraft_units}
 						/>
 					</Route>
-					<Route path='/Logoff'></Route>
+					<Route path='/Logoff'>
+						<Redirect to='/Login' />
+					</Route>
+					<Route path='/'>
+						<Redirect to='/Login' />
+					</Route>
 				</Switch>
 			</Router>
 		);

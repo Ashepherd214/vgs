@@ -5,8 +5,8 @@ import { withRouter, Redirect } from "react-router";
 import { AuthContext } from "../../Auth.js";
 
 const LoginForm = () => {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	const [loginEmail, setEmail] = useState("");
+	const [loginPassword, setPassword] = useState("");
 	const [error, setError] = useState(null);
 
 	const handleChange = (event) => {
@@ -19,11 +19,11 @@ const LoginForm = () => {
 		}
 	};
 
-	const handleSubmit = (event, email, password) => {
+	const handleLoginSubmit = (event, loginEmail, loginPassword) => {
 		event.preventDefault();
-		console.log("Login email is: " + email);
-		console.log("Login password is: " + password);
-		auth.signInWithEmailAndPassword(email, password).catch((error) => {
+		console.log("Login email is: " + loginEmail);
+		console.log("Login password is: " + loginPassword);
+		auth.signInWithEmailAndPassword(loginEmail, loginPassword).catch((error) => {
 			setError("Error signing in with password and email.");
 			console.error("Error signing in with password and email.", error);
 			return <Redirect to='/Dashboard' />;
@@ -39,9 +39,9 @@ const LoginForm = () => {
 						required
 						type='email'
 						placeholder='Enter Email Name'
-						name='email'
-						id='email'
-						value={email}
+						name='loginEmail'
+						id='loginEmail'
+						value={loginEmail}
 						onChange={(event) => handleChange(event)}
 					/>
 				</Form.Group>
@@ -51,9 +51,9 @@ const LoginForm = () => {
 						required
 						type='password'
 						placeholder='Enter Password Name'
-						name='password'
-						id='password'
-						value={password}
+						name='loginPassword'
+						id='loginPassword'
+						value={loginPassword}
 						onChange={handleChange}
 					/>
 				</Form.Group>
@@ -61,7 +61,7 @@ const LoginForm = () => {
 					variant='primary'
 					type='submit'
 					onClick={(event) => {
-						handleSubmit(event, email, password);
+						handleLoginSubmit(event, loginEmail, loginPassword);
 					}}
 				>
 					Submit
