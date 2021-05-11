@@ -22,10 +22,10 @@ const RegisterForm = () => {
 		} else if (name === "lastName") {
 			setLastName(value);
 			console.log("last in reg: " + lastName);
-		} else if (name === "email") {
+		} else if (name === "regEmail") {
 			setEmail(value);
 			console.log("email in reg: " + email);
-		} else if (name === "password") {
+		} else if (name === "regPassword") {
 			setPassword(value);
 			console.log(password);
 		}
@@ -53,7 +53,7 @@ const RegisterForm = () => {
 
 	return (
 		<Container>
-			<Form>
+			<Form id="register_form">
 				<Form.Group>
 					<Form.Label>First Name</Form.Label>
 					<Form.Control
@@ -81,8 +81,8 @@ const RegisterForm = () => {
 					<Form.Control
 						type='email'
 						placeholder='Enter Email Name'
-						name='email'
-						id='email'
+						name='regEmail'
+						id='regEmail'
 						value={email}
 						onChange={(event) => handleChange(event)}
 					/>
@@ -92,8 +92,8 @@ const RegisterForm = () => {
 					<Form.Control
 						type='password'
 						placeholder='Enter Password Name'
-						name='password'
-						id='password'
+						name='regPassword'
+						id='regPassword'
 						value={password}
 						onChange={(event) => handleChange(event)}
 					/>
@@ -101,6 +101,7 @@ const RegisterForm = () => {
 				<Button
 					variant='primary'
 					type='submit'
+					value='registerbtn'
 					onClick={(event) => {
 						handleSubmit(event, email, password, firstName, lastName);
 					}}

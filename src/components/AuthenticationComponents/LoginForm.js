@@ -12,10 +12,10 @@ const LoginForm = () => {
 	const handleChange = (event) => {
 		const { name, value } = event.currentTarget;
 
-		if (name === "email") {
-			setEmail(value);
-		} else if (name === "password") {
-			setPassword(value);
+		if (name === "loginEmail") {
+			setEmail(value)
+		} else if (name === "loginPassword") {
+			setPassword(value)
 		}
 	};
 
