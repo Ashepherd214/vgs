@@ -201,7 +201,7 @@ class EditAircraft extends React.Component {
                   
                   <br />
                 
-                    <Form.Label>Aircraft Ze</Form.Label>
+                    <Form.Label>Ze: The pilot's eye height above the main gear at a zero pitch angle</Form.Label>
                     <Field
                       value={values.ze}
                       //defaultValue={values.ze}
@@ -216,7 +216,7 @@ class EditAircraft extends React.Component {
                    
                   <br />
                  
-                    <Form.Label>Aircraft Xe</Form.Label>
+                    <Form.Label>Xe: The distance from the Pilot's eye point to the main gear</Form.Label>
                     <Field
                       value={values.xe}
                       id="xe"
@@ -230,7 +230,7 @@ class EditAircraft extends React.Component {
                  
                   <br />
                   
-                    <Form.Label>Aircraft Lookdown Value</Form.Label>
+                    <Form.Label>Lookdown Angle: The aircraft's lookdown angle</Form.Label>
                     <Field
                       value={values.lookdown}
                       id="lookdown"
@@ -244,7 +244,7 @@ class EditAircraft extends React.Component {
                   
                   <br />
                   
-                    <Form.Label>Aircraft Za</Form.Label>
+                    <Form.Label>Za: The Aircraft's Ground Segment Antenna height at a zero pitch angle</Form.Label>
                     <Field
                       value={values.za}
                       id="za"
@@ -258,7 +258,7 @@ class EditAircraft extends React.Component {
                 
                   <br />
          
-                    <Form.Label>Aircraft Xa</Form.Label>
+                    <Form.Label>Xa: The distance from the Aircraft's Ground Segment antenna to the main gear</Form.Label>
                     <Field
                       value={values.xa}
                       id="xa"
@@ -272,7 +272,7 @@ class EditAircraft extends React.Component {
               
                   <br />
                 
-                    <Form.Label>Aircraft Flaps</Form.Label>
+                    <Form.Label>Flap setting: The Aircraft's flap setting for approach</Form.Label>
                     <Field
                       value={values.flaps}
                       id="flaps"
@@ -286,7 +286,7 @@ class EditAircraft extends React.Component {
                  
                   <br />
                 
-                    <Form.Label>Aircraft Speed</Form.Label>
+                    <Form.Label>Speed: The Aircraft's speed for approach</Form.Label>
                     <Field
                       value={values.speed}
                       id="speed"
@@ -300,7 +300,7 @@ class EditAircraft extends React.Component {
                 
                   <br />
                 
-                    <Form.Label>Aircraft Weight</Form.Label>
+                    <Form.Label>Aircraft Weight: The Aircraft's total weight</Form.Label>
                     <Field
                       value={values.weight}
                       id="weight"
@@ -314,7 +314,7 @@ class EditAircraft extends React.Component {
                 
                   <br />
                 
-                    <Form.Label>Aircraft CG</Form.Label>
+                    <Form.Label>Center of Gravity: The center of gravity for the entire aircraft</Form.Label>
                     <Field
                       value={values.cg}
                       id="cg"
@@ -328,7 +328,7 @@ class EditAircraft extends React.Component {
                
                   <br />
                
-                    <Form.Label>Aircraft Pitch</Form.Label>
+                    <Form.Label>Pitch Angle: The Aircraft's pitch angle on approach</Form.Label>
                     <Field
                       value={values.pitch}
                       id="pitch"
@@ -341,8 +341,8 @@ class EditAircraft extends React.Component {
                     />
                  
                   <br />
-                  <label htmlFor="unitsAir">
-                    Unit of measurement for values
+                  <label htmlFor="Measurment Units">
+                    Unit of measurement values are being entered in
                   </label>
                   <br />
                   <Field

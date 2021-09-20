@@ -86,16 +86,36 @@ class ManageVGS extends Component {
 								Units in {this.state.runwayUnits}
 							</label>
 							<br />
-							<label className='outputlabel'>Rendered on {/*({Date})*/}</label>
+							<label className='outputlabel'>
+								Rendered on {/*({Date})*/}
+							</label>
 						</Col>
 					</Row>
+					<Row>
+							<Col md={3}>
+								<label className='outputLabel'>
+									xAhead: {Number(xahead).toFixed(2)}
+								</label>
+								<br />
+							</Col>
+							<Col md={3}>
+								<label className='outputLabel'>
+									xBeyond: {Number(xbeyond).toFixed(2)}
+								</label>
+							</Col>
+							<Col md={3}>
+								<label className='outputLabel'>
+									FOV: {Number(fov).toFixed(2)}
+								</label>
+							</Col>
+						</Row>
 					<Container
 						style={{
-							height: "500px",
+							height: "300px",
 							width: "1000px",
 							margin: 0,
 							marginRight: 0,
-							padding: 5,
+							padding: 0,
 						}}
 					>
 						<Row>
@@ -130,6 +150,74 @@ class ManageVGS extends Component {
 								></OutputVisuals>
 							</Col>
 						</Row>
+						
+						<Row>
+							<Col md={6}>
+								<img src={outputImg} alt='Output Variable Chart' />
+							</Col>
+							<Col md={3}>
+								<label className='paramlabel'>
+									Decision Height: {this.props.runwayDh}{" "}
+								</label>
+								<br />
+								<label className='paramlabel'>
+									Pilot's eye above ground(zeg): {Number(zeg).toFixed(2)}{" "}
+								</label>
+								<label className='paramlabel'>
+									Ground Segment antenna above ground(zag): {Number(zag).toFixed(2)}{" "}
+								</label>
+								<br />
+								<label className='paramlabel'>
+									Horizontal distance of eye ground segment(xanteye): {Number(xanteye).toFixed(2)}{" "}
+								</label>
+								<label className='paramlabel'>
+									Obscured Segment (obseg): {Number(obseg).toFixed(2)}{" "}
+								</label>
+								<br />
+								<label className='paramlabel'>
+									Aircraft ground segment to Threshold(xthres): {Number(xthres).toFixed(2)}{" "}
+								</label>
+								<label className='paramlabel'>
+									Eyepoint to threshold(xeyethres): {Number(xeyethres).toFixed(2)}{" "}
+								</label>
+								<br />
+								<label className='paramlabel'>
+									Slant RVR(xrvr): {this.state.xrvr}{" "}
+								</label>
+							</Col>
+							<Col md={3}>
+								<label className='paramlabel'>
+									Effective ground rvr(gndrvr) {Number(gndrvr).toFixed(2)}
+								</label>
+								<br />
+								{/* <label className='outputlabel'>
+								Slant rvr(xrvr) {this.state.runwayUnits}
+							</label>
+							<br /> */}
+								<label className='paramlabel'>
+									Threshold crossing height(TCH): {this.props.runwayTch}
+								</label>
+								<br />
+								<label className='paramlabel'>Field of view(FOV) {Number(fov).toFixed(2)}</label>
+								<br />
+								<label className='paramlabel'>
+									Transmitter antenna horizontal offset(xxmtr) {Number(xax).toFixed(2)}
+								</label>
+								<br />
+								<label className='paramlabel'>
+									Cutoff angle(xcutoff) {Number(xcutoff)}
+								</label>
+								<br />
+								<label className='paramlabel'>
+									Visible before threshold(xahead) {Number(xahead).toFixed(2)}
+								</label>
+								<br />
+								<label className='paramlabel'>
+									Visible after threshold(xbeyond) {Number(xbeyond).toFixed(2)}
+								</label>
+								<br />
+							</Col>
+						</Row>
 					</Container>
 				</Tab>
 				<Tab eventKey='inputs' title='Input'>
@@ -142,7 +230,7 @@ class ManageVGS extends Component {
 							</Col>
 							<Col md={6}>
 								<label>
-									Aircraft <br /> {this.props.runwayIcao}
+									Runway <br /> {this.props.runwayIcao}
 								</label>
 							</Col>
 						</Row>
@@ -211,24 +299,24 @@ class ManageVGS extends Component {
 								</label>
 								<br />
 								<label className='paramlabel'>
-									Pilot's eye above ground(zeg): {zeg}{" "}
+									Pilot's eye above ground(zeg): {Number(zeg).toFixed(2)}{" "}
 								</label>
 								<label className='paramlabel'>
-									Ground Segment antenna above ground(zag): {zag}{" "}
-								</label>
-								<br />
-								<label className='paramlabel'>
-									Horizontal distance of eye ground segment(xanteye): {xanteye}{" "}
-								</label>
-								<label className='paramlabel'>
-									Obscured Segment (obseg): {obseg}{" "}
+									Ground Segment antenna above ground(zag): {Number(zag).toFixed(2)}{" "}
 								</label>
 								<br />
 								<label className='paramlabel'>
-									Aircraft ground segment to Threshold(xthres): {xthres}{" "}
+									Horizontal distance of eye ground segment(xanteye): {Number(xanteye).toFixed(2)}{" "}
 								</label>
 								<label className='paramlabel'>
-									Eyepoint to threshold(xeyethres): {xeyethres}{" "}
+									Obscured Segment (obseg): {Number(obseg).toFixed(2)}{" "}
+								</label>
+								<br />
+								<label className='paramlabel'>
+									Aircraft ground segment to Threshold(xthres): {Number(xthres).toFixed(2)}{" "}
+								</label>
+								<label className='paramlabel'>
+									Eyepoint to threshold(xeyethres): {Number(xeyethres).toFixed(2)}{" "}
 								</label>
 								<br />
 								<label className='paramlabel'>
@@ -237,7 +325,7 @@ class ManageVGS extends Component {
 							</Col>
 							<Col md={6}>
 								<label className='paramlabel'>
-									Effective ground rvr(gndrvr) {gndrvr}
+									Effective ground rvr(gndrvr) {Number(gndrvr).toFixed(2)}
 								</label>
 								<br />
 								{/* <label className='outputlabel'>
@@ -248,22 +336,22 @@ class ManageVGS extends Component {
 									Threshold crossing height(TCH): {this.props.runwayTch}
 								</label>
 								<br />
-								<label className='paramlabel'>Field of view(FOV) {fov}</label>
+								<label className='paramlabel'>Field of view(FOV) {Number(fov).toFixed(2)}</label>
 								<br />
 								<label className='paramlabel'>
-									Transmitter antenna horizontal offset(xxmtr) {xax}
+									Transmitter antenna horizontal offset(xxmtr) {Number(xax).toFixed(2)}
 								</label>
 								<br />
 								<label className='paramlabel'>
-									Cutoff angle(xcutoff) {xcutoff}
+									Cutoff angle(xcutoff) {Number(xcutoff)}
 								</label>
 								<br />
 								<label className='paramlabel'>
-									Visible before threshold(xahead) {xahead}
+									Visible before threshold(xahead) {Number(xahead).toFixed(2)}
 								</label>
 								<br />
 								<label className='paramlabel'>
-									Visible after threshold(xbeyond) {xbeyond}
+									Visible after threshold(xbeyond) {Number(xbeyond).toFixed(2)}
 								</label>
 								<br />
 							</Col>

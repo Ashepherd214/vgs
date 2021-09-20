@@ -57,7 +57,7 @@ class AddAircraft extends React.Component {
   render() {
     return (
       <div className="container">
-        <div className="row mb-5">
+        <div className="row mb-6">
           <div className="col-lg-12 text-center">
             <h1 className="mt-5">Add Aircraft</h1>
           </div>
@@ -112,6 +112,7 @@ class AddAircraft extends React.Component {
                     }`}
                   />
                   <br />
+                  <label htmlFor="Ze">Ze: The pilot's eye height above the main gear at a zero pitch angle</label>
                   <Field
                     value={values.name}
                     id="ze"
@@ -123,6 +124,7 @@ class AddAircraft extends React.Component {
                     }`}
                   />
                   <br />
+                  <label htmlFor="Xe">Xe: The distance from the Pilot's eye point to the main gear</label>
                   <Field
                     value={values.name}
                     id="xe"
@@ -134,6 +136,7 @@ class AddAircraft extends React.Component {
                     }`}
                   />
                   <br />
+                  <label htmlFor="Lookdown Angle">Lookdown Angle: The aircraft's lookdown angle</label>
                   <Field
                     value={values.name}
                     id="lookdown"
@@ -145,6 +148,7 @@ class AddAircraft extends React.Component {
                     }`}
                   />
                   <br />
+                  <label htmlFor="Za">Za: The Aircraft's Ground Segment Antenna height at a zero pitch angle</label>
                   <Field
                     value={values.name}
                     id="za"
@@ -156,6 +160,7 @@ class AddAircraft extends React.Component {
                     }`}
                   />
                   <br />
+                  <label htmlFor="Xa">Xa: The distance from the Aircraft's Ground Segment antenna to the main gear</label>
                   <Field
                     value={values.name}
                     id="xa"
@@ -167,6 +172,7 @@ class AddAircraft extends React.Component {
                     }`}
                   />
                   <br />
+                  <label htmlFor="Flaps">Flap setting: The Aircraft's flap setting for approach</label>
                   <Field
                     value={values.name}
                     id="flaps"
@@ -178,6 +184,7 @@ class AddAircraft extends React.Component {
                     }`}
                   />
                   <br />
+                  <label htmlFor="Speed">Speed: The Aircraft's speed for approach</label>
                   <Field
                     value={values.name}
                     id="speed"
@@ -189,6 +196,7 @@ class AddAircraft extends React.Component {
                     }`}
                   />
                   <br />
+                  <label htmlFor="Weight">Aircraft Weight: The Aircraft's total weight</label>
                   <Field
                     value={values.name}
                     id="weight"
@@ -200,6 +208,7 @@ class AddAircraft extends React.Component {
                     }`}
                   />
                   <br />
+                  <label htmlFor="CG">Center of Gravity: The center of gravity for the entire aircraft</label>
                   <Field
                     value={values.name}
                     id="cg"
@@ -211,6 +220,7 @@ class AddAircraft extends React.Component {
                     }`}
                   />
                   <br />
+                  <label htmlFor="Pitch">Pitch Angle: The Aircraft's pitch angle on approach</label>
                   <Field
                     value={values.name}
                     id="pitch"
@@ -222,9 +232,9 @@ class AddAircraft extends React.Component {
                     }`}
                   />
                   <br />
-                  <label htmlFor="unitsAir">Unit of measurement for values</label>
+                  <label htmlFor="Measurement Units">Unit of measurement values are being entered in</label>
                   <br />
-                  <Field as="select" id="unitsAir" name="unitsAir" type="select" value={values.name}>
+                  <Field as="select" id="unitsAir" name="unitsAir" type="select" value={values.name} style={{marginBottom: "10px"}}>
                     <option value="true">Metric</option>
                     <option value="false">Imperial</option>
                   </Field>

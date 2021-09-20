@@ -35,7 +35,7 @@ export class ManageRunways extends Component {
 			showAdd: false,
 			showEdit: false,
 			rerender: false,
-			itemSelected: true,
+			itemSelected: false,
 		};
 	}
 

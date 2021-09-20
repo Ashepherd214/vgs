@@ -61,7 +61,7 @@ export const generateUserDocument = (user, firstName, lastName, email) => {
 				lastName +
 				" " +
 				email + " " + user
-		);
+		)
 		try {
 			//needs to change to a form os firestore.collection("users").add({data})
 			userRef.add({

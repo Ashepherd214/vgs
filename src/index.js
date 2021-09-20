@@ -15,6 +15,7 @@ import firebaseapp, { auth } from "firebase";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "./Dashboard.js";
 import history from "history";
+import VGSErrorBoundary from './VGSErrorBoundary'
 import UserProvider from "./Auth";
 import firebase from "firebase";
 
@@ -185,32 +186,34 @@ export class App extends Component {
 						}
 					/>
 					<Route path='/VGS'>
-						<ManageVGS
-							runwayLights={this.state.lights_data_from_runway}
-							runwayName={this.state.data_from_runway}
-							aircraftName={this.state.data_from_aircraft}
-							//runwayName={this.state.runway_name}
-							runwayIcao={this.state.runway_icao}
-							runwayDh={this.state.runway_decision_height}
-							runwayEdgeSpacing={this.state.runway_edge_light_spacing}
-							runwayGsx={this.state.runway_gs_x}
-							runwayGsy={this.state.runway_gs_y}
-							runwayGlideSlope={this.state.runway_glideslope}
-							runwayTch={this.state.runway_tch}
-							runwayWidth={this.state.runway_width}
-							runwayUnits={this.state.runway_unit_choice}
-							aircraftXa={this.state.aircraft_xa}
-							aircraftXe={this.state.aircraft_xe}
-							aircraftZa={this.state.aircraft_za}
-							aircraftZe={this.state.aircraft_ze}
-							aircraftCg={this.state.aircraft_cg}
-							aircraftFlaps={this.state.aircraft_flaps}
-							aircraftLookdown={this.state.aircraft_lookdown}
-							aircraftPitch={this.state.aircraft_pitch}
-							aircraftSpeed={this.state.aircraft_speed}
-							aircraftWeight={this.state.aircraft_weight}
-							aircraftUnits={this.state.aircraft_units}
-						/>
+						{/* <VGSErrorBoundary> */}
+							<ManageVGS
+								runwayLights={this.state.lights_data_from_runway}
+								runwayName={this.state.data_from_runway}
+								aircraftName={this.state.data_from_aircraft}
+								//runwayName={this.state.runway_name}
+								runwayIcao={this.state.runway_icao}
+								runwayDh={this.state.runway_decision_height}
+								runwayEdgeSpacing={this.state.runway_edge_light_spacing}
+								runwayGsx={this.state.runway_gs_x}
+								runwayGsy={this.state.runway_gs_y}
+								runwayGlideSlope={this.state.runway_glideslope}
+								runwayTch={this.state.runway_tch}
+								runwayWidth={this.state.runway_width}
+								runwayUnits={this.state.runway_unit_choice}
+								aircraftXa={this.state.aircraft_xa}
+								aircraftXe={this.state.aircraft_xe}
+								aircraftZa={this.state.aircraft_za}
+								aircraftZe={this.state.aircraft_ze}
+								aircraftCg={this.state.aircraft_cg}
+								aircraftFlaps={this.state.aircraft_flaps}
+								aircraftLookdown={this.state.aircraft_lookdown}
+								aircraftPitch={this.state.aircraft_pitch}
+								aircraftSpeed={this.state.aircraft_speed}
+								aircraftWeight={this.state.aircraft_weight}
+								aircraftUnits={this.state.aircraft_units}
+							/>
+						{/* </VGSErrorBoundary> */}
 					</Route>
 					<Route path='/Logoff'>
 						<Redirect to='/Login' />

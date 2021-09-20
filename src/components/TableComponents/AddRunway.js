@@ -62,16 +62,16 @@ class AddRunway extends React.Component {
 					<div className='col-lg-12'>
 						<Formik
 							initialValues={{
-								runName: " ",
-								icao: " ",
-								approachlights: " ",
-								dh: " ",
-								edgespacing: " ",
-								gsx: " ",
-								gsy: " ",
-								glideslope: " ",
-								tch: " ",
-								width: " ",
+								runName: "",
+								icao: "",
+								approachlights: "",
+								dh: "",
+								edgespacing: "",
+								gsx: "",
+								gsy: "",
+								glideslope: "",
+								tch: "",
+								width: "",
 								units: true,
 							}}
 							validate={(values) => {
@@ -96,20 +96,19 @@ class AddRunway extends React.Component {
 							}) => (
 								<Form onSubmit={handleSubmit}>
 									<Form.Group controlId='editRunwayForm'>
-										<Form.Label>Runway Name</Form.Label>
+										<Form.Label>Runway Name: The full name of the airport and the Runway with heading indicator</Form.Label>
 										<Field
 											value={values.runName}
-											//defaultValue={values.acName}
-											//onChange={this.setState({acName: values.acName})}
-											name='runName'
-											type='text'
-											placeholder='Enter the Runway Name'
+											id="runName"
+											name="runName"
+											type="text"
+											placeholder="Enter the Runway Name"
 											className={`form-control ${
 												touched.runName && errors.runName ? "is-invalid" : ""
 											}`}
 										/>
 										<br />
-										<Form.Label>Runway ICAO</Form.Label>
+										<Form.Label>Runway ICAO: The four letter ICAO code representing the specified airport location</Form.Label>
 										<Field
 											value={values.icao}
 											id='icao'
@@ -121,7 +120,8 @@ class AddRunway extends React.Component {
 											}`}
 										/>
 										<br />
-										<Form.Label>Approach Lights type</Form.Label>
+										<Form.Label>Approach Lights: The type of Approach Lighting system used at the specified airport</Form.Label>
+										<br />
 										<Field
 											as='select'
 											value={values.approachlights}
@@ -142,7 +142,7 @@ class AddRunway extends React.Component {
 											<option value='RAIL' label='RAIL' />
 										</Field>
 										<br />
-										<Form.Label>Decision Height</Form.Label>
+										<Form.Label>Decision Height: Height of the main gear above the ground at the time the approach decision must be made </Form.Label>
 										<Field
 											value={values.dh}
 											id='dh'
@@ -154,7 +154,7 @@ class AddRunway extends React.Component {
 											}`}
 										/>
 										<br />
-										<Form.Label>Edge Light Spacing</Form.Label>
+										<Form.Label>Edge Light Spacing: The distance between edge lights down a given runway.</Form.Label>
 										<Field
 											value={values.edgespacing}
 											id='edgespacing'
@@ -168,7 +168,7 @@ class AddRunway extends React.Component {
 											}`}
 										/>
 										<br />
-										<Form.Label>GS Offset X Value</Form.Label>
+										<Form.Label>Antenna Distance from the Ruway Center Line</Form.Label>
 										<Field
 											value={values.gsx}
 											id='gsx'
@@ -180,7 +180,7 @@ class AddRunway extends React.Component {
 											}`}
 										/>
 										<br />
-										<Form.Label>GS Offset Y Value</Form.Label>
+										<Form.Label>Antenna Distance from end of runway (starting at thresehold crossing lights)</Form.Label>
 										<Field
 											value={values.gsy}
 											id='gsy'
@@ -192,7 +192,7 @@ class AddRunway extends React.Component {
 											}`}
 										/>
 										<br />
-										<Form.Label>TCH</Form.Label>
+										<Form.Label>Threshold Crossing Height: The published height that an aircrafts Ground Segment antenna will cross the runway threshold</Form.Label>
 										<Field
 											value={values.tch}
 											id='tch'
@@ -204,7 +204,7 @@ class AddRunway extends React.Component {
 											}`}
 										/>
 										<br />
-										<Form.Label>Runway Width</Form.Label>
+										<Form.Label>Runway Width: The distance from one set of edge lights to the next set on a runway</Form.Label>
 										<Field
 											value={values.width}
 											id='width'
@@ -217,7 +217,7 @@ class AddRunway extends React.Component {
 										/>
 										<br />
 										<label htmlFor='unitsAir'>
-											Unit of measurement for values
+											Unit of measurement for values entered
 										</label>
 										<br />
 										<Field
@@ -226,6 +226,7 @@ class AddRunway extends React.Component {
 											name='unitsRun'
 											type='select'
 											value={values.units}
+											style={{marginBottom: "10px"}}
 										>
 											<option value='true'>Metric</option>
 											<option value='false'>Imperial</option>

@@ -149,8 +149,6 @@ export class ManageAircrafts extends Component {
     // ...this.state.selected,
     this.childFunction=this.childFunction.bind(this)
     setTimeout(() => {
-
-    
     if (isSelect) {
       //const craft = this.node.selectionContext.selected;
       this.setState(() => ({
@@ -158,7 +156,7 @@ export class ManageAircrafts extends Component {
       }));
     } else {
       this.setState(() => ({
-        selected: this.state.selected.filter(x => x !== row.id)
+        selected: this.state.selected.filter((x) => x !== row.id)
       }));
     }
     this.setState(() => ({
@@ -169,7 +167,7 @@ export class ManageAircrafts extends Component {
     console.log(this.state.select)
     setTimeout(() => {
       this.childFunction()
-  },600)
+  }, 600)
   };
 
   // find selected row key and delete that aircraft from database
