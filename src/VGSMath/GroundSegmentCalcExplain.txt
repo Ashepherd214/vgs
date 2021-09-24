@@ -26,6 +26,7 @@
  * xeyethres = xthres + xanteye
  * xahead = xthres - (obseg - xanteye)
  * xbeyond = FOV - xahead
+ * calculated TCH = Tan(Comm Angle x Distance(GS-Tx))  : Derived from tan(glide slope angle) = TCH/xthres (i.e. GS Y Offset)
  */
 
  /**Needed letiables from state

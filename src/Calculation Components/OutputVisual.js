@@ -23,18 +23,6 @@ function Runway(props) {
 	);
 }
 
-// function Diagram (props) {
-
-// }
-
-// function VisualOutputVals (props) {
-
-// }
-
-// function DiagramTextbox (props) {
-
-// }
-
 class OutputVisuals extends React.Component {
 	//_isMounted = false
 
@@ -88,18 +76,6 @@ class OutputVisuals extends React.Component {
 		} else {
 			console.log("components did not mount");
 		}
-
-		// console.log("runway lights in Output Visual are" + this.props.runwayLights)
-		// console.log("The Runway data from ManageVGS is: " + this.props.runwayIcao)
-		// console.log("The Runway data from ManageVGS is: " + this.props.runwayDh)
-		// console.log("The Runway data from ManageVGS is: " + this.props.runwayEdgeSpacing)
-		// console.log("The Runway data from ManageVGS is: " + this.props.runwayGsx)
-		// console.log("The Runway data from ManageVGS is: " + this.props.runwayGsy)
-		// console.log("The Runway data from ManageVGS is: " + this.props.runwayGlideSlope)
-		// console.log("The Runway data from ManageVGS is: " + this.props.runwayTch)
-		// console.log("The Runway data from ManageVGS is: " + this.props.runwayWidth)
-		// console.log("The Runway data from ManageVGS is: " + this.props.runwayUnits)
-		//window.addEventListener("resize", this.checkSize)
 	}
 
 	componentWillUnmount() {
@@ -134,34 +110,6 @@ class OutputVisuals extends React.Component {
 		}
 	}
 
-	/*--------------------------Original get Data function --------------------------------- */
-	// getRunwayData(runwayName) {
-	//   //const runwayName = this.props.runwayName
-	//   console.log(runwayName)
-	//   const runDb = firebase.firestore().collection("Runways").doc(String(runwayName))
-
-	//   runDb.get()
-	//   .then(doc => {
-	//     const data = doc.data()
-	//     console.log(data)
-	//     setTimeout(() => {
-	//     this.setState({
-	//       icao: doc.data().ICAO,
-	//       approachlights: doc.data().ApproachLights,
-	//       dh: doc.data().DH,
-	//       edgespacing: doc.data().EdgeSpacing,
-	//       gsx: doc.data().GSOffsetX,
-	//       gsy: doc.data().GSOffsetY,
-	//       glideslope: doc.data().GlideSlope,
-	//       tch: doc.data().TCH,
-	//       width: doc.data().Width,
-	//       runUnits: String(doc.data().Units),
-	//       lights: doc.data().ApproachLights,
-	//     })}, 100)
-	//   })
-	// }
-
-	/*---------------------------End getRunwayData---------------------------------------- */
 	async getAircraftData(aircraftName) {
 		try{
 			const airDb = await
@@ -188,62 +136,16 @@ class OutputVisuals extends React.Component {
 			console.log("Unable to retrieve the doc", error);
 		}
 	}
-	// checkSize = () => {
-	//   //const width = window.innerWidth
-	//   //const height = window.innerHeight
-	//   this.setState({
-	//     stageWidth: window.innerWidth,
-	//     stageHeight: window.innerHeight
-	//   })
-	// }
 	render() {
-		//const runLength = this.state.stageWidth * 0.50
-		//const runWidth = this.state.stageLength * 0.50
-		//const scaleWidth = (runWidthShow)
-		//const scaleHeight = (runLengthShow)
-		//getRunwayData(this.props.runwayName)
-		//console.log(this.state.lights)
-		//const lights = this.state.approachlights
-		console.log("Variable lights: " + this.state.approachlights);
-		console.log(
-			"Edge Lights spacing in Output: " + this.state.runwayEdgeSpacing
-		);
 		console.log("OutputVisual xAhead: " + this.props.xahead);
 		console.log("OutputVisual xBeyond: " + this.props.xbeyond);
 		
-		// Error handle: if airDb is null and has no data, print an alert and return to dashboard or just return to dashboard with
-		// no alert
 
 		if (this.props.runwayName == "" || this.props.aircraftName == ""){
 			return <Redirect to='/Dashboard' />
 		} else {
 			return (
 				<div>
-					{/* 
-				<h5>{"ICAO: " + this.state.icao}</h5>
-				<h5>{"Approach Lights: " + this.state.approachlights}</h5>
-				<h5>{"Decision Height: " + this.state.dh}</h5>
-				<h5>{"Edge Spacing: " + this.state.edgespacing}</h5>
-				<h5>{"GSX: " + this.state.gsx}</h5>
-				<h5>{"GSY: " + this.state.gsy}</h5>
-				<h5>{"Glide Slope: " + this.state.glideslope}</h5>
-				<h5>{"TCH: " + this.state.tch}</h5>
-				<h5>{"Width: " + this.state.width}</h5>
-				<h5>{"Metric?: " + this.state.runUnits}</h5> <br />
-				<label>Selected Aircraft Data: </label>
-				<h5>{"Aircraft: " + this.state.airName}</h5>
-				<h5>{"Ze: " + this.state.ze}</h5>
-				<h5>{"Xe: " + this.state.xe}</h5>
-				<h5>{"Lookdown Angle: " + this.state.lookdown}</h5>
-				<h5>{"Za: " + this.state.za}</h5>
-				<h5>{"Xa: " + this.state.xa}</h5>
-				<h5>{"Flaps: " + this.state.flaps}</h5>
-				<h5>{"Speed: " + this.state.speed}</h5>
-				<h5>{"Weight: " + this.state.weight}</h5>
-				<h5>{"Center of Gravity: " + this.state.cg}</h5>
-				<h5>{"Pitch Angle: " + this.state.pitch}</h5>
-				<h5>{"Metric?: " + this.state.airUnits}</h5> <br /> */}
-
 					<Stage
 						style={{
 							backgroundColor: "tan",

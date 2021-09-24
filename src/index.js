@@ -156,7 +156,7 @@ export class App extends Component {
 	render() {
 		return (
 			<Router>
-				<NavigationBar />
+				
 				<Switch>
 					
 					<Route
@@ -170,6 +170,7 @@ export class App extends Component {
 						render={() =>
 							this.state.me ? (
 								<Container>
+									<NavigationBar />
 									<ManageAircrafts
 										parentFunction={this.parentAircraftCallbackFunction}
 									/>
@@ -186,12 +187,11 @@ export class App extends Component {
 						}
 					/>
 					<Route path='/VGS'>
-						{/* <VGSErrorBoundary> */}
+						<NavigationBar />
 							<ManageVGS
 								runwayLights={this.state.lights_data_from_runway}
 								runwayName={this.state.data_from_runway}
 								aircraftName={this.state.data_from_aircraft}
-								//runwayName={this.state.runway_name}
 								runwayIcao={this.state.runway_icao}
 								runwayDh={this.state.runway_decision_height}
 								runwayEdgeSpacing={this.state.runway_edge_light_spacing}
@@ -213,7 +213,6 @@ export class App extends Component {
 								aircraftWeight={this.state.aircraft_weight}
 								aircraftUnits={this.state.aircraft_units}
 							/>
-						{/* </VGSErrorBoundary> */}
 					</Route>
 					<Route path='/Logoff'>
 						<Redirect to='/Login' />

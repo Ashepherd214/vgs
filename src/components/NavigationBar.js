@@ -37,10 +37,10 @@ const NavigationBar = () => (
 		</Navbar.Brand>
 		<Navbar.Toggle aria-controls='basic-navbar-nav' />
 		<Navbar.Collapse id='basic-navbar-nav'>
-			<Nav.Link href='/Login'>Login</Nav.Link>
 			<Nav.Link href='/Dashboard'>Home</Nav.Link>
 			<Nav.Link
 				href='/Logoff'
+				className="justify-content-end"
 				onClick={() => {
 					auth.signOut();
 					return <Redirect to='/Login' />;

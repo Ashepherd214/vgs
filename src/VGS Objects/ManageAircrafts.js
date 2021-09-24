@@ -163,11 +163,11 @@ export class ManageAircrafts extends Component {
       select: this.node.selectionContext.selected
     }));
     this.setState({ itemSelected: true })
-  }, 600)
+  })
     console.log(this.state.select)
     setTimeout(() => {
       this.childFunction()
-  }, 600)
+  })
   };
 
   // find selected row key and delete that aircraft from database
