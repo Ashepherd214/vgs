@@ -24,29 +24,89 @@ class ManageVGS extends Component {
 		lookdown: this.props.aircraftLookdown,
 		xrvr: 1200,
 		tch: this.props.runwayTch,
+		units: "Metric",
+		canConvert: false,
 		calcChoice: "realCal", /**Choices are, 0Cal, realCal, 0TCH, realTCH */
 	};
 	render() {
 		let radToDeg = Math.PI/180 // Anywhere this variable is found can be switched back to this math if needed.
 		let xcutoff = this.state.lookdown - this.state.pitch;
+
+		//Check if units is metric or imperial. If it is imperial
+		// if(this.state.canConvert == true) {
+		// 	switch(this.state.units) {
+		// 		case 'Metric':
+		// 			//Convert from Imperial to Metric. Multiply by a factor of 0.3048
+		// 			let dhM = this.state.dh * 0.3048//dh
+		// 			let xaM = this.state.xa * 0.3048//xa
+		// 			let xeM = this.state.xe * 0.3048//xe
+		// 			let zaM = this.state.za * 0.3048//za
+		// 			let zeM = this.state.ze * 0.3048//ze
+		// 			let gsxM = this.state.gsx * 0.3048//gsx
+		// 			let gsyM = this.state.gsy * 0.3048//gsy
+		// 			let xrvrM = this.state.xrvr * 0.3048//xrvr
+		// 			let tchM = this.state.tch * 0.3048//tch
+
+		// 			this.setState({
+		// 				dh: dhM,
+		// 				xa: xaM,
+		// 				xe: xeM,
+		// 				za: zaM,
+		// 				ze: zeM,
+		// 				gsx: gsxM,
+		// 				gsy: gsyM,
+		// 				xrvr: xrvrM,
+		// 				tch: tchM,
+		// 			});
+		// 		break;
+		// 		case 'Imperial':
+		// 			//Convert from Metric to Imperial. Multiply by a factor of 3.281
+		// 			let dhI = this.state.dh * 3.281//dh
+		// 			let xaI = this.state.xa * 3.281//xa
+		// 			let xeI = this.state.xe * 3.281//xe
+		// 			let zaI = this.state.za * 3.281//za
+		// 			let zeI = this.state.ze * 3.281//ze
+		// 			let gsxI = this.state.gsx * 3.281//gsx
+		// 			let gsyI = this.state.gsy * 3.281//gsy
+		// 			let xrvrI = this.state.xrvr * 3.281//xrvr
+		// 			let tchI = this.state.tch * 3.281//tch
+		// 			this.setState({
+		// 				dh: dhI,
+		// 				xa: xaI,
+		// 				xe: xeI,
+		// 				za: zaI,
+		// 				ze: zeI,
+		// 				gsx: gsxI,
+		// 				gsy: gsyI,
+		// 				xrvr: xrvrI,
+		// 				tch: tchI,
+		// 				canConvert: true
+		// 			});
+		// 		break;
+		// 		default:
+		// 			break
+		// 	}
+			
+		// }
+
 		// Calculate Eye Distance to Ground modified by AC pitch at Decision Height
 		let zeg =
 			this.state.dh +
-			this.state.ze * Math.cos(this.state.pitch * (Math.PI / 180)) +
-			this.state.xe * Math.sin(this.state.pitch * (Math.PI / 180));
+			this.state.ze * Math.cos(this.state.pitch * radToDeg) +
+			this.state.xe * Math.sin(this.state.pitch * radToDeg);
 		//Calculate antenna distance to ground modified by pitch at decision heights	
 		let zag =
 			this.state.dh +
-			this.state.za * Math.cos(this.state.pitch * (Math.PI / 180)) +
-			this.state.xa * Math.sin(this.state.pitch * (Math.PI / 180));
+			this.state.za * Math.cos(this.state.pitch * radToDeg) +
+			this.state.xa * Math.sin(this.state.pitch * radToDeg);
 		//Calculate ground distance from AC antenna to eye
 		let xanteye =
 			(this.state.xa - this.state.xe) *
-				Math.cos(this.state.pitch * (Math.PI / 180)) +
+				Math.cos(this.state.pitch * radToDeg) +
 			(this.state.ze - this.state.za) *
-				Math.sin(this.state.pitch * (Math.PI / 180));
+				Math.sin(this.state.pitch * radToDeg);
 		//Calculate the obscured segment
-		let obseg = zeg / Math.tan(xcutoff * (Math.PI / 180));
+		let obseg = zeg / Math.tan(xcutoff * radToDeg);
 		//Calculate ground RVR
 		let gndrvr = Math.sqrt(Math.pow(this.state.xrvr, 2) - Math.pow(zeg, 2));
 		//calculate the field of view
@@ -59,10 +119,10 @@ class ManageVGS extends Component {
 		// );
 		//function to calculate the distance from the AC antenna to GS TX accounting for TX lateral offset i.e. Y Offset = real world
 		let xaxreal = Math.sqrt(
-			Math.pow((zag / Math.tan((Math.PI / 180) * this.state.glideSlope)), 2) - Math.pow(this.state.gsy, 2)
+			Math.pow((zag / Math.tan(radToDeg * this.state.glideSlope)), 2) - Math.pow(this.state.gsy, 2)
 		);
 		//function to calculate distance from AC antenna to GS Tx with no lateral offset i.e. Y Offset = zero
-		let xax0 = zag / Math.tan((Math.PI / 180) * this.state.glideSlope)
+		let xax0 = zag / Math.tan(radToDeg * this.state.glideSlope)
 
 		
 
@@ -76,7 +136,7 @@ class ManageVGS extends Component {
 		let xbeyondreal = fov - Math.abs(xaheadreal);
 
 		//calculate GS Tx Offset to Threshold based on published TCH
-		let gsxOffsetTCH = this.state.tch /*need to pass in this value */ / Math.tan(this.state.glideSlope * (Math.PI / 180))
+		let gsxOffsetTCH = this.state.tch /*need to pass in this value */ / Math.tan(this.state.glideSlope * radToDeg)
 
 		//calculate distance from pilot eye to the threshold of the runway based on the published TCH assuming GS TX is on runway centerline
 		let xeyethres0TCH = xax0 - gsxOffsetTCH + xanteye
@@ -106,6 +166,8 @@ class ManageVGS extends Component {
 		console.log("xthres: " + xthresreal);
 		console.log("xahead: " + xaheadreal);
 		console.log("xbeyond: " + xbeyondreal);
+		console.log("Measurement units from Runway are in: " + this.props.runwayUnits);
+		console.log("Measurement units from Aircraft are in: " + this.props.aircraftUnits);
 		// console.log("-----------End Variables in ManageVGS calculated----------");
 
 		/* The methods of calculating the VGS vary based on a combination of two things, Whether the lateral position of the Ground Transmitter station
@@ -190,6 +252,17 @@ class ManageVGS extends Component {
 				}
 			}
 
+
+			function convertAirToMetric() {
+				//If the selected Aircraft has this.props.aircraftUnits set to false (meaning not metric values) 
+				// the values being used should be converted to Metric
+			}
+
+			function convertRunToMetric() {
+				//If the selected Runway has this.props.runwayUnits set to false (meaning not metric values) 
+				// the values being used should be converted to Metric
+			}
+
 		return (
 			//-------Tab Layout---------//
 			<Tabs defaultActiveKey='outputs' id='data-tabs'>
@@ -204,13 +277,30 @@ class ManageVGS extends Component {
 								Runway: {this.props.runwayIcao}{" "}
 							</label>
 						</Col>
-						<Col md={3}>
-							<label className='outputlabel'>
-								Units in {this.state.runwayUnits}
+						<Col md={6}>
+							<label className='outputlabel' style={{paddingRight: "20px"}}>
+								Units in: {this.state.units}
 							</label>
+							<Button
+								variant="secondary"
+								onClick={() => {
+									switch(this.state.units) {
+										case 'Metric':
+											this.setState({units: 'Imperial', canConvert: true})
+										break
+										case 'Imperial':
+											this.setState({units: 'Metric'})
+										break
+									}
+									
+									console.log("Button has changed units to" + this.state.units)
+								}}
+							>
+								Change Units
+							</Button>
 							<br />
 							<label className='outputlabel'>
-								Rendered on {/*({Date})*/}
+								Rendered on: {/*({Date})*/}
 							</label>
 						</Col>
 					</Row>

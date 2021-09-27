@@ -88,19 +88,43 @@ export class ManageRunways extends Component {
 		//console.log("obtained doc in child: " + data.data().ApproachLights)
 		console.log("obtained doc in child: " + data.data().ICAO);
 
-		this.setState({
-			approachlights: String(data.data().ApproachLights),
-			name: data.id,
-			icao: data.data().ICAO,
-			dh: data.data().DH,
-			edgespacing: data.data().EdgeSpacing,
-			gsx: data.data().GSOffsetX,
-			gsy: data.data().GSOffsetY,
-			glideslope: data.data().GlideSlope,
-			tch: data.data().TCH,
-			width: data.data().Width,
-			units: data.data().Units,
-		});
+		if(data.data().Units == false) {
+			let dhM = (data.data().DH) * 0.3048
+			let edgeM = (data.data().EdgeSpacing) * 0.3048
+			let gsxM = (data.data().GSOffsetX) * 0.3048
+			let gsyM = (data.data().GSOffsetY) * 0.3048
+			let TCH = (data.data().TCH) * 0.3048
+			let widthM = (data.data().Width) * 0.3048
+
+			this.setState({
+				approachlights: String(data.data().ApproachLights),
+				name: data.id,
+				icao: data.data().ICAO,
+				dh: dhM,
+				edgespacing: edgeM,
+				gsx: gsxM,
+				gsy: gsyM,
+				glideslope: data.data().GlideSlope,
+				tch: TCH,
+				width: widthM,
+				units: true,
+			});
+		} else {
+			console.log("Runway values already in metric")
+			this.setState({
+				approachlights: String(data.data().ApproachLights),
+				name: data.id,
+				icao: data.data().ICAO,
+				dh: data.data().DH,
+				edgespacing: data.data().EdgeSpacing,
+				gsx: data.data().GSOffsetX,
+				gsy: data.data().GSOffsetY,
+				glideslope: data.data().GlideSlope,
+				tch: data.data().TCH,
+				width: data.data().Width,
+				units: data.data().Units,
+			});
+		}
 
 		db.get().then((doc) => {
 			const data = doc.data();
