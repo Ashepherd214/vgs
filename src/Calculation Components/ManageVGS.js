@@ -24,11 +24,67 @@ class ManageVGS extends Component {
 		lookdown: this.props.aircraftLookdown,
 		xrvr: 1200,
 		tch: this.props.runwayTch,
-		units: "Metric",
+		fovS: '',
+		zegS: '',
+		zagS:'',
+		xanteyeS:'',
+		obsegS:'',
+		xthres0S:'',
+		xthresrealS:'',
+		xeyethres0S:'',
+		xeyethres0TCHS:'',
+		xeyethresreal:'',
+		xeyethresrealTCHS:'',
+		gndrvrS:'',
+		xax0S:'',
+		xaxrealS:'',
+		xcutoffS:'',
+		xahead0S:'',
+		xaheadrealS:'',
+		xahead0TCHS:'',
+		xaheadrealTCHS:'',
+		xbeyond0S:'',
+		xbeyondrealS:'',
+		xbeyond0TCHS:'',
+		xbeyondrealTCHS:'',
+		xaheadGndRndr: '',
+		xbeyondGndRndr:'',
+		xahead0GS:'',
+		xahead0TCHGS:'',
+		xaheadrealGS:'',
+		xaheadrealTCHGS:'',
+		xbeyond0GS:'',
+		xbeyond0TCHGS:'',
+		xbeyondrealGS:'',
+		xbeyondrealTCHGS:'',
+		runwayWidthGS:'',
+		units: "Imperial",
 		canConvert: false,
 		calcChoice: "realCal", /**Choices are, 0Cal, realCal, 0TCH, realTCH */
+		_isMounted: false,
 	};
-	render() {
+
+	constructor(props) {
+		super(props) 
+			this.calculateVGS = this.calculateVGS.bind(this)
+	}
+
+	componentDidMount() {
+		this.state._isMounted = true;
+
+		if(this.state._isMounted) {
+			this.calculateVGS();
+			console.log("Component has mounted")
+		} else {
+			console.log("component did not mount")
+		}
+	}
+
+	componentWillUnmount() {
+		this._isMounted = false
+	}
+
+		calculateVGS() {
 		let radToDeg = Math.PI/180 // Anywhere this variable is found can be switched back to this math if needed.
 		let xcutoff = this.state.lookdown - this.state.pitch;
 
@@ -152,20 +208,53 @@ class ManageVGS extends Component {
 		let xaheadrealTCH = xeyethresrealTCH - obseg
 		let xbeyondrealTCH = fov - xaheadrealTCH
 
+
+		this.setState({
+			zegS: zeg,
+			zagS: zag,
+			fovS: fov,
+			xanteyeS: xanteye,
+			obsegS: obseg,
+			xthres0S: xthres0,
+			xthresrealS: xthresreal,
+			xeyethres0S: xeyethres0,
+			xeyethres0TCHS: xeyethres0TCH,
+			xeyethresrealS: xeyethresreal,
+			xeyethresrealTCHS: xeyethresrealTCH,
+			gndrvrS: gndrvr,
+			xax0S: xax0,
+			xaxrealS: xaxreal,
+			xcutoffS: xcutoff,
+			xahead0S: xahead0,
+			xahead0TCHS: xahead0TCH,
+			xaheadrealS: xaheadreal,
+			xaheadrealTCHS: xaheadrealTCH,
+			xbeyond0S: xbeyond0,
+			xbeyondrealS: xbeyondreal,
+			xbeyond0TCHS: xbeyond0TCH,
+			xbeyondrealTCHS: xbeyondrealTCH,
+			xahead0GS:xahead0,
+			xahead0TCHGS:xahead0TCH,
+			xaheadrealGS:xaheadreal,
+			xaheadrealTCHGS:xaheadrealTCH,
+			xbeyond0GS:xbeyond0,
+			xbeyond0TCHGS:xbeyond0TCH,
+			xbeyondrealGS:xbeyondreal,
+			xbeyondrealTCHGS:xbeyondrealTCH,
+			decisionHeight: this.props.runwayDh,
+			// runwayWidthGS:this.props.runwayWidth,
+
+		})
 		// console.log("----------Start Variables in ManageVGS calculated----------");
-		console.log("xcutoff: " + xcutoff);
-		console.log("zeg: " + zeg);
-		console.log("zag: " + zag);
-		console.log("xanteye: " + xanteye);
-		console.log("obseg: " + obseg);
-		console.log("gndrvr: " + gndrvr);
-		console.log("fov: " + fov);
+		console.log("xcutoff: " + this.state.xcutoffS);
+		console.log("zeg: " + this.state.zegS);
+		console.log("zag: " + this.state.zagS);
+		console.log("xanteye: " + this.state.xanteyeS);
+		console.log("obseg: " + this.state.obsegS);
+		console.log("gndrvr: " + this.state.gndrvrS);
+		console.log("fov: " + this.state.fovS);
 		console.log("glideslope: " + this.state.glideSlope);
 		console.log("decision Height: " + this.state.dh);
-		console.log("xax: " + xaxreal);
-		console.log("xthres: " + xthresreal);
-		console.log("xahead: " + xaheadreal);
-		console.log("xbeyond: " + xbeyondreal);
 		console.log("Measurement units from Runway are in: " + this.props.runwayUnits);
 		console.log("Measurement units from Aircraft are in: " + this.props.aircraftUnits);
 		// console.log("-----------End Variables in ManageVGS calculated----------");
@@ -209,60 +298,286 @@ class ManageVGS extends Component {
 			 * xbeyondrealTCH
 			 */
 		//------------------Real Offset, Published TCH Variables ------------------------------------------------------------//
-
+		}
 
 		
 		//------------------This is where Runway function was -------------------------------------------------------------//
-
-			function xaheadChoose (choice){
+			xaheadRnd (choice){
+				
 				switch(choice) {
 					case '0Cal':
 						console.log("Showing Xahead 0 offset with calculated TCH")
-						return xahead0;
+							return this.state.xahead0GS
 					case 'realCal':
 						console.log("Showing Xahead real offset with calculated TCH")
-						return xaheadreal;
+							return this.state.xaheadrealGS
 					case '0TCH':
 						console.log("Showing Xahead 0 offset with published TCH")
-						return xahead0TCH;
+							return this.state.xahead0TCHGS
 					case 'realTCH':
 						console.log("Showing Xahead real offset with published TCH")
-						return xaheadrealTCH;
+							return this.state.xaheadrealTCHGS
 					default:
-						return xahead0;
+						return this.state.xahead0GS;
 				}
 			}
 
-			function xbeyondChoose (choice){
+			xbeyondRnd (choice){
 				switch(choice) {
 					case '0Cal':
 						console.log("Showing Xbeyond 0 offset with calculated TCH")
-						return xbeyond0;
+							return this.state.xbeyond0GS
 					case 'realCal':
 						console.log("Showing Xbeyond real offset with calculated TCH")
-						return xbeyondreal;
+							return this.state.xbeyondrealGS
 					case '0TCH':
 						console.log("Showing Xbeyond 0 offset with published TCH")
-						return xbeyond0TCH;
+							return this.state.xbeyond0TCHGS
 					case 'realTCH':
 						console.log("Showing Xbeyond real offset with published TCH")
-						return xbeyondrealTCH;
+							return this.state.xbeyondrealTCHGS
 					default:
-						return xbeyond0;
+						return this.state.xbeyond0GS
+				}
+			}
+			xaheadChoose (choice){
+				
+				switch(choice) {
+					case '0Cal':
+						console.log("Showing Xahead 0 offset with calculated TCH")
+						// if(this.state.units == "Imperial" && this.state.canConvert == true){
+						// 	return (this.state.xahead0S * 3.281)
+						// } else if(this.state.units == 'Metric') {
+						// 	return (this.state.xahead0S * 0.3048)
+						// } else {
+							return this.state.xahead0S
+						//}
+					case 'realCal':
+						console.log("Showing Xahead real offset with calculated TCH")
+						// if(this.state.units == "Imperial" && this.state.canConvert == true){
+						// 	return (this.state.xaheadrealS * 3.281)
+						// } else if(this.state.units == 'Metric') {
+						// 	return (this.state.xaheadrealS * 0.3048)
+						// } else {
+							return this.state.xaheadrealS
+						//}
+					case '0TCH':
+						console.log("Showing Xahead 0 offset with published TCH")
+						// if(this.state.units == "Imperial" && this.state.canConvert == true){
+						// 	return (this.state.xahead0TCHS * 3.281)
+						// } else if(this.state.units == 'Metric') {
+						// 	return (this.state.xahead0TCHS * 0.3048)
+						// } else {
+							return this.state.xahead0TCHS
+						//}
+					case 'realTCH':
+						console.log("Showing Xahead real offset with published TCH")
+						// if(this.state.units == "Imperial" && this.state.canConvert == true){
+						// 	return (this.state.xaheadrealTCHS * 3.281)
+						// } else if(this.state.units == 'Metric') {
+						// 	return (this.state.xaheadrealTCHS * 0.3048)
+						// } else {
+							return this.state.xaheadrealTCHS
+						//}
+					default:
+						return this.state.xahead0S;
+				}
+			}
+
+			xbeyondChoose (choice){
+				switch(choice) {
+					case '0Cal':
+						console.log("Showing Xbeyond 0 offset with calculated TCH")
+						// if(this.state.units == "Imperial" && this.state.canConvert == true){
+						// 	return (this.state.xbeyond0S * 3.281)
+						// } else if(this.state.units == 'Metric') {
+						// 	return (this.state.xbeyond0S * 0.3048)
+						// } else {
+							return this.state.xbeyond0S
+						//}
+					case 'realCal':
+						console.log("Showing Xbeyond real offset with calculated TCH")
+						// if(this.state.units == "Imperial" && this.state.canConvert == true){
+						// 	return (this.state.xbeyondrealS * 3.281)
+						// } else if(this.state.units == 'Metric') {
+						// 	return (this.state.xbeyondrealS * 0.3048)
+						// } else {
+							return this.state.xbeyondrealS
+						//}
+					case '0TCH':
+						console.log("Showing Xbeyond 0 offset with published TCH")
+						// if(this.state.units == "Imperial" && this.state.canConvert == true){
+						// 	return (this.state.xbeyond0TCHS * 3.281)
+						// } else if(this.state.units == 'Metric') {
+						// 	return (this.state.xbeyond0TCHS * 0.3048)
+						// } else {
+							return this.state.xbeyond0TCHS
+						//}
+					case 'realTCH':
+						console.log("Showing Xbeyond real offset with published TCH")
+						// if(this.state.units == "Imperial" && this.state.canConvert == true){
+						// 	return (this.state.xbeyondrealTCHS * 3.281)
+						// } else if(this.state.units == 'Metric') {
+						// 	return (this.state.xbeyondrealTCHS * 0.3048)
+						// } else {
+							return this.state.xbeyondrealTCHS
+						//}
+					default:
+						return this.state.xbeyond0S;
 				}
 			}
 
 
-			function convertAirToMetric() {
-				//If the selected Aircraft has this.props.aircraftUnits set to false (meaning not metric values) 
-				// the values being used should be converted to Metric
+			convertUnits(val) {
+				/**This function will take in the passed in value and convert between imperial or metric depending on 
+				 * the current unit choice and the canConvert variable for first time metric variable
+				 */
+				let units = this.state.units
+				// if(this.state.canConvert) {
+				// 	switch(units) {
+				// 		case 'Metric':
+				// 			return (val * 0.3048)
+				// 		case 'Imperial':
+				// 			return (val * 3.281)
+				// 		default:
+				// 			return val
+				// 	}
+				// }
+				// if(val == 100 && this.state.units == 'Metric'){
+				// 	return (val * 0.3048)
+				// }
+				// if(val == 100 && this.state.units == 'Imperial') {
+				// 	return val
+				// }
+				if(units == "Imperial" && this.state.canConvert == true){
+					return (val * 3.281)
+				} else if(this.state.units == 'Metric') {
+						return (val * 0.3048)
+				} else {
+						return val
+				}
+				
 			}
 
-			function convertRunToMetric() {
-				//If the selected Runway has this.props.runwayUnits set to false (meaning not metric values) 
-				// the values being used should be converted to Metric
+			convertToImperial() {
+				// This method is called to convert all currently used values to Imperial.
+				let zegI = this.state.zegS * 3.281
+				let zagI = this.state.zagS * 3.281
+				let fovI = this.state.fovS * 3.281
+				let xanteyeI = this.state.xanteyeS * 3.281
+				let obsegI = this.state.obsegS * 3.281
+				let xthres0I = this.state.xthre0S * 3.281
+				let xthresrealI = this.state.xthresrealS * 3.281
+				let xeyethres0I = this.state.xeyethres0S * 3.281
+				let xeyethres0TCHI = this.state.xeyethres0TCHS * 3.281
+				let xeyethresrealI = this.state.xeyethresrealS * 3.281
+				let xeyethresrealTCHI = this.state.xeyethresrealTCHS * 3.281
+				let xrvrI = this.state.xrvrS * 3.281
+				let gndrvrI = this.state.gndrvrS * 3.281
+				let xax0I = this.state.xax0S * 3.281
+				let xaxrealI = this.state.xaxrealS * 3.281
+				let xcutoffI = this.state.xcutoffS * 3.281
+				let TCHI = this.state.TCH * 3.281
+				let xahead0I = this.state.xahead0S * 3.281
+				let xahead0TCHI = this.state.xahead0TCHS * 3.281
+				let xaheadrealI = this.state.xaheadrealS * 3.281
+				let xaheadrealTCHI = this.state.xaheadrealTCHS * 3.281
+				let xbeyond0I = this.state.xbeyond0S * 3.281
+				let xbeyondrealI = this.state.xbeyondrealS * 3.281
+				let xbeyond0TCHI = this.state.xbeyond0TCHS * 3.281
+				let xbeyondrealTCHI = this.state.xbeyondrealTCHS * 3.281
+				let decisionHeightI = this.state.decisionHeight * 3.281
+
+				this.setState({
+					zegS: zegI,
+					zagS: zagI,
+					fovS: fovI,
+					xanteyeS: xanteyeI,
+					obsegS: obsegI,
+					xthres0S: xthres0I,
+					xthresrealS: xthresrealI,
+					xeyethres0S: xeyethres0I,
+					xeyethres0TCHS: xeyethres0TCHI,
+					xeyethresrealS: xeyethresrealI,
+					xeyethresrealTCHS: xeyethresrealTCHI,
+					xrvr: xrvrI,
+					gndrvrS: gndrvrI,
+					xax0S: xax0I,
+					xaxrealS: xaxrealI,
+					xcutoffS: xcutoffI,
+					TCH: TCHI,
+					xahead0S: xahead0I,
+					xahead0TCHS: xahead0TCHI,
+					xaheadrealS: xaheadrealI,
+					xaheadrealTCHS: xaheadrealTCHI,
+					xbeyond0S: xbeyond0I,
+					xbeyondrealS: xbeyondrealI,
+					xbeyond0TCHS: xbeyond0TCHI,
+					xbeyondrealTCHS: xbeyondrealTCHI,
+					decisionHeight: decisionHeightI
+				})
 			}
 
+			convertToMetric() {
+				// This method is called to convert all currently used values to Metric
+				let zegI = this.state.zegS * 0.3048
+				let zagI = this.state.zagS * 0.3048
+				let fovI = this.state.fovS * 0.3048
+				let xanteyeI = this.state.xanteyeS * 0.3048
+				let obsegI = this.state.obsegS * 0.3048
+				let xthres0I = this.state.xthre0S * 0.3048
+				let xthresrealI = this.state.xthresrealS * 0.3048
+				let xeyethres0I = this.state.xeyethres0S * 0.3048
+				let xeyethres0TCHI = this.state.xeyethres0TCHS * 0.3048
+				let xeyethresrealI = this.state.xeyethresrealS * 0.3048
+				let xeyethresrealTCHI = this.state.xeyethresrealTCHS * 0.3048
+				let xrvrI = this.state.xrvrS * 0.3048
+				let gndrvrI = this.state.gndrvrS * 0.3048
+				let xax0I = this.state.xax0S * 0.3048
+				let xaxrealI = this.state.xaxrealS * 0.3048
+				let xcutoffI = this.state.xcutoffS * 0.3048
+				let TCHI = this.state.TCH * 0.3048
+				let xahead0I = this.state.xahead0S * 0.3048
+				let xahead0TCHI = this.state.xahead0TCHS * 0.3048
+				let xaheadrealI = this.state.xaheadrealS * 0.3048
+				let xaheadrealTCHI = this.state.xaheadrealTCHS * 0.3048
+				let xbeyond0I = this.state.xbeyond0S * 0.3048
+				let xbeyondrealI = this.state.xbeyondrealS * 0.3048
+				let xbeyond0TCHI = this.state.xbeyond0TCHS * 0.3048
+				let xbeyondrealTCHI = this.state.xbeyondrealTCHS * 0.3048
+				let decisionHeightI = this.props.runwayDh * 0.3048
+
+				this.setState({
+					zegS: zegI,
+					zagS: zagI,
+					fovS: fovI,
+					xanteyeS: xanteyeI,
+					obsegS: obsegI,
+					xthres0S: xthres0I,
+					xthresrealS: xthresrealI,
+					xeyethres0S: xeyethres0I,
+					xeyethres0TCHS: xeyethres0TCHI,
+					xeyethresrealS: xeyethresrealI,
+					xeyethresrealTCHS: xeyethresrealTCHI,
+					xrvr: xrvrI,
+					gndrvrS: gndrvrI,
+					xax0S: xax0I,
+					xaxrealS: xaxrealI,
+					xcutoffS: xcutoffI,
+					TCH: TCHI,
+					xahead0S: xahead0I,
+					xahead0TCHS: xahead0TCHI,
+					xaheadrealS: xaheadrealI,
+					xaheadrealTCHS: xaheadrealTCHI,
+					xbeyond0S: xbeyond0I,
+					xbeyondrealS: xbeyondrealI,
+					xbeyond0TCHS: xbeyond0TCHI,
+					xbeyondrealTCHS: xbeyondrealTCHI,
+					decisionHeight: decisionHeightI
+				})
+			}
+			
+	render() {
 		return (
 			//-------Tab Layout---------//
 			<Tabs defaultActiveKey='outputs' id='data-tabs'>
@@ -286,10 +601,14 @@ class ManageVGS extends Component {
 								onClick={() => {
 									switch(this.state.units) {
 										case 'Metric':
-											this.setState({units: 'Imperial', canConvert: true})
+											//call conversion to Imperial method and update all values at this time
+											this.convertToImperial()
+											this.setState({units: 'Imperial'})
 										break
 										case 'Imperial':
-											this.setState({units: 'Metric'})
+											//call conversion to Metric method and update all values at this time
+											this.convertToMetric()
+											this.setState({units: 'Metric', canConvert: true})
 										break
 									}
 									
@@ -307,18 +626,18 @@ class ManageVGS extends Component {
 					<Row>
 							<Col md={3}>
 								<label className='outputLabel'>
-									xAhead: {Number(xaheadChoose(this.state.calcChoice)).toFixed(2)}
+									xAhead: {Number(this.xaheadChoose(this.state.calcChoice)).toFixed(2)}
 								</label>
 								<br />
 							</Col>
 							<Col md={3}>
 								<label className='outputLabel'>
-									xBeyond: {Number(xbeyondChoose(this.state.calcChoice)).toFixed(2)}
+									xBeyond: {Number(this.xbeyondChoose(this.state.calcChoice)).toFixed(2)}
 								</label>
 							</Col>
 							<Col md={3}>
 								<label className='outputLabel'>
-									FOV: {Number(fov).toFixed(2)}
+									FOV: {Number(this.state.fovS).toFixed(2)}
 								</label>
 							</Col>
 						</Row>
@@ -379,8 +698,8 @@ class ManageVGS extends Component {
 									style={{ height: "500px", width: "1000px" }}
 									runwayName={this.props.runwayName}
 									aircraftName={this.props.aircraftName}
-									xahead={xaheadChoose(this.state.calcChoice)}
-									xbeyond={xbeyondChoose(this.state.calcChoice)}
+									xahead={this.xaheadRnd(this.state.calcChoice)}
+									xbeyond={this.xbeyondRnd(this.state.calcChoice)}
 									runwayLights={this.props.runwayLights}
 									runwayEdgeSpacing={this.props.runwayEdgeSpacing}
 									runwayWidth={this.props.runwayWidth}
@@ -412,28 +731,28 @@ class ManageVGS extends Component {
 							</Col>
 							<Col md={3}>
 								<label className='paramlabel'>
-									Decision Height: {this.props.runwayDh}{" "}
+									Decision Height: {Number(this.state.decisionHeight).toFixed(2)}{" "}
 								</label>
 								<br />
 								<label className='paramlabel'>
-									Pilot's eye above ground(zeg): {Number(zeg).toFixed(2)}{" "}
+									Pilot's eye above ground(zeg): {Number(this.state.zegS).toFixed(2)}{" "}
 								</label>
 								<label className='paramlabel'>
-									Ground Segment antenna above ground(zag): {Number(zag).toFixed(2)}{" "}
+									Ground Segment antenna above ground(zag): {Number(this.state.zagS).toFixed(2)}{" "}
 								</label>
 								<br />
 								<label className='paramlabel'>
-									Horizontal distance of eye ground segment(xanteye): {Number(xanteye).toFixed(2)}{" "}
+									Horizontal distance of eye ground segment(xanteye): {Number(this.state.xanteyeS).toFixed(2)}{" "}
 								</label>
 								<label className='paramlabel'>
-									Obscured Segment (obseg): {Number(obseg).toFixed(2)}{" "}
+									Obscured Segment (obseg): {Number(this.state.obsegS).toFixed(2)}{" "}
 								</label>
 								<br />
 								<label className='paramlabel'> {/*Add logic for Calculated/Published TCH with 0/real offsets buttons */}
-									Aircraft ground segment to Threshold(xthres): {Number(xthresreal).toFixed(2)}{" "}
+									Aircraft ground segment to Threshold(xthres): {Number(this.state.xthresrealS).toFixed(2)}{" "}
 								</label>
 								<label className='paramlabel'> {/**Button Logic */}
-									Eyepoint to threshold(xeyethres): {Number(xeyethresreal).toFixed(2)}{" "}
+									Eyepoint to threshold(xeyethres): {Number(this.state.xeyethresrealS).toFixed(2)}{" "}
 								</label>
 								<br />
 								<label className='paramlabel'>
@@ -442,7 +761,7 @@ class ManageVGS extends Component {
 							</Col>
 							<Col md={3}>
 								<label className='paramlabel'>
-									Effective ground rvr(gndrvr) {Number(gndrvr).toFixed(2)}
+									Effective ground rvr(gndrvr) {Number(this.state.gndrvrS).toFixed(2)}
 								</label>
 								<br />
 								{/* <label className='outputlabel'>
@@ -453,22 +772,22 @@ class ManageVGS extends Component {
 									Threshold crossing height(TCH): {this.props.runwayTch}
 								</label>
 								<br />
-								<label className='paramlabel'>Field of view(FOV) {Number(fov).toFixed(2)}</label>
+								<label className='paramlabel'>Field of view(FOV) {Number(this.state.fovS).toFixed(2)}</label>
 								<br />
 								<label className='paramlabel'> {/**Button Logic */}
-									Transmitter antenna horizontal offset(xxmtr) {Number(xaxreal).toFixed(2)}
+									Transmitter antenna horizontal offset(xax) {Number(this.state.xaxrealS).toFixed(2)}
 								</label>
 								<br />
 								<label className='paramlabel'>
-									Cutoff angle(xcutoff) {Number(xcutoff)}
+									Cutoff angle(xcutoff) {Number(this.state.xcutoffS)}
 								</label>
 								<br />
 								<label className='paramlabel'> {/**Button Logic */}
-									Visible before threshold(xahead) {Number(xaheadChoose(this.state.calcChoice)).toFixed(2)}
+									Visible before threshold(xahead) {Number(this.xaheadChoose(this.state.calcChoice)).toFixed(2)}
 								</label>
 								<br />
 								<label className='paramlabel'> {/**Button Logic */}
-									Visible after threshold(xbeyond) {Number(xbeyondChoose(this.state.calcChoice)).toFixed(2)}
+									Visible after threshold(xbeyond) {Number(this.xbeyondChoose(this.state.calcChoice)).toFixed(2)}
 								</label>
 								<br />
 							</Col>
@@ -554,24 +873,24 @@ class ManageVGS extends Component {
 								</label>
 								<br />
 								<label className='paramlabel'>
-									Pilot's eye above ground(zeg): {Number(zeg).toFixed(2)}{" "}
+									Pilot's eye above ground(zeg): {Number(this.state.zegS).toFixed(2)}{" "}
 								</label>
 								<label className='paramlabel'>
-									Ground Segment antenna above ground(zag): {Number(zag).toFixed(2)}{" "}
+									Ground Segment antenna above ground(zag): {Number(this.state.zagS).toFixed(2)}{" "}
 								</label>
 								<br />
 								<label className='paramlabel'> {/**Button Logic */}
-									Horizontal distance of eye ground segment(xanteye): {Number(xanteye).toFixed(2)}{" "}
+									Horizontal distance of eye ground segment(xanteye): {Number(this.state.xanteyeS).toFixed(2)}{" "}
 								</label>
 								<label className='paramlabel'>
-									Obscured Segment (obseg): {Number(obseg).toFixed(2)}{" "}
+									Obscured Segment (obseg): {Number(this.state.obsegS).toFixed(2)}{" "}
 								</label>
 								<br />
 								<label className='paramlabel'> {/**Button Logic */}
-									Aircraft ground segment to Threshold(xthres): {Number(xthresreal).toFixed(2)}{" "}
+									Aircraft ground segment to Threshold(xthres): {Number(this.state.xthresrealS).toFixed(2)}{" "}
 								</label>
 								<label className='paramlabel'> {/**Button Logic */}
-									Eyepoint to threshold(xeyethres): {Number(xeyethresreal).toFixed(2)}{" "}
+									Eyepoint to threshold(xeyethres): {Number(this.state.xeyethresrealS).toFixed(2)}{" "}
 								</label>
 								<br />
 								<label className='paramlabel'>
@@ -580,7 +899,7 @@ class ManageVGS extends Component {
 							</Col>
 							<Col md={6}>
 								<label className='paramlabel'>
-									Effective ground rvr(gndrvr) {Number(gndrvr).toFixed(2)}
+									Effective ground rvr(gndrvr) {Number(this.state.gndrvrS).toFixed(2)}
 								</label>
 								<br />
 								{/* <label className='outputlabel'>
@@ -591,22 +910,22 @@ class ManageVGS extends Component {
 									Threshold crossing height(TCH): {this.props.runwayTch}
 								</label>
 								<br />
-								<label className='paramlabel'>Field of view(FOV) {Number(fov).toFixed(2)}</label>
+								<label className='paramlabel'>Field of view(FOV) {Number(this.state.fovS).toFixed(2)}</label>
 								<br />
 								<label className='paramlabel'> {/**Button Logic */}
-									Transmitter antenna horizontal offset(xxmtr) {Number(xaxreal).toFixed(2)}
+									Transmitter antenna horizontal offset(xxmtr) {Number(this.state.xaxrealS).toFixed(2)}
 								</label>
 								<br />
 								<label className='paramlabel'>
-									Cutoff angle(xcutoff) {Number(xcutoff)}
+									Cutoff angle(xcutoff) {Number(this.state.xcutoffS)}
 								</label>
 								<br />
 								<label className='paramlabel'> {/**Button Logic */}
-									Visible before threshold(xahead) {Number(xaheadChoose(this.state.calcChoice)).toFixed(2)}
+									Visible before threshold(xahead) {Number(this.xaheadChoose(this.state.calcChoice)).toFixed(2)}
 								</label>
 								<br />
 								<label className='paramlabel'> {/**Button Logic */}
-									Visible after threshold(xbeyond) {Number(xbeyondChoose(this.state.calcChoice)).toFixed(2)}
+									Visible after threshold(xbeyond) {Number(this.xbeyondChoose(this.state.calcChoice)).toFixed(2)}
 								</label>
 								<br />
 							</Col>
