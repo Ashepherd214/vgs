@@ -1,8 +1,9 @@
-import firebase from "firebase";
-import "firebase/auth";
+import { initializeApp, analytics, firestore } from "firebase/app";
+import { getAuth, onAuthStateChanged } from "@firebase/auth";
+import React, { useState, useEffect, useContext, createContext } from 'react'
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
+export const firebaseConfig = initializeApp({
 	apiKey: "AIzaSyBbeV0UBT98Q_2XT9H_XLhNV7bG72kJnq4",
 	authDomain: "rsi-vgs.firebaseapp.com",
 	databaseURL: "https://rsi-vgs.firebaseio.com",
@@ -11,28 +12,48 @@ const firebaseConfig = {
 	messagingSenderId: "294305445462",
 	appId: "1:294305445462:web:fafc6a1df04bdc7b38adf7",
 	measurementId: "G-J8ZDDB5LGS",
-};
+});
 
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-firebase.analytics();
+//firebase.initializeApp(firebaseConfig);
+//analytics();
 
-const firestore = firebase.firestore();
-export const auth = firebase.auth();
+// const firebaseApp = firebase.initializeApp(firebaseConfig);
+
+export const AuthContext = createContext()
+
+export const AuthContextProvider = props => {
+	const [user, setUser] = useState()
+	const [error, setError] = useState()
+
+	useEffect(() => {
+		const unsubscribe = onAuthStateChanged(getAuth(), setUser, setError)
+		return () => unsubscribe()
+	}, [])
+	return <AuthContext.Provider value={{ user,error }} {...props} />
+}
+
+export const useAuthState = () => {
+	const auth = useContext(AuthContext)
+	return { ...auth, isAuthenticated: auth.user !=null}
+}
+
+//const firestore = firebase.firestore();
+//export const auth = firebase.auth();
 
  // [START initialize_persistence]
-      firebase.firestore().enablePersistence()
-        .catch((err) => {
-            if (err.code == 'failed-precondition') {
-                // Multiple tabs open, persistence can only be enabled
-                // in one tab at a a time.
-                // ...
-            } else if (err.code == 'unimplemented') {
-                // The current browser does not support all of the
-                // features required to enable persistence
-                // ...
-            }
-        });
+    //   firestore.enablePersistence()
+    //     .catch((err) => {
+    //         if (err.code == 'failed-precondition') {
+    //             // Multiple tabs open, persistence can only be enabled
+    //             // in one tab at a a time.
+    //             // ...
+    //         } else if (err.code == 'unimplemented') {
+    //             // The current browser does not support all of the
+    //             // features required to enable persistence
+    //             // ...
+    //         }
+    //     });
       // Subsequent queries will use persistence, if it was enabled successfully
       // [END initialize_persistence]
 

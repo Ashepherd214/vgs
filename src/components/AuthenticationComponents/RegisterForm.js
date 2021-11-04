@@ -1,8 +1,8 @@
-import React, { Component, useContext, useState } from "react";
-import { AuthContext } from "../../Auth";
+import React, { Component, useContext, useState, useCallback } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { Redirect } from "react-router";
 import { firestore, auth, generateUserDocument } from "../../Firestore";
+import { getAuth, createUserWithEmailAndPassword } from '@firebase/auth';
 
 const RegisterForm = () => {
 	const [regEmail, setEmail] = useState("");
@@ -12,7 +12,7 @@ const RegisterForm = () => {
 	const [useID, setUseID] = useState("");
 	const [error, setError] = useState(null);
 
-	const user = useContext(AuthContext);
+	//const user = useContext(AuthContext);
 
 	const handleChange = (event) => {
 		const { name, value } = event.currentTarget;
@@ -32,32 +32,48 @@ const RegisterForm = () => {
 		}
 	};
 
-	const handleSubmit = (event, regEmail, regPassword, firstName, lastName) => {
-		event.preventDefault();
-		console.log("Name is: " + firstName + " " + lastName);
-		console.log("Email submitting as: " + regEmail);
-		try {
-			//const user = auth.createUserWithEmailAndPassword(regEmail, regPassword);
-			auth.createUserWithEmailAndPassword(regEmail, regPassword).then((userCredential) => {
-				var user = userCredential.user
-				var useID = user.uid
-				console.log("User created on submit: " + user.uid);
-				setUseID(user.uid);
-				console.log("authID before generation: " + useID)
-				generateUserDocument(user, useID, firstName, lastName, regEmail);
-				console.log("Login Successful");
-			})
-			
-		} catch (error) {
-			setError("Error Signing up with email and password");
-		}
+	const handleSubmit = useCallback(async e => {
+			e.preventDefault()
 
-		setEmail("");
-		setPassword("");
-		setFirstName("");
-		setLastName("");
-		return <Redirect to='/Login' />;
-	};
+			const { email, password } = e.target.elements
+			const auth = getAuth()
+			try {
+				await createUserWithEmailAndPassword(auth, regEmail.value, regPassword.value).then((userCredential) => {
+					var user = userCredential.user
+					var useID = user.uid
+					generateUserDocument(auth, useID.value, firstName.value, lastName.value, regEmail.value)
+				})
+			} catch (e) {
+				alert(e.message)
+			}
+	},[])
+
+	// const handleSubmit = (event, regEmail, regPassword, firstName, lastName) => {
+	// 	event.preventDefault();
+	// 	console.log("Name is: " + firstName + " " + lastName);
+	// 	console.log("Email submitting as: " + regEmail);
+	// 	try {
+	// 		//const user = auth.createUserWithEmailAndPassword(regEmail, regPassword);
+	// 		auth.createUserWithEmailAndPassword(regEmail, regPassword).then((userCredential) => {
+	// 			var user = userCredential.user
+	// 			var useID = user.uid
+	// 			console.log("User created on submit: " + user.uid);
+	// 			setUseID(user.uid);
+	// 			console.log("authID before generation: " + useID)
+	// 			generateUserDocument(user, useID, firstName, lastName, regEmail);
+	// 			console.log("Login Successful");
+	// 		})
+			
+	// 	} catch (error) {
+	// 		setError("Error Signing up with email and password");
+	// 	}
+
+	// 	setEmail("");
+	// 	setPassword("");
+	// 	setFirstName("");
+	// 	setLastName("");
+	// 	return <Redirect to='/Login' />;
+	// };
 
 	return (
 		<Container>

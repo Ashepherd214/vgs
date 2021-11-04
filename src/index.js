@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { Redirect } from "react-router";
-import { Route, Switch, Link, BrowserRouter as Router } from "react-router-dom";
+import { Route, Switch, Link, Redirect, BrowserRouter as Router } from "react-router-dom";
 import { Col, Container, Row, Tab, Tabs } from "react-bootstrap";
 import "tachyons";
 import ManageAircrafts from "./VGS Objects/ManageAircrafts";
@@ -11,18 +10,45 @@ import ManageVGS from "./Calculation Components/ManageVGS";
 import "./index.css";
 import NavigationBar from "./components/NavigationBar";
 import Authentication from "./components/AuthenticationComponents/AuthenticationPage";
-import firebaseapp, { auth } from "firebase";
-import PrivateRoute from "./PrivateRoute";
-import Dashboard from "./Dashboard.js";
-import history from "history";
-import VGSErrorBoundary from './VGSErrorBoundary'
-import UserProvider from "./Auth";
+import { AuthContextProvider, useAuthState } from "./Firestore";
 import firebase from "firebase";
+//import PrivateRoute from "./PrivateRoute";
+
+
+
+
 
 
 /**
  * Need 
  */
+
+const AuthenticatedRoute = ({ component: C, ...props }) => {
+	const { isAuthenticated } = useAuthState()
+	console.log(`AuthenticatedRoute: ${isAuthenticated}`)
+	return (
+		<Route
+			{...props}
+			render={routeProps => 
+				isAuthenticated ? <C {...routeProps} /> : <Redirect to="/Login" />
+			}
+		/>
+	)
+}
+
+const UnauthenticatedRoute = ({ component: C, ...props }) => {
+	const { isAuthenticated } = useAuthState()
+	console.log(`UnauthenticatedRoute: ${isAuthenticated}`)
+	return (
+		<Route
+			{...props}
+			render={routeProps =>
+			!isAuthenticated ? <C {...routeProps} /> : <Redirect to="/" />
+			}
+		/>
+	)
+}
+
 export class App extends Component {
 	constructor(props) {
 		super(props);
@@ -51,7 +77,7 @@ export class App extends Component {
 			aircraft_speed: "",
 			aircraft_weight: "",
 			aircraft_units: "",
-			me: auth.currentUser,
+			//me: auth.currentUser,
 		};
 	}
 
@@ -166,13 +192,14 @@ export class App extends Component {
 			<Router>
 				
 				<Switch>
-					
+					<UnauthenticatedRoute exact path='/login'>
 					<Route
 						path='/Login'
 						render={() =>
 							!this.state.me ? <Authentication /> : <Redirect to='/Dashboard' />
 						}
 					/>
+					</UnauthenticatedRoute>
 					<Route
 						path='/Dashboard'
 						render={() =>
@@ -235,8 +262,8 @@ export class App extends Component {
 }
 
 ReactDOM.render(
-	<UserProvider>
+	<AuthContextProvider>
 		<App />
-	</UserProvider>,
+	</AuthContextProvider>,
 	document.getElementById("root")
 );

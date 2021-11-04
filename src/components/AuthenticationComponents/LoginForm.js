@@ -4,7 +4,7 @@ import { firestore, auth } from "../../Firestore";
 import firebase from 'firebase/app'
 import 'firebase/auth';
 import { withRouter, Redirect } from "react-router";
-import { AuthContext } from "../../Auth.js";
+import { getAuth, signInWithEmailAndPassword } from '@firebase/auth'
 
 const LoginForm = () => {
 	const [loginEmail, setEmail] = useState("");
@@ -21,27 +21,40 @@ const LoginForm = () => {
 		}
 	};
 
-	const handleLoginSubmit = (event, loginEmail, loginPassword) => {
-		event.preventDefault();
-		console.log("Login email is: " + loginEmail);
-		console.log("Login password is: " + loginPassword);
-		firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
-			.then(() => {
-				auth.signInWithEmailAndPassword(loginEmail, loginPassword).catch((error) => {
-				setError("Error signing in with password and email.");
-				console.error("Error signing in with password and email.", error);
-				return <Redirect to='/Dashboard' />;
-				})
-			})
-			.catch((error) => {
-				var errorCode = error.code
-				var errorMessage = error.message
-			})
-	};
+	const handleLoginSubmit = useCallback(async e => {
+		e.preventDefault()
+
+		const { email, password } = e.target.elements
+		const auth = getAuth()
+		try {
+			await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value)
+		} catch (e) {
+			alert(e.message)
+		}
+	}, [])
+
+	// const handleLoginSubmit = (event, loginEmail, loginPassword) => {
+	// 	event.preventDefault();
+	// 	console.log("Login email is: " + loginEmail);
+	// 	console.log("Login password is: " + loginPassword);
+
+	// 	firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+	// 		.then(() => {
+	// 			auth.signInWithEmailAndPassword(loginEmail, loginPassword).catch((error) => {
+	// 			setError("Error signing in with password and email.");
+	// 			console.error("Error signing in with password and email.", error);
+	// 			return <Redirect to='/Dashboard' />;
+	// 			})
+	// 		})
+	// 		.catch((error) => {
+	// 			var errorCode = error.code
+	// 			var errorMessage = error.message
+	// 		})
+	// };
 
 	return (
 		<Container>
-			<Form>
+			<Form onSubmit={handleLoginSubmit}>
 				<Form.Group>
 					<Form.Label>Email</Form.Label>
 					<Form.Control
@@ -69,9 +82,9 @@ const LoginForm = () => {
 				<Button
 					variant='primary'
 					type='submit'
-					onClick={(event) => {
-						handleLoginSubmit(event, loginEmail, loginPassword);
-					}}
+					// onClick={(event) => {
+					// 	handleLoginSubmit(event, loginEmail, loginPassword);
+					// }}
 				>
 					Submit
 				</Button>
