@@ -346,14 +346,14 @@ class EditAircraft extends React.Component {
                   </label>
                   <br />
                   <Field
+                    name="unitsAir"
                     as="select"
                     id="unitsAir"
-                    name="unitsAir"
                     type="select"
-                    value={values.units}
+                    value={values.unitsAir}
                   >
-                    <option value="true">Metric</option>
-                    <option value="false">Imperial</option>
+                    <option value="true" label="Metric">Metric</option>
+                    <option value="false" label="Imperial">Imperial</option>
                   </Field>
                   <br />
                   <button

@@ -234,9 +234,9 @@ class AddAircraft extends React.Component {
                   <br />
                   <label htmlFor="Measurement Units">Unit of measurement values are being entered in</label>
                   <br />
-                  <Field as="select" id="unitsAir" name="unitsAir" type="select" value={values.name} style={{marginBottom: "10px"}}>
-                    <option value="true">Metric</option>
-                    <option value="false">Imperial</option>
+                  <Field as="select" id="unitsAir" name="unitsAir" type="select" value={values.unitsAir} style={{marginBottom: "10px"}}>
+                    <option value="true" label="Metric">Metric</option>
+                    <option value="false" label="Imperial">Imperial</option>
                   </Field>
                   <br />
                   <button

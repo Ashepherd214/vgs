@@ -228,8 +228,8 @@ class AddRunway extends React.Component {
 											value={values.units}
 											style={{marginBottom: "10px"}}
 										>
-											<option value='true'>Metric</option>
-											<option value='false'>Imperial</option>
+											<option value='true' label="Metric">Metric</option>
+											<option value='false' label="Imperial">Imperial</option>
 										</Field>
 										<br />
 										<button

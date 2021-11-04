@@ -68,7 +68,7 @@ export class ManageAircrafts extends Component {
             pitch: doc.data().pitch,
             speed: doc.data().speed,
             weight: doc.data().weight,
-            unitsAir: doc.data().unitsAir.toString()
+            unitsAir: doc.data().unitsAir
           });
         });
 
@@ -81,36 +81,37 @@ export class ManageAircrafts extends Component {
 
   async childFunction() {
     //let select = selected;
-    let selection = [this.node.selectionContext.selected]
+    //let selection = [this.node.selectionContext.selected]
+    let selection = [this.state.select]
     
     console.log("Inside ChildFunction: ", selection[0])
     const db = await firestore.collection("Aircrafts").doc(selection[0].toString());
     const data = await firestore.collection("Aircrafts").doc(selection[0].toString()).get()
 
-    // Check if values are metric or not and then convert before setting and sending back
-    // through the callback function. Imperial to Metric conversion is x(Feet)/3.28(meters) or x(Feet) * 0.3048(Meters). Weight from lbs into kg (x * 0.4536)
-    if(data.data().unitsAir == false) {
-      let xaM = (data.data().Xa) * 0.3048
-      let xeM = (data.data().Xe) * 0.3048
-      let zaM = (data.data().Xa) * 0.3048
-      let zeM = (data.data().Xe) * 0.3048
-      let weightM = (data.data().Xa) * 0.4536
+    // Check if values are metric or not. If metric convert to imperial for calculation purposes
+    // through the callback function. Metric to Imperial conversion is x(Feet)/3.28(meters) or x(Feet) * 3.281(Meters). Weight from lbs into kg (x * 0.4536)
+    if(data.data().unitsAir == true) {
+      let xaI = (data.data().Xa) * 3.281
+      let xeI = (data.data().Xe) * 3.281
+      let zaI = (data.data().Za) * 3.281
+      let zeI = (data.data().Ze) * 3.281
+      let weightI = (data.data().weight) * 2.205
 
       this.setState({
-        xa: xaM,
-        xe: xeM,
-        za: zaM,
-        ze: zeM,
+        xa: xaI,
+        xe: xeI,
+        za: zaI,
+        ze: zeI,
         cg: data.data().cg,
         flaps: data.data().flaps,
         lookdown: data.data().lookdown,
         pitch: data.data().pitch,
         speed: data.data().speed,
-        weight: weightM,
-        unitsAir: true
+        weight: weightI,
+        unitsAir: false
       })
     } else {
-      console.log("Aircraft values already in metric")
+      console.log("Aircraft values already in Imperial")
       this.setState({
         xa: data.data().Xa,
         xe: data.data().Xe,
@@ -122,7 +123,7 @@ export class ManageAircrafts extends Component {
         pitch: data.data().pitch,
         speed: data.data().speed,
         weight: data.data().weight,
-        unitsAir: data.data().unitsAir.toString()
+        unitsAir: data.data().unitsAir
       })
     }
     db.get()
@@ -349,7 +350,7 @@ export class ManageAircrafts extends Component {
         }
       },
       {
-        dataField: "unitAir",
+        dataField: "unitsAir",
         text: "Metric?",
         headerStyle: {
           backgroundColor: '#003E6A',

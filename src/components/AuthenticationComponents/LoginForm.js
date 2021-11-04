@@ -1,6 +1,8 @@
 import React, { useCallback, useContext, Component, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { firestore, auth } from "../../Firestore";
+import firebase from 'firebase/app'
+import 'firebase/auth';
 import { withRouter, Redirect } from "react-router";
 import { AuthContext } from "../../Auth.js";
 
@@ -23,11 +25,18 @@ const LoginForm = () => {
 		event.preventDefault();
 		console.log("Login email is: " + loginEmail);
 		console.log("Login password is: " + loginPassword);
-		auth.signInWithEmailAndPassword(loginEmail, loginPassword).catch((error) => {
-			setError("Error signing in with password and email.");
-			console.error("Error signing in with password and email.", error);
-			return <Redirect to='/Dashboard' />;
-		});
+		firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+			.then(() => {
+				auth.signInWithEmailAndPassword(loginEmail, loginPassword).catch((error) => {
+				setError("Error signing in with password and email.");
+				console.error("Error signing in with password and email.", error);
+				return <Redirect to='/Dashboard' />;
+				})
+			})
+			.catch((error) => {
+				var errorCode = error.code
+				var errorMessage = error.message
+			})
 	};
 
 	return (

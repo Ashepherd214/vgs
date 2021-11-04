@@ -86,7 +86,7 @@ class EditRunway extends React.Component {
     
     if (db.doc(selString).id.toString() === values.runName) {
       db.doc(selString).update({
-        ApproachLights: Number(values.approachlights),
+        ApproachLights: String(values.approachlights),
         DH: Number(values.dh),
         EdgeSpacing: Number(values.edgespacing),
         GSOffsetX: Number(values.gsx),
@@ -99,7 +99,7 @@ class EditRunway extends React.Component {
       });
     } else {
       db.doc(values.acName).set({
-        ApproachLights: Number(values.approachlights),
+        ApproachLights: String(values.approachlights),
         DH: Number(values.dh),
         EdgeSpacing: Number(values.edgespacing),
         GSOffsetX: Number(values.gsx),
@@ -306,9 +306,16 @@ class EditRunway extends React.Component {
                     Unit of measurement for values entered
                   </label>
                   <br />
-                      <Field as="select" id="unitsRun" name="unitsRun" type="select" value={values.units} style={{marginBottom: "10px"}}>
-                        <option value="true">Metric</option>
-                        <option value="false">Imperial</option>
+                      <Field 
+                        as="select" 
+                        id="unitsRun" 
+                        name="unitsRun" 
+                        type="select" 
+                        value={values.units} 
+                        style={{marginBottom: "10px"}}
+                      >
+                        <option value="true" label="Metric">Metric</option>
+                        <option value="false" label="Imperial">Imperial</option>
                       </Field>
                   <br />
                   <button

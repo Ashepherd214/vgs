@@ -37,7 +37,11 @@ const NavigationBar = () => (
 		</Navbar.Brand>
 		<Navbar.Toggle aria-controls='basic-navbar-nav' />
 		<Navbar.Collapse id='basic-navbar-nav'>
-			<Nav.Link href='/Dashboard'>Home</Nav.Link>
+			<Nav.Link 
+				href='/Home'
+				onClick={() => { 
+					return <Redirect to='/Dashboard' />
+				}}>Home</Nav.Link>
 			<Nav.Link
 				href='/Logoff'
 				className="justify-content-end"

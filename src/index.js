@@ -19,6 +19,10 @@ import VGSErrorBoundary from './VGSErrorBoundary'
 import UserProvider from "./Auth";
 import firebase from "firebase";
 
+
+/**
+ * Need 
+ */
 export class App extends Component {
 	constructor(props) {
 		super(props);
@@ -105,6 +109,10 @@ export class App extends Component {
 		firebase.auth().onAuthStateChanged((me) => {
 			this.setState({ me });
 		});
+	}
+
+	componentWillUpdate (props, state) {
+		return state.me
 	}
 
 	parentAircraftCallbackFunction = (

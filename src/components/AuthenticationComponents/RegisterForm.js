@@ -9,6 +9,7 @@ const RegisterForm = () => {
 	const [regPassword, setPassword] = useState("");
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
+	const [useID, setUseID] = useState("");
 	const [error, setError] = useState(null);
 
 	const user = useContext(AuthContext);
@@ -36,10 +37,17 @@ const RegisterForm = () => {
 		console.log("Name is: " + firstName + " " + lastName);
 		console.log("Email submitting as: " + regEmail);
 		try {
-			const user = auth.createUserWithEmailAndPassword(regEmail, regPassword);
-			console.log("User created on submit: " + user);
-			generateUserDocument(user, firstName, lastName, regEmail);
-			console.log("Login Successful");
+			//const user = auth.createUserWithEmailAndPassword(regEmail, regPassword);
+			auth.createUserWithEmailAndPassword(regEmail, regPassword).then((userCredential) => {
+				var user = userCredential.user
+				var useID = user.uid
+				console.log("User created on submit: " + user.uid);
+				setUseID(user.uid);
+				console.log("authID before generation: " + useID)
+				generateUserDocument(user, useID, firstName, lastName, regEmail);
+				console.log("Login Successful");
+			})
+			
 		} catch (error) {
 			setError("Error Signing up with email and password");
 		}

@@ -49,7 +49,16 @@ class ManageVGS extends Component {
 		xbeyondrealTCHS:'',
 		xaheadGndRndr: '',
 		xbeyondGndRndr:'',
-		units: "Metric",
+		xahead0GS:'',
+		xahead0TCHGS:'',
+		xaheadrealGS:'',
+		xaheadrealTCHGS:'',
+		xbeyond0GS:'',
+		xbeyond0TCHGS:'',
+		xbeyondrealGS:'',
+		xbeyondrealTCHGS:'',
+		runwayWidthGS:'',
+		units: "Imperial",
 		canConvert: false,
 		calcChoice: "realCal", /**Choices are, 0Cal, realCal, 0TCH, realTCH */
 		_isMounted: false,
@@ -224,10 +233,20 @@ class ManageVGS extends Component {
 			xbeyondrealS: xbeyondreal,
 			xbeyond0TCHS: xbeyond0TCH,
 			xbeyondrealTCHS: xbeyondrealTCH,
+			xahead0GS:xahead0,
+			xahead0TCHGS:xahead0TCH,
+			xaheadrealGS:xaheadreal,
+			xaheadrealTCHGS:xaheadrealTCH,
+			xbeyond0GS:xbeyond0,
+			xbeyond0TCHGS:xbeyond0TCH,
+			xbeyondrealGS:xbeyondreal,
+			xbeyondrealTCHGS:xbeyondrealTCH,
+			decisionHeight: this.props.runwayDh,
+			// runwayWidthGS:this.props.runwayWidth,
 
 		})
 		// console.log("----------Start Variables in ManageVGS calculated----------");
-		console.log("xcutoff: " + this.state.xcutoff);
+		console.log("xcutoff: " + this.state.xcutoffS);
 		console.log("zeg: " + this.state.zegS);
 		console.log("zag: " + this.state.zagS);
 		console.log("xanteye: " + this.state.xanteyeS);
@@ -288,18 +307,18 @@ class ManageVGS extends Component {
 				switch(choice) {
 					case '0Cal':
 						console.log("Showing Xahead 0 offset with calculated TCH")
-							return this.state.xahead0S
+							return this.state.xahead0GS
 					case 'realCal':
 						console.log("Showing Xahead real offset with calculated TCH")
-							return this.state.xaheadrealS
+							return this.state.xaheadrealGS
 					case '0TCH':
 						console.log("Showing Xahead 0 offset with published TCH")
-							return this.state.xahead0TCHS
+							return this.state.xahead0TCHGS
 					case 'realTCH':
 						console.log("Showing Xahead real offset with published TCH")
-							return this.state.xaheadrealTCHS
+							return this.state.xaheadrealTCHGS
 					default:
-						return this.state.xahead0S;
+						return this.state.xahead0GS;
 				}
 			}
 
@@ -307,18 +326,18 @@ class ManageVGS extends Component {
 				switch(choice) {
 					case '0Cal':
 						console.log("Showing Xbeyond 0 offset with calculated TCH")
-							return this.state.xbeyond0S
+							return this.state.xbeyond0GS
 					case 'realCal':
 						console.log("Showing Xbeyond real offset with calculated TCH")
-							return this.state.xbeyondrealS
+							return this.state.xbeyondrealGS
 					case '0TCH':
 						console.log("Showing Xbeyond 0 offset with published TCH")
-							return this.state.xbeyond0TCHS
+							return this.state.xbeyond0TCHGS
 					case 'realTCH':
 						console.log("Showing Xbeyond real offset with published TCH")
-							return this.state.xbeyondrealTCHS
+							return this.state.xbeyondrealTCHGS
 					default:
-						return this.state.xbeyond0S
+						return this.state.xbeyond0GS
 				}
 			}
 			xaheadChoose (choice){
@@ -326,40 +345,40 @@ class ManageVGS extends Component {
 				switch(choice) {
 					case '0Cal':
 						console.log("Showing Xahead 0 offset with calculated TCH")
-						if(this.state.units == "Imperial"){
-							return (this.state.xahead0S * 3.281)
-						} else if(this.state.units == 'Metric' && this.state.canConvert == true) {
-							return (this.state.xahead0S * 0.3048)
-						} else {
+						// if(this.state.units == "Imperial" && this.state.canConvert == true){
+						// 	return (this.state.xahead0S * 3.281)
+						// } else if(this.state.units == 'Metric') {
+						// 	return (this.state.xahead0S * 0.3048)
+						// } else {
 							return this.state.xahead0S
-						}
+						//}
 					case 'realCal':
 						console.log("Showing Xahead real offset with calculated TCH")
-						if(this.state.units == "Imperial"){
-							return (this.state.xaheadrealS * 3.281)
-						} else if(this.state.units == 'Metric' && this.state.canConvert == true) {
-							return (this.state.xaheadrealS * 0.3048)
-						} else {
+						// if(this.state.units == "Imperial" && this.state.canConvert == true){
+						// 	return (this.state.xaheadrealS * 3.281)
+						// } else if(this.state.units == 'Metric') {
+						// 	return (this.state.xaheadrealS * 0.3048)
+						// } else {
 							return this.state.xaheadrealS
-						}
+						//}
 					case '0TCH':
 						console.log("Showing Xahead 0 offset with published TCH")
-						if(this.state.units == "Imperial"){
-							return (this.state.xahead0TCHS * 3.281)
-						} else if(this.state.units == 'Metric' && this.state.canConvert == true) {
-							return (this.state.xahead0TCHS * 0.3048)
-						} else {
+						// if(this.state.units == "Imperial" && this.state.canConvert == true){
+						// 	return (this.state.xahead0TCHS * 3.281)
+						// } else if(this.state.units == 'Metric') {
+						// 	return (this.state.xahead0TCHS * 0.3048)
+						// } else {
 							return this.state.xahead0TCHS
-						}
+						//}
 					case 'realTCH':
 						console.log("Showing Xahead real offset with published TCH")
-						if(this.state.units == "Imperial"){
-							return (this.state.xaheadrealTCHS * 3.281)
-						} else if(this.state.units == 'Metric' && this.state.canConvert == true) {
-							return (this.state.xaheadrealTCHS * 0.3048)
-						} else {
+						// if(this.state.units == "Imperial" && this.state.canConvert == true){
+						// 	return (this.state.xaheadrealTCHS * 3.281)
+						// } else if(this.state.units == 'Metric') {
+						// 	return (this.state.xaheadrealTCHS * 0.3048)
+						// } else {
 							return this.state.xaheadrealTCHS
-						}
+						//}
 					default:
 						return this.state.xahead0S;
 				}
@@ -369,54 +388,193 @@ class ManageVGS extends Component {
 				switch(choice) {
 					case '0Cal':
 						console.log("Showing Xbeyond 0 offset with calculated TCH")
-						if(this.state.units == "Imperial"){
-							return (this.state.xbeyond0S * 3.281)
-						} else if(this.state.units == 'Metric' && this.state.canConvert == true) {
-							return (this.state.xbeyond0S * 0.3048)
-						} else {
+						// if(this.state.units == "Imperial" && this.state.canConvert == true){
+						// 	return (this.state.xbeyond0S * 3.281)
+						// } else if(this.state.units == 'Metric') {
+						// 	return (this.state.xbeyond0S * 0.3048)
+						// } else {
 							return this.state.xbeyond0S
-						}
+						//}
 					case 'realCal':
 						console.log("Showing Xbeyond real offset with calculated TCH")
-						if(this.state.units == "Imperial"){
-							return (this.state.xbeyondrealS * 3.281)
-						} else if(this.state.units == 'Metric' && this.state.canConvert == true) {
-							return (this.state.xbeyondrealS * 0.3048)
-						} else {
+						// if(this.state.units == "Imperial" && this.state.canConvert == true){
+						// 	return (this.state.xbeyondrealS * 3.281)
+						// } else if(this.state.units == 'Metric') {
+						// 	return (this.state.xbeyondrealS * 0.3048)
+						// } else {
 							return this.state.xbeyondrealS
-						}
+						//}
 					case '0TCH':
 						console.log("Showing Xbeyond 0 offset with published TCH")
-						if(this.state.units == "Imperial"){
-							return (this.state.xbeyond0TCHS * 3.281)
-						} else if(this.state.units == 'Metric' && this.state.canConvert == true) {
-							return (this.state.xbeyond0TCHS * 0.3048)
-						} else {
+						// if(this.state.units == "Imperial" && this.state.canConvert == true){
+						// 	return (this.state.xbeyond0TCHS * 3.281)
+						// } else if(this.state.units == 'Metric') {
+						// 	return (this.state.xbeyond0TCHS * 0.3048)
+						// } else {
 							return this.state.xbeyond0TCHS
-						}
+						//}
 					case 'realTCH':
 						console.log("Showing Xbeyond real offset with published TCH")
-						if(this.state.units == "Imperial"){
-							return (this.state.xbeyondrealTCHS * 3.281)
-						} else if(this.state.units == 'Metric' && this.state.canConvert == true) {
-							return (this.state.xbeyondrealTCHS * 0.3048)
-						} else {
+						// if(this.state.units == "Imperial" && this.state.canConvert == true){
+						// 	return (this.state.xbeyondrealTCHS * 3.281)
+						// } else if(this.state.units == 'Metric') {
+						// 	return (this.state.xbeyondrealTCHS * 0.3048)
+						// } else {
 							return this.state.xbeyondrealTCHS
-						}
+						//}
 					default:
 						return this.state.xbeyond0S;
 				}
 			}
 
 
-			convertAirToMetric() {
-				//If the selected Aircraft has this.props.aircraftUnits set to false (meaning not metric values) 
-				// the values being used should be converted to Metric
+			convertUnits(val) {
+				/**This function will take in the passed in value and convert between imperial or metric depending on 
+				 * the current unit choice and the canConvert variable for first time metric variable
+				 */
+				let units = this.state.units
+				// if(this.state.canConvert) {
+				// 	switch(units) {
+				// 		case 'Metric':
+				// 			return (val * 0.3048)
+				// 		case 'Imperial':
+				// 			return (val * 3.281)
+				// 		default:
+				// 			return val
+				// 	}
+				// }
+				// if(val == 100 && this.state.units == 'Metric'){
+				// 	return (val * 0.3048)
+				// }
+				// if(val == 100 && this.state.units == 'Imperial') {
+				// 	return val
+				// }
+				if(units == "Imperial" && this.state.canConvert == true){
+					return (val * 3.281)
+				} else if(this.state.units == 'Metric') {
+						return (val * 0.3048)
+				} else {
+						return val
+				}
+				
 			}
 
-			convertRunToMetric() {
-				//If the selected Runway has this.props.runwayUnits set to false (meaning not metric values) 
-				// the values being used should be converted to Metric
+			convertToImperial() {
+				// This method is called to convert all currently used values to Imperial.
+				let zegI = this.state.zegS * 3.281
+				let zagI = this.state.zagS * 3.281
+				let fovI = this.state.fovS * 3.281
+				let xanteyeI = this.state.xanteyeS * 3.281
+				let obsegI = this.state.obsegS * 3.281
+				let xthres0I = this.state.xthre0S * 3.281
+				let xthresrealI = this.state.xthresrealS * 3.281
+				let xeyethres0I = this.state.xeyethres0S * 3.281
+				let xeyethres0TCHI = this.state.xeyethres0TCHS * 3.281
+				let xeyethresrealI = this.state.xeyethresrealS * 3.281
+				let xeyethresrealTCHI = this.state.xeyethresrealTCHS * 3.281
+				let xrvrI = this.state.xrvrS * 3.281
+				let gndrvrI = this.state.gndrvrS * 3.281
+				let xax0I = this.state.xax0S * 3.281
+				let xaxrealI = this.state.xaxrealS * 3.281
+				let xcutoffI = this.state.xcutoffS * 3.281
+				let TCHI = this.state.TCH * 3.281
+				let xahead0I = this.state.xahead0S * 3.281
+				let xahead0TCHI = this.state.xahead0TCHS * 3.281
+				let xaheadrealI = this.state.xaheadrealS * 3.281
+				let xaheadrealTCHI = this.state.xaheadrealTCHS * 3.281
+				let xbeyond0I = this.state.xbeyond0S * 3.281
+				let xbeyondrealI = this.state.xbeyondrealS * 3.281
+				let xbeyond0TCHI = this.state.xbeyond0TCHS * 3.281
+				let xbeyondrealTCHI = this.state.xbeyondrealTCHS * 3.281
+				let decisionHeightI = this.state.decisionHeight * 3.281
+
+				this.setState({
+					zegS: zegI,
+					zagS: zagI,
+					fovS: fovI,
+					xanteyeS: xanteyeI,
+					obsegS: obsegI,
+					xthres0S: xthres0I,
+					xthresrealS: xthresrealI,
+					xeyethres0S: xeyethres0I,
+					xeyethres0TCHS: xeyethres0TCHI,
+					xeyethresrealS: xeyethresrealI,
+					xeyethresrealTCHS: xeyethresrealTCHI,
+					xrvr: xrvrI,
+					gndrvrS: gndrvrI,
+					xax0S: xax0I,
+					xaxrealS: xaxrealI,
+					xcutoffS: xcutoffI,
+					TCH: TCHI,
+					xahead0S: xahead0I,
+					xahead0TCHS: xahead0TCHI,
+					xaheadrealS: xaheadrealI,
+					xaheadrealTCHS: xaheadrealTCHI,
+					xbeyond0S: xbeyond0I,
+					xbeyondrealS: xbeyondrealI,
+					xbeyond0TCHS: xbeyond0TCHI,
+					xbeyondrealTCHS: xbeyondrealTCHI,
+					decisionHeight: decisionHeightI
+				})
+			}
+
+			convertToMetric() {
+				// This method is called to convert all currently used values to Metric
+				let zegI = this.state.zegS * 0.3048
+				let zagI = this.state.zagS * 0.3048
+				let fovI = this.state.fovS * 0.3048
+				let xanteyeI = this.state.xanteyeS * 0.3048
+				let obsegI = this.state.obsegS * 0.3048
+				let xthres0I = this.state.xthre0S * 0.3048
+				let xthresrealI = this.state.xthresrealS * 0.3048
+				let xeyethres0I = this.state.xeyethres0S * 0.3048
+				let xeyethres0TCHI = this.state.xeyethres0TCHS * 0.3048
+				let xeyethresrealI = this.state.xeyethresrealS * 0.3048
+				let xeyethresrealTCHI = this.state.xeyethresrealTCHS * 0.3048
+				let xrvrI = this.state.xrvrS * 0.3048
+				let gndrvrI = this.state.gndrvrS * 0.3048
+				let xax0I = this.state.xax0S * 0.3048
+				let xaxrealI = this.state.xaxrealS * 0.3048
+				let xcutoffI = this.state.xcutoffS * 0.3048
+				let TCHI = this.state.TCH * 0.3048
+				let xahead0I = this.state.xahead0S * 0.3048
+				let xahead0TCHI = this.state.xahead0TCHS * 0.3048
+				let xaheadrealI = this.state.xaheadrealS * 0.3048
+				let xaheadrealTCHI = this.state.xaheadrealTCHS * 0.3048
+				let xbeyond0I = this.state.xbeyond0S * 0.3048
+				let xbeyondrealI = this.state.xbeyondrealS * 0.3048
+				let xbeyond0TCHI = this.state.xbeyond0TCHS * 0.3048
+				let xbeyondrealTCHI = this.state.xbeyondrealTCHS * 0.3048
+				let decisionHeightI = this.props.runwayDh * 0.3048
+
+				this.setState({
+					zegS: zegI,
+					zagS: zagI,
+					fovS: fovI,
+					xanteyeS: xanteyeI,
+					obsegS: obsegI,
+					xthres0S: xthres0I,
+					xthresrealS: xthresrealI,
+					xeyethres0S: xeyethres0I,
+					xeyethres0TCHS: xeyethres0TCHI,
+					xeyethresrealS: xeyethresrealI,
+					xeyethresrealTCHS: xeyethresrealTCHI,
+					xrvr: xrvrI,
+					gndrvrS: gndrvrI,
+					xax0S: xax0I,
+					xaxrealS: xaxrealI,
+					xcutoffS: xcutoffI,
+					TCH: TCHI,
+					xahead0S: xahead0I,
+					xahead0TCHS: xahead0TCHI,
+					xaheadrealS: xaheadrealI,
+					xaheadrealTCHS: xaheadrealTCHI,
+					xbeyond0S: xbeyond0I,
+					xbeyondrealS: xbeyondrealI,
+					xbeyond0TCHS: xbeyond0TCHI,
+					xbeyondrealTCHS: xbeyondrealTCHI,
+					decisionHeight: decisionHeightI
+				})
 			}
 			
 	render() {
@@ -443,10 +601,14 @@ class ManageVGS extends Component {
 								onClick={() => {
 									switch(this.state.units) {
 										case 'Metric':
-											this.setState({units: 'Imperial', canConvert: true})
+											//call conversion to Imperial method and update all values at this time
+											this.convertToImperial()
+											this.setState({units: 'Imperial'})
 										break
 										case 'Imperial':
-											this.setState({units: 'Metric'})
+											//call conversion to Metric method and update all values at this time
+											this.convertToMetric()
+											this.setState({units: 'Metric', canConvert: true})
 										break
 									}
 									
@@ -569,7 +731,7 @@ class ManageVGS extends Component {
 							</Col>
 							<Col md={3}>
 								<label className='paramlabel'>
-									Decision Height: {this.props.runwayDh}{" "}
+									Decision Height: {Number(this.state.decisionHeight).toFixed(2)}{" "}
 								</label>
 								<br />
 								<label className='paramlabel'>
