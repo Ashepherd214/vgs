@@ -11,7 +11,7 @@ import "./index.css";
 import NavigationBar from "./components/NavigationBar";
 import Authentication from "./components/AuthenticationComponents/AuthenticationPage";
 import { AuthContextProvider, useAuthState } from "./Firestore";
-import firebase from "firebase";
+import firebase from "firebase/compat/app";
 //import PrivateRoute from "./PrivateRoute";
 
 

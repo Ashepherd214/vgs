@@ -1,4 +1,6 @@
-import { initializeApp, analytics, firestore } from "firebase/app";
+import { initializeApp, analytics } from "firebase/app";
+import 'firebase/compat/firestore';
+import {getFirestore, collection, getDocs} from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from "@firebase/auth";
 import React, { useState, useEffect, useContext, createContext } from 'react'
 
@@ -37,6 +39,8 @@ export const useAuthState = () => {
 	const auth = useContext(AuthContext)
 	return { ...auth, isAuthenticated: auth.user !=null}
 }
+
+
 
 //const firestore = firebase.firestore();
 //export const auth = firebase.auth();
