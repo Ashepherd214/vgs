@@ -1,10 +1,12 @@
 import React, { useCallback, useContext, Component, useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
-import { firestore, auth } from "../../Firestore";
+import { firestore, useAuth } from "../../Firestore";
 import firebase from 'firebase/app'
 import 'firebase/auth';
 import { withRouter, Redirect } from "react-router";
-import { getAuth, signInWithEmailAndPassword } from '@firebase/auth'
+// import { useAuth, signinWithFirebase } from '@firebase/auth'
+
+const auth = useAuth()
 
 const LoginForm = () => {
 	const [loginEmail, setEmail] = useState("");
@@ -25,9 +27,10 @@ const LoginForm = () => {
 		e.preventDefault()
 
 		const { email, password } = e.target.elements
-		const auth = getAuth()
+		
 		try {
-			await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value)
+			// await signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value)
+			await auth.signinWithFirebase(email, password)
 		} catch (e) {
 			alert(e.message)
 		}

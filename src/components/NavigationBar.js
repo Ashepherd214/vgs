@@ -2,8 +2,8 @@ import React from "react";
 import { Nav, Navbar, Form, FormControl } from "react-bootstrap";
 import { Redirect } from "react-router";
 import styled from "styled-components";
-import {getAuth, signOut } from '@firebase/auth'
-import { useAuthState } from "../Firestore";
+//import {getAuth, signOut } from '@firebase/auth'
+import { useAuth } from "../Firestore";
 import logo from "../img/RSiIconDark.png";
 const Styles = styled.div`
 	// .navbar
@@ -27,7 +27,7 @@ const Styles = styled.div`
 	}
 `;
 
-const { user } = useAuthState()
+const auth = useAuth()
 
 const NavigationBar = () => (
 	<Navbar className='ml-auto' style={{ backgroundColor: "#222" }}>
@@ -50,7 +50,7 @@ const NavigationBar = () => (
 				href='/Logoff'
 				className="justify-content-end"
 				onClick={() => {
-					signOut(getAuth())
+					auth.signOut()
 					// return <Redirect to='/Login' />;
 				}}
 			>

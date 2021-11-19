@@ -10,7 +10,7 @@ import ManageVGS from "./Calculation Components/ManageVGS";
 import "./index.css";
 import NavigationBar from "./components/NavigationBar";
 import Authentication from "./components/AuthenticationComponents/AuthenticationPage";
-import { AuthContextProvider, useAuthState } from "./Firestore";
+import { AuthProvider, useAuth } from "./Firestore";
 import firebase from "firebase/compat/app";
 //import PrivateRoute from "./PrivateRoute";
 
@@ -22,32 +22,33 @@ import firebase from "firebase/compat/app";
 /**
  * Need 
  */
+const auth = useAuth()
 
-const AuthenticatedRoute = ({ component: C, ...props }) => {
-	const { isAuthenticated } = useAuthState()
-	console.log(`AuthenticatedRoute: ${isAuthenticated}`)
-	return (
-		<Route
-			{...props}
-			render={routeProps => 
-				isAuthenticated ? <C {...routeProps} /> : <Redirect to="/Login" />
-			}
-		/>
-	)
-}
+// const AuthenticatedRoute = ({ component: C, ...props }) => {
+// 	const { isAuthenticated } = useAuthState()
+// 	console.log(`AuthenticatedRoute: ${isAuthenticated}`)
+// 	return (
+// 		<Route
+// 			{...props}
+// 			render={routeProps => 
+// 				isAuthenticated ? <C {...routeProps} /> : <Redirect to="/Login" />
+// 			}
+// 		/>
+// 	)
+// }
 
-const UnauthenticatedRoute = ({ component: C, ...props }) => {
-	const { isAuthenticated } = useAuthState()
-	console.log(`UnauthenticatedRoute: ${isAuthenticated}`)
-	return (
-		<Route
-			{...props}
-			render={routeProps =>
-			!isAuthenticated ? <C {...routeProps} /> : <Redirect to="/" />
-			}
-		/>
-	)
-}
+// const UnauthenticatedRoute = ({ component: C, ...props }) => {
+// 	const { isAuthenticated } = useAuthState()
+// 	console.log(`UnauthenticatedRoute: ${isAuthenticated}`)
+// 	return (
+// 		<Route
+// 			{...props}
+// 			render={routeProps =>
+// 			!isAuthenticated ? <C {...routeProps} /> : <Redirect to="/" />
+// 			}
+// 		/>
+// 	)
+// }
 
 export class App extends Component {
 	constructor(props) {
@@ -192,18 +193,18 @@ export class App extends Component {
 			<Router>
 				
 				<Switch>
-					<UnauthenticatedRoute exact path='/login'>
+					{/* <UnauthenticatedRoute exact path='/login'> */}
 					<Route
 						path='/Login'
 						render={() =>
-							!this.state.me ? <Authentication /> : <Redirect to='/Dashboard' />
+							!auth.user ? <Authentication /> : <Redirect to='/Dashboard' />
 						}
 					/>
-					</UnauthenticatedRoute>
+					{/* </UnauthenticatedRoute> */}
 					<Route
 						path='/Dashboard'
 						render={() =>
-							this.state.me ? (
+							auth.user ? (
 								<Container>
 									<NavigationBar />
 									<ManageAircrafts
@@ -262,8 +263,8 @@ export class App extends Component {
 }
 
 ReactDOM.render(
-	<AuthContextProvider>
+	<AuthProvider>
 		<App />
-	</AuthContextProvider>,
+	</AuthProvider>,
 	document.getElementById("root")
 );
