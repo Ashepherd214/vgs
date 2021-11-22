@@ -45,7 +45,7 @@ const LoginForm = () => {
 	return (
 		<Container>
 			<Form>
-				<Form.Group>
+				{/* <Form.Group>
 					<Form.Label>Email</Form.Label>
 					<Form.Control
 						required
@@ -68,7 +68,7 @@ const LoginForm = () => {
 						value={loginPassword}
 						onChange={handleChange}
 					/>
-				</Form.Group>
+				</Form.Group> */}
 				{/* <Button
 					variant='primary'
 					type='submit'
