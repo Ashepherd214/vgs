@@ -46,8 +46,11 @@ const NavigationBar = () => (
 				href='/Logoff'
 				className="justify-content-end"
 				onClick={() => {
-					auth.signOut();
-					return <Redirect to='/Login' />;
+					auth.signOut().then(() => {
+						return <Redirect to='/Login' />;
+					}).catch((error) => {
+						console.log("Could not sign out. Error thrown is: ", error.message)
+					})
 				}}
 			>
 				Sign Out

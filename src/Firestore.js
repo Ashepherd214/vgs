@@ -1,5 +1,7 @@
 import firebase from "firebase";
-import "firebase/auth";
+import React from 'react'
+import { Redirect } from 'react-router'
+//import { OAuthProvider } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -19,6 +21,37 @@ firebase.analytics();
 
 const firestore = firebase.firestore();
 export const auth = firebase.auth();
+
+//----------- Begin Azure AD login authentication ----------------//
+
+
+
+export const handleWindowsLogin = () => {
+	const provider = new firebase.auth.OAuthProvider('microsoft.com')
+
+	provider.setCustomParameters({
+		logi_hint: 'user@rsi-visuals.com',
+		tenant: 'bd0aab2b-3a48-43cf-afc5-8eb63fc1c519'
+	})
+
+		// To sign in by redirecting to the sign in page:
+		// auth.signInWithRedirect(provider)
+
+		// To sign in with a popup window for the sign in page:
+		firebase.auth().signInWithPopup(provider)
+		.then((result) => {
+			var credential = result.credential
+
+			var accessToken = credential.accessToken
+			var idToken = credential.idToken
+			return <Redirect to='/Dashboard' />
+		})
+		.catch((error) => {
+			console.log("Problem logging in: ", error.message)
+		})
+	}
+// -----------End Azure Authentication ---------------------------//
+
 
  // [START initialize_persistence]
       firebase.firestore().enablePersistence()

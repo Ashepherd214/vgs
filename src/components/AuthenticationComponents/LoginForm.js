@@ -1,9 +1,10 @@
 import React, { useCallback, useContext, Component, useState } from "react";
-import { Button, Container, Form } from "react-bootstrap";
-import { firestore, auth } from "../../Firestore";
+import { Button, Container, Form, Image } from "react-bootstrap";
+import { firestore, auth, handleWindowsLogin } from "../../Firestore";
 import firebase from 'firebase/app'
 import 'firebase/auth';
-import { withRouter, Redirect } from "react-router";
+import { withRouter, Redirect } from "react-router-dom";
+import MsBtn from "../../img/MsBtnLight.png";
 import { AuthContext } from "../../Auth.js";
 
 const LoginForm = () => {
@@ -39,6 +40,8 @@ const LoginForm = () => {
 			})
 	};
 
+	
+
 	return (
 		<Container>
 			<Form>
@@ -66,7 +69,7 @@ const LoginForm = () => {
 						onChange={handleChange}
 					/>
 				</Form.Group>
-				<Button
+				{/* <Button
 					variant='primary'
 					type='submit'
 					onClick={(event) => {
@@ -74,6 +77,13 @@ const LoginForm = () => {
 					}}
 				>
 					Submit
+				</Button> */}
+				<Button
+					onClick={() => {
+						handleWindowsLogin();
+					}}
+				>
+				<Image src={MsBtn} alt="Microsoft Sign In Button" />
 				</Button>
 			</Form>
 		</Container>
