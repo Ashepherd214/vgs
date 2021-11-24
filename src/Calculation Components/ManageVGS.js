@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Button, Col, Container, Row, Tab, Tabs } from "react-bootstrap";
 import OutputVisuals from "./OutputVisual";
 import outputImg from "../img/Outputs Variable chart.png";
-import inputImg from "../img/PlaneSide.jpg";
+import inputPlane from "../img/PlaneSide.jpg";
+import inputHeli from "../img/HeliSide.jpg";
 //-------------Expermintal calculations function---------//
 
 class ManageVGS extends Component {
@@ -12,6 +13,7 @@ class ManageVGS extends Component {
 		stageHeight: 400,
 		//Setting state for Calculation variables via props
 		//So they can be used in any tab
+		airType: this.props.aircraftType, // Need to use for rendering the correct aircraft picture in the input tab
 		dh: this.props.runwayDh,
 		glideSlope: this.props.runwayGlideSlope,
 		xa: this.props.aircraftXa,
@@ -82,6 +84,14 @@ class ManageVGS extends Component {
 
 	componentWillUnmount() {
 		this._isMounted = false
+	}
+
+	showPlane() {
+		return <img src={inputPlane} alt='Input Aircraft as Airplane'/>
+	}
+
+	showHeli() {
+		return <img src={inputHeli} alt='Input Aircraft as Helicopter'/>
 	}
 
 		calculateVGS() {
@@ -809,9 +819,16 @@ class ManageVGS extends Component {
 							</Col>
 						</Row>
 					</Container>
+
+					{/* Need to change to boolean logic
 					<Container>
-						<img src={inputImg} alt='Input Aircraft Visual' />
-					</Container>
+						{
+							this.state.airType ?
+							(this.showPlane) :
+							(this.showHeli)
+						}
+					</Container> */}
+
 					<Container>
 						<Row>
 							<label className='paramlabel'>ze: {this.props.aircraftZe} </label>

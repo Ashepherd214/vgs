@@ -51,6 +51,7 @@ export class App extends Component {
 			aircraft_speed: "",
 			aircraft_weight: "",
 			aircraft_units: "",
+			aircraft_type: "",
 			me: auth.currentUser,
 		};
 	}
@@ -127,7 +128,8 @@ export class App extends Component {
 		aircraftPitch,
 		aircraftSpeed,
 		aircraftWeight,
-		aircraftUnits
+		aircraftUnits,
+		aircraftType,
 	) => {
 		console.log(aircraftData);
 		this.setState({
@@ -143,6 +145,7 @@ export class App extends Component {
 			aircraft_speed: aircraftSpeed,
 			aircraft_weight: aircraftWeight,
 			aircraft_units: aircraftUnits,
+			aircraft_type: aircraftType,
 		});
 		console.log("The Aircraft data from child is: " + aircraftData);
 		console.log(
@@ -220,6 +223,7 @@ export class App extends Component {
 								aircraftSpeed={this.state.aircraft_speed}
 								aircraftWeight={this.state.aircraft_weight}
 								aircraftUnits={this.state.aircraft_units}
+								aircraftType={this.state.aircraft_type}
 							/>
 					</Route>
 					<Route path='/Logoff'>

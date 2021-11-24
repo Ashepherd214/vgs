@@ -34,6 +34,7 @@ class Dashboard extends Component {
 			aircraft_speed: "",
 			aircraft_weight: "",
 			aircraft_units: "",
+			aircraft_type: "",
 			me: firebaseapp.auth().currentUser,
 		};
 	}
@@ -100,7 +101,8 @@ class Dashboard extends Component {
 		aircraftPitch,
 		aircraftSpeed,
 		aircraftWeight,
-		aircraftUnits
+		aircraftUnits,
+		aircraftType,
 	) => {
 		console.log(aircraftData);
 		this.setState({
@@ -116,6 +118,7 @@ class Dashboard extends Component {
 			aircraft_speed: aircraftSpeed,
 			aircraft_weight: aircraftWeight,
 			aircraft_units: aircraftUnits,
+			aircraft_type: aircraftType,
 		});
 		console.log("The Aircraft data from child is: " + aircraftData);
 		console.log(
