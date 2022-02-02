@@ -29,11 +29,11 @@ function ThresholdBars(props) {
 		return <Sixty />;
 	} else if (width > 60 && width < 75) {
 		return <SeventyFive />;
-	} else if (width > 75 && width < 100) {
+	} else if (width >= 75 && width < 100) {
 		return <OneHund />;
-	} else if (width > 100 && width < 150) {
+	} else if (width >= 100 && width < 150) {
 		return <OneFifty />;
-	} else if (width > 150) {
+	} else if (width >= 150) {
 		return <TwoHund />;
 	}
 }

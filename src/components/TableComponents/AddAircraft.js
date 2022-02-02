@@ -239,8 +239,7 @@ class AddAircraft extends React.Component {
                     id="pitch"
                     name="pitch"
                     type="number"
-                    step="0.001"
-                    min="0"
+                    step="0.01"
                     placeholder="Enter Aircraft's pitch angle"
                     className={`form-control ${
                       touched.pitch && errors.pitch ? "is-invalid" : ""

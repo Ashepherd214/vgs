@@ -114,6 +114,7 @@ class AddRunway extends React.Component {
 											id='icao'
 											name='icao'
 											type='text'
+											maxlength="4"
 											placeholder='Enter ICAO code'
 											className={`form-control ${
 												touched.icao && errors.icao ? "is-invalid" : ""
@@ -148,7 +149,21 @@ class AddRunway extends React.Component {
 											id='dh'
 											name='dh'
 											type='number'
+											min="0"
 											placeholder='Enter Decision Height'
+											className={`form-control ${
+												touched.dh && errors.dh ? "is-invalid" : ""
+											}`}
+										/>
+										<br />
+										<Form.Label>Glide Slope: The angle of approach used for landing </Form.Label>
+										<Field
+											value={values.glideslope}
+											id='glideslope'
+											name='glideslope'
+											type='number'
+											min="0"
+											placeholder="Enter Glide Slope Angle"
 											className={`form-control ${
 												touched.dh && errors.dh ? "is-invalid" : ""
 											}`}
@@ -160,6 +175,7 @@ class AddRunway extends React.Component {
 											id='edgespacing'
 											name='edgespacing'
 											type='number'
+											min="0"
 											placeholder='Enter Edge Light spacing'
 											className={`form-control ${
 												touched.edgespacing && errors.edgespacing
@@ -174,6 +190,8 @@ class AddRunway extends React.Component {
 											id='gsx'
 											name='gsx'
 											type='number'
+											step="0.01"
+                        					min="0"
 											placeholder='Enter GS Offset X value'
 											className={`form-control ${
 												touched.gsx && errors.gsx ? "is-invalid" : ""
@@ -186,6 +204,8 @@ class AddRunway extends React.Component {
 											id='gsy'
 											name='gsy'
 											type='number'
+											step="0.01"
+                        					min="0"
 											placeholder='Enter GS Offset Y value'
 											className={`form-control ${
 												touched.gsy && errors.gsy ? "is-invalid" : ""
@@ -198,6 +218,8 @@ class AddRunway extends React.Component {
 											id='tch'
 											name='tch'
 											type='number'
+											step="0.01"
+                        					min="0"
 											placeholder='Enter TCH value'
 											className={`form-control ${
 												touched.tch && errors.tch ? "is-invalid" : ""
@@ -210,26 +232,27 @@ class AddRunway extends React.Component {
 											id='width'
 											name='width'
 											type='number'
+											min="0"
 											placeholder='Enter Runway Width'
 											className={`form-control ${
 												touched.width && errors.width ? "is-invalid" : ""
 											}`}
 										/>
 										<br />
-										<label htmlFor='unitsAir'>
+										<label htmlFor="unitsAir">
 											Unit of measurement for values entered
 										</label>
 										<br />
 										<Field
-											as='select'
-											id='unitsRun'
-											name='unitsRun'
-											type='select'
+											name="unitsRun"
+											as="select"
+											id="unitsRun"
+											type="select"
 											value={values.units}
 											style={{marginBottom: "10px"}}
 										>
-											<option value='true' label="Metric">Metric</option>
-											<option value='false' label="Imperial">Imperial</option>
+											<option value="true" label="Metric">Metric</option>
+											<option value="false" label="Imperial">Imperial</option>
 										</Field>
 										<br />
 										<button
