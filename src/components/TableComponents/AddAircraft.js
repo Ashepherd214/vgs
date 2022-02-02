@@ -118,6 +118,8 @@ class AddAircraft extends React.Component {
                     id="ze"
                     name="ze"
                     type="number"
+                    step="0.001"
+                    min="0"
                     placeholder="Enter Ze value"
                     className={`form-control ${
                       touched.ze && errors.ze ? "is-invalid" : ""
@@ -130,6 +132,8 @@ class AddAircraft extends React.Component {
                     id="xe"
                     name="xe"
                     type="number"
+                    step="0.001"
+                    min="0"
                     placeholder="Enter Xe value"
                     className={`form-control ${
                       touched.xe && errors.xe ? "is-invalid" : ""
@@ -142,6 +146,8 @@ class AddAircraft extends React.Component {
                     id="lookdown"
                     name="lookdown"
                     type="number"
+                    step="0.001"
+                    min="0"
                     placeholder="Enter lookdown value"
                     className={`form-control ${
                       touched.lookdown && errors.Lookdown ? "is-invalid" : ""
@@ -154,6 +160,8 @@ class AddAircraft extends React.Component {
                     id="za"
                     name="za"
                     type="number"
+                    step="0.001"
+                    min="0"
                     placeholder="Enter Za value"
                     className={`form-control ${
                       touched.za && errors.za ? "is-invalid" : ""
@@ -166,6 +174,8 @@ class AddAircraft extends React.Component {
                     id="xa"
                     name="xa"
                     type="number"
+                    step="0.001"
+                    min="0"
                     placeholder="Enter Xa value"
                     className={`form-control ${
                       touched.xa && errors.xa ? "is-invalid" : ""
@@ -178,6 +188,7 @@ class AddAircraft extends React.Component {
                     id="flaps"
                     name="flaps"
                     type="number"
+                    min="0"
                     placeholder="Enter Flaps setting"
                     className={`form-control ${
                       touched.flaps && errors.flaps ? "is-invalid" : ""
@@ -190,6 +201,7 @@ class AddAircraft extends React.Component {
                     id="speed"
                     name="speed"
                     type="number"
+                    min="0"
                     placeholder="Enter Aircraft's speed"
                     className={`form-control ${
                       touched.speed && errors.speed ? "is-invalid" : ""
@@ -202,6 +214,7 @@ class AddAircraft extends React.Component {
                     id="weight"
                     name="weight"
                     type="number"
+                    min="0"
                     placeholder="Enter Aircraft's weight"
                     className={`form-control ${
                       touched.weight && errors.weight ? "is-invalid" : ""
@@ -226,6 +239,8 @@ class AddAircraft extends React.Component {
                     id="pitch"
                     name="pitch"
                     type="number"
+                    step="0.001"
+                    min="0"
                     placeholder="Enter Aircraft's pitch angle"
                     className={`form-control ${
                       touched.pitch && errors.pitch ? "is-invalid" : ""

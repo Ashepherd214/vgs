@@ -88,30 +88,30 @@ export class ManageRunways extends Component {
 		//console.log("obtained doc in child: " + data.data().ApproachLights)
 		console.log("obtained doc in child: " + data.data().ICAO);
 
-		if(data.data().Units == true) {
-			//Check if Decsion Height is 100 because it is probably set in feet
-			let dhI = (data.data().DH) * 3.281
-			let edgeI = (data.data().EdgeSpacing) * 3.281
-			let gsxI = (data.data().GSOffsetX) * 3.281
-			let gsyI = (data.data().GSOffsetY) * 3.281
-			let TCH = (data.data().TCH) * 3.281
-			let widthI = (data.data().Width) * 3.281
+		// if(data.data().Units == true) {
+		// 	//Check if Decsion Height is 100 because it is probably set in feet
+		// 	let dhI = (data.data().DH) * 3.281
+		// 	let edgeI = (data.data().EdgeSpacing) * 3.281
+		// 	let gsxI = (data.data().GSOffsetX) * 3.281
+		// 	let gsyI = (data.data().GSOffsetY) * 3.281
+		// 	let TCH = (data.data().TCH) * 3.281
+		// 	let widthI = (data.data().Width) * 3.281
 
-			this.setState({
-				approachlights: String(data.data().ApproachLights),
-				name: data.id,
-				icao: data.data().ICAO,
-				dh: dhI,
-				edgespacing: edgeI,
-				gsx: gsxI,
-				gsy: gsyI,
-				glideslope: data.data().GlideSlope,
-				tch: TCH,
-				width: widthI,
-				units: false,
-			});
-		} else {
-			console.log("Runway values already in Imperial")
+		// 	this.setState({
+		// 		approachlights: String(data.data().ApproachLights),
+		// 		name: data.id,
+		// 		icao: data.data().ICAO,
+		// 		dh: dhI,
+		// 		edgespacing: edgeI,
+		// 		gsx: gsxI,
+		// 		gsy: gsyI,
+		// 		glideslope: data.data().GlideSlope,
+		// 		tch: TCH,
+		// 		width: widthI,
+		// 		units: false,
+		// 	});
+		// } else {
+			//console.log("Runway values already in Imperial")
 			// let dhMF
 			// if (data.data().DH == 100) {
 			// 	dhMF = (data.data().DH) * 3.281
@@ -129,7 +129,7 @@ export class ManageRunways extends Component {
 				width: data.data().Width,
 				units: data.data().Units,
 			});
-		}
+		//}
 
 		db.get().then((doc) => {
 			const data = doc.data();

@@ -90,28 +90,28 @@ export class ManageAircrafts extends Component {
 
     // Check if values are metric or not. If metric convert to imperial for calculation purposes
     // through the callback function. Metric to Imperial conversion is x(Feet)/3.28(meters) or x(Feet) * 3.281(Meters). Weight from lbs into kg (x * 0.4536)
-    if(data.data().unitsAir == true) {
-      let xaI = (data.data().Xa) * 3.281
-      let xeI = (data.data().Xe) * 3.281
-      let zaI = (data.data().Za) * 3.281
-      let zeI = (data.data().Ze) * 3.281
-      let weightI = (data.data().weight) * 2.205
+    // if(data.data().unitsAir == true) {
+    //   let xaI = (data.data().Xa) * 3.281
+    //   let xeI = (data.data().Xe) * 3.281
+    //   let zaI = (data.data().Za) * 3.281
+    //   let zeI = (data.data().Ze) * 3.281
+    //   let weightI = (data.data().weight) * 2.205
 
-      this.setState({
-        xa: xaI,
-        xe: xeI,
-        za: zaI,
-        ze: zeI,
-        cg: data.data().cg,
-        flaps: data.data().flaps,
-        lookdown: data.data().lookdown,
-        pitch: data.data().pitch,
-        speed: data.data().speed,
-        weight: weightI,
-        unitsAir: false
-      })
-    } else {
-      console.log("Aircraft values already in Imperial")
+    //   this.setState({
+    //     xa: xaI,
+    //     xe: xeI,
+    //     za: zaI,
+    //     ze: zeI,
+    //     cg: data.data().cg,
+    //     flaps: data.data().flaps,
+    //     lookdown: data.data().lookdown,
+    //     pitch: data.data().pitch,
+    //     speed: data.data().speed,
+    //     weight: weightI,
+    //     unitsAir: false
+    //   })
+    // } else {
+    //   console.log("Aircraft values already in Imperial")
       this.setState({
         xa: data.data().Xa,
         xe: data.data().Xe,
@@ -125,7 +125,7 @@ export class ManageAircrafts extends Component {
         weight: data.data().weight,
         unitsAir: data.data().unitsAir
       })
-    }
+    //}
     db.get()
     .then(function(doc) {
         const data = doc.data()
