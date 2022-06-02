@@ -26,6 +26,7 @@ class EditAircraft extends React.Component {
       weight: " ",
       cg: " ",
       pitch: " ",
+      airType: " ",
       units: false,
     };
     this.componentDidMount = this.componentDidMount.bind(this)
@@ -63,7 +64,8 @@ class EditAircraft extends React.Component {
           speed: doc.data().speed,
           weight: doc.data().weight,
           cg: doc.data().cg,
-          pitch: doc.data().pitch, 
+          pitch: doc.data().pitch,
+          airType: doc.data().airType, 
           units: doc.data().unitsAir
         })
       } else {
@@ -97,7 +99,9 @@ class EditAircraft extends React.Component {
         weight: Number(values.weight),
         cg: Number(values.cg),
         pitch: Number(values.pitch),
+        airType: String(values.airType),
         unitsAir: Boolean(values.unitsAir)
+
       });
     } else {
       db.doc(values.acName).set({
@@ -111,6 +115,7 @@ class EditAircraft extends React.Component {
         weight: Number(values.weight),
         cg: Number(values.cg),
         pitch: Number(values.pitch),
+        airType: String(values.airType),
         unitsAir: Boolean(values.unitsAir)
       })
       db.doc(selString).delete()
@@ -362,6 +367,17 @@ class EditAircraft extends React.Component {
                   <label htmlFor="Measurment Units">
                     Unit of measurement values are being entered in
                   </label>
+                  <br />
+                  <Field
+                    name="airType"
+                    as="select"
+                    id="airType"
+                    type="select"
+                    value={values.unitsAir}
+                  >
+                    <option value="plane" label="Airplane">Metric</option>
+                    <option value="heli" label="Helicopter">Imperial</option>
+                  </Field>
                   <br />
                   <Field
                     name="unitsAir"

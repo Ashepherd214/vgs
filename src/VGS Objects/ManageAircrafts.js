@@ -34,6 +34,7 @@ export class ManageAircrafts extends Component {
       speed: "",
       weight: "",
       unitsAir: "",
+      airType: "",
       showAdd: false,
       showEdit: false,
       rerender: false,
@@ -68,7 +69,8 @@ export class ManageAircrafts extends Component {
             pitch: doc.data().pitch,
             speed: doc.data().speed,
             weight: doc.data().weight,
-            unitsAir: doc.data().unitsAir
+            unitsAir: doc.data().unitsAir,
+            airType: doc.data().airType,
           });
         });
 
@@ -123,7 +125,8 @@ export class ManageAircrafts extends Component {
         pitch: data.data().pitch,
         speed: data.data().speed,
         weight: data.data().weight,
-        unitsAir: data.data().unitsAir
+        unitsAir: data.data().unitsAir,
+        airType: data.data().airType,
       })
     //}
     db.get()
@@ -146,7 +149,8 @@ export class ManageAircrafts extends Component {
       this.state.pitch,
       this.state.speed,
       this.state.weight,
-      this.state.unitsAir
+      this.state.unitsAir,
+      this.state.airType,
       )
 }
 
@@ -356,7 +360,28 @@ export class ManageAircrafts extends Component {
           backgroundColor: '#003E6A',
           color: '#FFFFFF'
         }
-      }
+      },
+      {
+        dataField: "airType",
+        text: "Aircraft Type",
+        headerStyle: {
+          backgroundColor: '#003E6A',
+          color: '#FFFFFF'
+        },
+        editor: {
+          type: Type.SELECT,
+          options: [
+            {
+              value: "plane",
+              label: "Airplane"
+            },
+            {
+              value: "heli",
+              label: "Helicopter"
+            }
+          ]
+        }
+      },
     ];
 
     return (

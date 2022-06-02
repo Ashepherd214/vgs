@@ -146,6 +146,7 @@ class OutputVisuals extends React.Component {
 		} else {
 			return (
 				<div>
+					{/* Component to print */}
 					<Stage
 						style={{
 							backgroundColor: "tan",

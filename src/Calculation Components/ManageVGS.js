@@ -4,6 +4,7 @@ import OutputVisuals from "./OutputVisual";
 import outputImg from "../img/Outputs Variable chart.png";
 import inputPlane from "../img/PlaneSide.jpg";
 import inputHeli from "../img/HeliSide.jpg";
+import ReactToPrint from "react-to-print";
 //-------------Expermintal calculations function---------//
 
 class ManageVGS extends Component {
@@ -86,13 +87,27 @@ class ManageVGS extends Component {
 		this._isMounted = false
 	}
 
-	showPlane() {
-		return <img src={inputPlane} alt='Input Aircraft as Airplane'/>
+	showAircraft(param) {
+		console.log('aircraft type: ' + String(this.props.airType))
+							
+		switch(param) {
+			case 'plane':
+				return <img src={inputPlane} alt='Input Aircraft as Airplane'/>
+			case 'heli' :
+				return <img src={inputHeli} alt='Input Aircraft as Helicopter'/>
+			case 'other':
+				return 'Alien Spacecraft';
+			default:
+				return 'Invalid aircraft type';
+		}
 	}
+	// showPlane() {
+	// 	return 
+	// }
 
-	showHeli() {
-		return <img src={inputHeli} alt='Input Aircraft as Helicopter'/>
-	}
+	// showHeli() {
+	// 	return 
+	// }
 
 		calculateVGS() {
 		let radToDeg = Math.PI/180 // Anywhere this variable is found can be switched back to this math if needed.
@@ -693,6 +708,15 @@ class ManageVGS extends Component {
 								</Button>
 							</Col>
 						</Row>
+						{/* attempt to create print button*/}
+						<Row>
+							<Col md={3}>
+								<ReactToPrint
+									trigger={() => <Button> Print chart </Button>}
+									content={() => this.componentRef}
+								/>
+							</Col>
+						</Row>
 					<Container
 						style={{
 							height: "300px",
@@ -713,6 +737,7 @@ class ManageVGS extends Component {
 									runwayLights={this.props.runwayLights}
 									runwayEdgeSpacing={this.props.runwayEdgeSpacing}
 									runwayWidth={this.props.runwayWidth}
+									ref={el => (this.componentRef = el)}
 									// runwayIcao={this.props.runwayIcao}
 									// runwayDh={this.props.runwayDh}
 									// runwayGsx={this.props.runwayGsx}
@@ -819,15 +844,14 @@ class ManageVGS extends Component {
 							</Col>
 						</Row>
 					</Container>
-
-					{/* Need to change to boolean logic
 					<Container>
 						{
-							this.state.airType ?
-							(this.showPlane) :
-							(this.showHeli)
+							this.showAircraft(this.props.airType)
+							// this.state.airType ?
+							// (this.showPlane) :
+							// (this.showHeli)
 						}
-					</Container> */}
+					</Container>
 
 					<Container>
 						<Row>
