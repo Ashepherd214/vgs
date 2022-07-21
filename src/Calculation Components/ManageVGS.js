@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Col, Container, Row, Tab, Tabs } from "react-bootstrap";
+import { Button, Col, Container, Image, Row, Tab, Tabs } from "react-bootstrap";
 import OutputVisuals from "./OutputVisual";
 import outputImg from "../img/Outputs Variable chart.png";
 import inputPlane from "../img/PlaneSide.jpg";
@@ -88,13 +88,15 @@ class ManageVGS extends Component {
 	}
 
 	showAircraft(param) {
-		console.log('aircraft type: ' + String(this.props.airType))
+		console.log('aircraft type: ' + String(param))
 							
 		switch(param) {
 			case 'plane':
-				return <img src={inputPlane} alt='Input Aircraft as Airplane'/>
+				console.log('showing an airplane image')
+				return <Image src={inputPlane} alt='Input Aircraft as Airplane'/>
 			case 'heli' :
-				return <img src={inputHeli} alt='Input Aircraft as Helicopter'/>
+				console.log('showing a helicopter image')
+				return <Image src={inputHeli} alt='Input Aircraft as Helicopter'/>
 			case 'other':
 				return 'Alien Spacecraft';
 			default:
@@ -605,8 +607,8 @@ class ManageVGS extends Component {
 	render() {
 		return (
 			//-------Tab Layout---------//
-			<Tabs defaultActiveKey='outputs' id='data-tabs'>
-				<Tab eventKey='outputs' title='Output'>
+			<Tabs defaultActiveKey='outputs' id='data-tabs' fill >
+				<Tab eventKey='outputs' title='Output' className='nav-justified'>
 					<Row>
 						<Col md={3}>
 							<label className='outputlabel'>
@@ -617,7 +619,7 @@ class ManageVGS extends Component {
 								Runway: {this.props.runwayIcao}{" "}
 							</label>
 						</Col>
-						<Col md={6}>
+						<Col md={3}>
 							<label className='outputlabel' style={{paddingRight: "20px"}}>
 								Units in: {this.state.units}
 							</label>
@@ -660,14 +662,14 @@ class ManageVGS extends Component {
 									xBeyond: {Number(this.xbeyondChoose(this.state.calcChoice)).toFixed(2)}
 								</label>
 							</Col>
-							<Col md={3}>
+							<Col md={4}>
 								<label className='outputLabel'>
 									FOV: {Number(this.state.fovS).toFixed(2)}
 								</label>
 							</Col>
 						</Row>
-						<Row>
-							<Col md={1}>
+						<Row className="justify-center">
+							<Col md={2}>
 								<Button 
 									variant="primary"
 									onClick={() => {
@@ -677,7 +679,7 @@ class ManageVGS extends Component {
 									0 Offset: Calc TCH
 								</Button>
 							</Col>
-							<Col md={1}>
+							<Col md={2}>
 								<Button 
 									variant="primary"
 									onClick={() => {
@@ -687,7 +689,7 @@ class ManageVGS extends Component {
 									real Offset: Calc TCH
 								</Button>
 							</Col>
-							<Col md={1}>
+							<Col md={2}>
 								<Button 
 									variant="primary"
 									onClick={() => {
@@ -697,7 +699,7 @@ class ManageVGS extends Component {
 									0 Offset: Pub TCH
 								</Button>
 							</Col>
-							<Col md={1}>
+							<Col md={2}>
 								<Button 
 									variant="primary"
 									onClick={() => {
@@ -710,7 +712,7 @@ class ManageVGS extends Component {
 						</Row>
 						{/* attempt to create print button*/}
 						<Row>
-							<Col md={3}>
+							<Col md={3} className='justify-content-end'>
 								<ReactToPrint
 									trigger={() => <Button> Print chart </Button>}
 									content={() => this.componentRef}
@@ -719,17 +721,17 @@ class ManageVGS extends Component {
 						</Row>
 					<Container
 						style={{
-							height: "300px",
-							width: "1000px",
-							margin: 0,
-							marginRight: 0,
+							//height: "300px",
+							//width: "100%",
+							//margin: 0,
 							padding: 0,
 						}}
+						className= 'container-fluid'
 					>
-						<Row>
-							<Col md={12}>
+						<Row className='justify-content-md-center'>
+							<Col>
 								<OutputVisuals
-									style={{ height: "500px", width: "1000px" }}
+									style={{ height: "500px", width: "1000px", 	 }}
 									runwayName={this.props.runwayName}
 									aircraftName={this.props.aircraftName}
 									xahead={this.xaheadRnd(this.state.calcChoice)}
@@ -761,10 +763,10 @@ class ManageVGS extends Component {
 						</Row>
 						
 						<Row>
-							<Col md={6}>
+							<Col md={4}>
 								<img src={outputImg} alt='Output Variable Chart' />
 							</Col>
-							<Col md={3}>
+							<Col md={4}>
 								<label className='paramlabel'>
 									Decision Height: {Number(this.state.decisionHeight).toFixed(2)}{" "}
 								</label>
@@ -794,7 +796,7 @@ class ManageVGS extends Component {
 									Slant RVR(xrvr): {this.state.xrvr}{" "}
 								</label>
 							</Col>
-							<Col md={3}>
+							<Col md={4}>
 								<label className='paramlabel'>
 									Effective ground rvr(gndrvr) {Number(this.state.gndrvrS).toFixed(2)}
 								</label>
@@ -845,12 +847,7 @@ class ManageVGS extends Component {
 						</Row>
 					</Container>
 					<Container>
-						{
-							this.showAircraft(this.props.airType)
-							// this.state.airType ?
-							// (this.showPlane) :
-							// (this.showHeli)
-						}
+						{this.showAircraft(this.state.airType)}
 					</Container>
 
 					<Container>
@@ -902,7 +899,7 @@ class ManageVGS extends Component {
 						</Row>
 					</Container>
 				</Tab>
-				<Tab eventKey='aircraft-location' title='Aircraft Location'></Tab>
+				{/* <Tab eventKey='aircraft-location' title='Aircraft Location'></Tab> */}
 				<Tab eventKey='parameters' title='Parameters'>
 					<Container>
 						<img src={outputImg} alt='Output Variable Chart' />
