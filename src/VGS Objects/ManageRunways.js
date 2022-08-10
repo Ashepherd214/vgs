@@ -49,7 +49,7 @@ export class ManageRunways extends Component {
 			.then((querySnapshot) => {
 				const runways = [];
 
-				querySnapshot.forEach(function (doc) {
+				querySnapshot.forEach(function(doc) {
 					runways.push({
 						name: doc.id,
 						icao: doc.data().ICAO,
@@ -67,7 +67,7 @@ export class ManageRunways extends Component {
 
 				this.setState({ runways });
 			})
-			.catch(function (error) {
+			.catch(function(error) {
 				console.log("Error getting documents: ", error);
 			});
 	};
@@ -75,12 +75,10 @@ export class ManageRunways extends Component {
 	async childFunction() {
 		let selection = [this.state.select];
 		console.log("Inside ChildFunction: ", selection[0]);
-		const db = await
-			firestore
+		const db = await firestore
 			.collection("Runways")
 			.doc(selection[0].toString());
-		const data = await
-			firestore
+		const data = await firestore
 			.collection("Runways")
 			.doc(selection[0].toString())
 			.get();
@@ -111,24 +109,24 @@ export class ManageRunways extends Component {
 		// 		units: false,
 		// 	});
 		// } else {
-			//console.log("Runway values already in Imperial")
-			// let dhMF
-			// if (data.data().DH == 100) {
-			// 	dhMF = (data.data().DH) * 3.281
-			// }
-			this.setState({
-				approachlights: String(data.data().ApproachLights),
-				name: data.id,
-				icao: data.data().ICAO,
-				dh: data.data().DH,
-				edgespacing: data.data().EdgeSpacing,
-				gsx: data.data().GSOffsetX,
-				gsy: data.data().GSOffsetY,
-				glideslope: data.data().GlideSlope,
-				tch: data.data().TCH,
-				width: data.data().Width,
-				units: data.data().Units,
-			});
+		//console.log("Runway values already in Imperial")
+		// let dhMF
+		// if (data.data().DH == 100) {
+		// 	dhMF = (data.data().DH) * 3.281
+		// }
+		this.setState({
+			approachlights: String(data.data().ApproachLights),
+			name: data.id,
+			icao: data.data().ICAO,
+			dh: data.data().DH,
+			edgespacing: data.data().EdgeSpacing,
+			gsx: data.data().GSOffsetX,
+			gsy: data.data().GSOffsetY,
+			glideslope: data.data().GlideSlope,
+			tch: data.data().TCH,
+			width: data.data().Width,
+			units: data.data().Units,
+		});
 		//}
 
 		db.get().then((doc) => {
@@ -201,10 +199,10 @@ export class ManageRunways extends Component {
 		selections.forEach((key) => {
 			db.doc(key.toString())
 				.delete()
-				.then(function () {
+				.then(function() {
 					console.log("Deletion successful!");
 				})
-				.catch(function (error) {
+				.catch(function(error) {
 					console.error("Something went wrong, document not removed");
 				});
 		});

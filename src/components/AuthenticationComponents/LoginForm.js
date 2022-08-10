@@ -1,9 +1,9 @@
 import React, { useCallback, useContext, Component, useState } from "react";
 import { Button, Container, Form, Image } from "react-bootstrap";
 import { firestore, auth, handleWindowsLogin } from "../../Firestore";
-import firebase from 'firebase/app'
-import 'firebase/auth';
-import { withRouter, Redirect } from "react-router-dom";
+import firebase from "firebase/compat/app";
+import "firebase/auth";
+import { withRouter, Navigate } from "react-router-dom";
 import MsBtn from "../../img/MsBtnLight.png";
 import { AuthContext } from "../../Auth.js";
 
@@ -16,9 +16,9 @@ const LoginForm = () => {
 		const { name, value } = event.currentTarget;
 
 		if (name === "loginEmail") {
-			setEmail(value)
+			setEmail(value);
 		} else if (name === "loginPassword") {
-			setPassword(value)
+			setPassword(value);
 		}
 	};
 
@@ -26,21 +26,23 @@ const LoginForm = () => {
 		event.preventDefault();
 		console.log("Login email is: " + loginEmail);
 		console.log("Login password is: " + loginPassword);
-		firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+		firebase
+			.auth()
+			.setPersistence(firebase.auth.Auth.Persistence.SESSION)
 			.then(() => {
-				auth.signInWithEmailAndPassword(loginEmail, loginPassword).catch((error) => {
-				setError("Error signing in with password and email.");
-				console.error("Error signing in with password and email.", error);
-				return <Redirect to='/Dashboard' />;
-				})
+				auth
+					.signInWithEmailAndPassword(loginEmail, loginPassword)
+					.catch((error) => {
+						setError("Error signing in with password and email.");
+						console.error("Error signing in with password and email.", error);
+						return <Navigate to='/Dashboard' />;
+					});
 			})
 			.catch((error) => {
-				var errorCode = error.code
-				var errorMessage = error.message
-			})
+				var errorCode = error.code;
+				var errorMessage = error.message;
+			});
 	};
-
-	
 
 	return (
 		<Container>
@@ -83,7 +85,7 @@ const LoginForm = () => {
 						handleWindowsLogin();
 					}}
 				>
-				<Image src={MsBtn} alt="Microsoft Sign In Button" />
+					<Image src={MsBtn} alt='Microsoft Sign In Button' />
 				</Button>
 			</Form>
 		</Container>

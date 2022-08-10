@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route, Navigate } from "react-router-dom";
 import { AuthContext } from "./Auth";
 import Dashboard from "./Dashboard";
 import firebaseapp from "./Firestore";
@@ -13,7 +13,7 @@ import firebaseapp from "./Firestore";
 // 				!!currentUser ? (
 // 					<RouteComponent {...routeProps} />
 // 				) : (
-// 					<Redirect to={"/Login"} />
+// 					<Navigate to={"/Login"} />
 // 				)
 // 			}
 // 		/>
@@ -21,20 +21,20 @@ import firebaseapp from "./Firestore";
 // };
 
 export default function PrivateRoute(props) {
-	const authValue = useContext(AuthContext)
+	const authValue = useContext(AuthContext);
 
 	if (authValue.userDataPresent) {
 		if (authValue.user == null) {
-			return(<Redirect to={props.redirectTo}></Redirect>)
+			return <Navigate to={props.NavigateTo}></Navigate>;
 		} else {
-			return(
+			return (
 				<Route exact path={props.path}>
 					<Dashboard /> {/* {props.children} */}
 				</Route>
-			)
+			);
 		}
 	} else {
-		return null
+		return null;
 	}
 }
 
@@ -43,7 +43,7 @@ export default function PrivateRoute(props) {
 // 		if (user) {
 // 			return <Dashboard />;
 // 		} else {
-// 			return <Redirect to='/Login' />;
+// 			return <Navigate to='/Login' />;
 // 		}
 // 	});
 // };

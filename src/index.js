@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { Redirect } from "react-router";
-import { Route, Switch, Link, BrowserRouter as Router } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { Route, Routes, Link, BrowserRouter as Router } from "react-router-dom";
 import { Col, Container, Row, Tab, Tabs } from "react-bootstrap";
 import "tachyons";
 import ManageAircrafts from "./VGS Objects/ManageAircrafts";
@@ -11,17 +11,18 @@ import ManageVGS from "./Calculation Components/ManageVGS";
 import "./index.css";
 import NavigationBar from "./components/NavigationBar";
 import Authentication from "./components/AuthenticationComponents/AuthenticationPage";
-import firebaseapp, { auth } from "firebase";
+import firebaseapp from "firebase/compat/app";
+import "firebase/compat/auth";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "./Dashboard.js";
 import history from "history";
-import VGSErrorBoundary from './VGSErrorBoundary'
+import VGSErrorBoundary from "./VGSErrorBoundary";
 import UserProvider from "./Auth";
-import firebase from "firebase";
-
+import firebase from "firebase/compat/app";
+import auth from "./Firestore";
 
 /**
- * Need 
+ * Need
  */
 export class App extends Component {
 	constructor(props) {
@@ -112,8 +113,8 @@ export class App extends Component {
 		});
 	}
 
-	componentWillUpdate (props, state) {
-		return state.me
+	componentWillUpdate(props, state) {
+		return state.me;
 	}
 
 	parentAircraftCallbackFunction = (
@@ -129,7 +130,7 @@ export class App extends Component {
 		aircraftSpeed,
 		aircraftWeight,
 		aircraftUnits,
-		aircraftType,
+		aircraftType
 	) => {
 		console.log(aircraftData);
 		this.setState({
@@ -167,13 +168,11 @@ export class App extends Component {
 	render() {
 		return (
 			<Router>
-				
-				<Switch>
-					
+				<Routes>
 					<Route
 						path='/Login'
 						render={() =>
-							!this.state.me ? <Authentication /> : <Redirect to='/Dashboard' />
+							!this.state.me ? <Authentication /> : <Navigate to='/Dashboard' />
 						}
 					/>
 					<Route
@@ -193,46 +192,52 @@ export class App extends Component {
 									</Link>{" "}
 								</Container>
 							) : (
-								<Redirect to='/Login' />
+								<Navigate to='/Login' />
 							)
 						}
 					/>
-					<Route path='/VGS'>
-						<NavigationBar />
-							<ManageVGS
-								runwayLights={this.state.lights_data_from_runway}
-								runwayName={this.state.data_from_runway}
-								aircraftName={this.state.data_from_aircraft}
-								runwayIcao={this.state.runway_icao}
-								runwayDh={this.state.runway_decision_height}
-								runwayEdgeSpacing={this.state.runway_edge_light_spacing}
-								runwayGsx={this.state.runway_gs_x}
-								runwayGsy={this.state.runway_gs_y}
-								runwayGlideSlope={this.state.runway_glideslope}
-								runwayTch={this.state.runway_tch}
-								runwayWidth={this.state.runway_width}
-								runwayUnits={this.state.runway_unit_choice}
-								aircraftXa={this.state.aircraft_xa}
-								aircraftXe={this.state.aircraft_xe}
-								aircraftZa={this.state.aircraft_za}
-								aircraftZe={this.state.aircraft_ze}
-								aircraftCg={this.state.aircraft_cg}
-								aircraftFlaps={this.state.aircraft_flaps}
-								aircraftLookdown={this.state.aircraft_lookdown}
-								aircraftPitch={this.state.aircraft_pitch}
-								aircraftSpeed={this.state.aircraft_speed}
-								aircraftWeight={this.state.aircraft_weight}
-								aircraftUnits={this.state.aircraft_units}
-								aircraftType={this.state.aircraft_type}
-							/>
-					</Route>
+					<Route
+						path='/VGS'
+						render={() => (
+							<Container>
+								<NavigationBar />
+								<ManageVGS
+									runwayLights={this.state.lights_data_from_runway}
+									runwayName={this.state.data_from_runway}
+									aircraftName={this.state.data_from_aircraft}
+									runwayIcao={this.state.runway_icao}
+									runwayDh={this.state.runway_decision_height}
+									runwayEdgeSpacing={this.state.runway_edge_light_spacing}
+									runwayGsx={this.state.runway_gs_x}
+									runwayGsy={this.state.runway_gs_y}
+									runwayGlideSlope={this.state.runway_glideslope}
+									runwayTch={this.state.runway_tch}
+									runwayWidth={this.state.runway_width}
+									runwayUnits={this.state.runway_unit_choice}
+									aircraftXa={this.state.aircraft_xa}
+									aircraftXe={this.state.aircraft_xe}
+									aircraftZa={this.state.aircraft_za}
+									aircraftZe={this.state.aircraft_ze}
+									aircraftCg={this.state.aircraft_cg}
+									aircraftFlaps={this.state.aircraft_flaps}
+									aircraftLookdown={this.state.aircraft_lookdown}
+									aircraftPitch={this.state.aircraft_pitch}
+									aircraftSpeed={this.state.aircraft_speed}
+									aircraftWeight={this.state.aircraft_weight}
+									aircraftUnits={this.state.aircraft_units}
+									aircraftType={this.state.aircraft_type}
+								/>
+							</Container>
+						)}
+					/>
+
 					<Route path='/Logoff'>
-						<Redirect to='/Login' />
+						<Navigate to='/Login' />
 					</Route>
 					<Route path='/'>
-						<Redirect to='/Login' />
+						<Navigate to='/Login' />
 					</Route>
-				</Switch>
+				</Routes>
 			</Router>
 		);
 	}

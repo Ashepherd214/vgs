@@ -1,25 +1,5 @@
 import firebase from "firebase/compat/app";
 import { initializeApp } from "firebase/app";
-import {
-	doc,
-	getFirestore,
-	collection,
-	query,
-	where,
-	getDoc,
-	getDocs,
-	setDoc,
-} from "firebase/firestore";
-import {
-	getAuth,
-	onAuthStateChanged,
-	OAuthProvider,
-	signInWithPopup,
-	setPersistence,
-	browserSessionPersistence,
-	signInWithEmailAndPassword,
-	signInWithRedirect,
-} from "firebase/auth";
 import { getAnalytics } from "firebase/analytics";
 import React from "react";
 import { Navigate } from "react-router-dom";
@@ -37,26 +17,21 @@ const firebaseConfig = {
 	measurementId: "G-J8ZDDB5LGS",
 };
 
-// Initialize Firebase
+// Initialize Firebase (v8)
 //firebase.initializeApp(firebaseConfig);
-const firebaseApp = initializeApp(firebaseConfig);
-
-// Initialize Analytics and get a reference to the service
 //firebase.analytics();
-const analytics = getAnalytics(firebaseApp);
 
-// Firestore v8
-//const firestore = firebase.firestore();
-//export const auth = firebase.auth();
+// Initialize Firebase (v9)
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
-// Firestore v9
-const firestore = getFirestore(firebaseApp);
-export const auth = getAuth(firebaseApp);
+const firestore = firebase.firestore();
+export const auth = firebase.auth();
 
 //----------- Begin Azure AD login authentication ----------------//
 
 export const handleWindowsLogin = () => {
-	const provider = new OAuthProvider("microsoft.com");
+	const provider = new firebase.auth.OAuthProvider("microsoft.com");
 
 	provider.setCustomParameters({
 		logi_hint: "user@rsi-visuals.com",
@@ -67,11 +42,14 @@ export const handleWindowsLogin = () => {
 	// auth.signInWithNavigate(provider)
 
 	// To sign in with a popup window for the sign in page:
-	signInWithPopup(auth, provider)
+	firebase
+		.auth()
+		.signInWithPopup(provider)
 		.then((result) => {
-			const credential = OAuthProvider.credentialFromResult(result);
-			const accessToken = credential.accessToken;
-			const idToken = credential.idToken;
+			var credential = result.credential;
+
+			var accessToken = credential.accessToken;
+			var idToken = credential.idToken;
 			return <Navigate to='/Dashboard' />;
 		})
 		.catch((error) => {
@@ -81,35 +59,20 @@ export const handleWindowsLogin = () => {
 // -----------End Azure Authentication ---------------------------//
 
 // [START initialize_persistence]
-setPersistence(auth, browserSessionPersistence)
-	.then(() => {
-		const provider = new OAuthProvider("microsoft.com");
-
-		provider.setCustomParameters({
-			logi_hint: "user@rsi-visuals.com",
-			tenant: "bd0aab2b-3a48-43cf-afc5-8eb63fc1c519",
-		});
-		return signInWithPopup(auth, provider);
-	})
-	.catch((error) => {
-		const errorCode = error.code;
-		const errorMessage = error.message;
+firebase
+	.firestore()
+	.enablePersistence()
+	.catch((err) => {
+		if (err.code == "failed-precondition") {
+			// Multiple tabs open, persistence can only be enabled
+			// in one tab at a a time.
+			// ...
+		} else if (err.code == "unimplemented") {
+			// The current browser does not support all of the
+			// features required to enable persistence
+			// ...
+		}
 	});
-
-// firebase
-// 	.firestore()
-// 	.enablePersistence()
-// 	.catch((err) => {
-// 		if (err.code == "failed-precondition") {
-// 			// Multiple tabs open, persistence can only be enabled
-// 			// in one tab at a a time.
-// 			// ...
-// 		} else if (err.code == "unimplemented") {
-// 			// The current browser does not support all of the
-// 			// features required to enable persistence
-// 			// ...
-// 		}
-// 	});
 // Subsequent queries will use persistence, if it was enabled successfully
 // [END initialize_persistence]
 
@@ -160,13 +123,7 @@ export const generateUserDocument = (
 	}
 */
 		//console.log("User ID is: " + `${user.uid}`);
-		//const userRef = firestore.collection("users").doc(String(useID)); //Needs a specific uid to actually get any snapshot info
-
-		// Query UserID v9
-		const userRef = query(
-			collection(firestore, "users"),
-			where(`${String(useID)}`, "==", true)
-		); //Needs a specific uid to actually get any snapshot info
+		const userRef = firestore.collection("users").doc(String(useID)); //Needs a specific uid to actually get any snapshot info
 		//const userRef = firestore.collection("users").doc(String(user.uid)); //Needs a specific uid to actually get any snapshot info
 		//const snapshot = userRef.get();
 		//console.log("User found: " + userRef);
@@ -184,16 +141,11 @@ export const generateUserDocument = (
 		);
 		try {
 			//needs to change to a form os firestore.collection("users").add({data})
-			/*await*/ setDoc(doc(userRef), {
+			userRef.set({
 				firstName: firstName,
 				lastName: lastName,
 				email: email,
 			});
-			// userRef.set({
-			// 	firstName: firstName,
-			// 	lastName: lastName,
-			// 	email: email,
-			// });
 		} catch (error) {
 			console.error("Error creating user document", error);
 		}
@@ -207,8 +159,7 @@ const getUserDocument = async (uid) => {
 		return null;
 	}
 	try {
-		const userRef = doc(firestore, "users", `${uid}`);
-		const userDocument = await getDoc(userRef);
+		const userDocument = await firestore.doc(`users/${uid}`).get();
 		return {
 			uid: uid,
 			...userDocument.data(),

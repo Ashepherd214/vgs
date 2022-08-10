@@ -68,7 +68,7 @@ class EditRunway extends React.Component {
 					console.log("No such document!");
 				}
 			})
-			.catch(function (error) {
+			.catch(function(error) {
 				console.log("Error getting document: ", error);
 			});
 	};

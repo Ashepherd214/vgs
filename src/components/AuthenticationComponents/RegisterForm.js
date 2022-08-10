@@ -1,7 +1,7 @@
 import React, { Component, useContext, useState } from "react";
 import { AuthContext } from "../../Auth";
 import { Button, Container, Form } from "react-bootstrap";
-import { Redirect } from "react-router";
+import { Navigate } from "react-router-dom";
 import { firestore, auth, generateUserDocument } from "../../Firestore";
 
 const RegisterForm = () => {
@@ -38,16 +38,17 @@ const RegisterForm = () => {
 		console.log("Email submitting as: " + regEmail);
 		try {
 			//const user = auth.createUserWithEmailAndPassword(regEmail, regPassword);
-			auth.createUserWithEmailAndPassword(regEmail, regPassword).then((userCredential) => {
-				var user = userCredential.user
-				var useID = user.uid
-				console.log("User created on submit: " + user.uid);
-				setUseID(user.uid);
-				console.log("authID before generation: " + useID)
-				generateUserDocument(user, useID, firstName, lastName, regEmail);
-				console.log("Login Successful");
-			})
-			
+			auth
+				.createUserWithEmailAndPassword(regEmail, regPassword)
+				.then((userCredential) => {
+					var user = userCredential.user;
+					var useID = user.uid;
+					console.log("User created on submit: " + user.uid);
+					setUseID(user.uid);
+					console.log("authID before generation: " + useID);
+					generateUserDocument(user, useID, firstName, lastName, regEmail);
+					console.log("Login Successful");
+				});
 		} catch (error) {
 			setError("Error Signing up with email and password");
 		}
@@ -56,12 +57,12 @@ const RegisterForm = () => {
 		setPassword("");
 		setFirstName("");
 		setLastName("");
-		return <Redirect to='/Login' />;
+		return <Navigate to='/Login' />;
 	};
 
 	return (
 		<Container>
-			<Form id="register_form">
+			<Form id='register_form'>
 				<Form.Group>
 					<Form.Label>First Name</Form.Label>
 					<Form.Control

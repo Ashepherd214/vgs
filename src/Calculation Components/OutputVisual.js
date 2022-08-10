@@ -7,7 +7,7 @@ import { ThresholdBars } from "../components/ThresholdBars";
 import outputImg from "../img/Outputs Variable chart.png";
 import GroundSegmentRender from "../VGSMath/GroundSegmentRender";
 import { RunwayMarkingsDraw } from "../components/RunwayMarkingsDraw";
-import { Redirect } from "react-router";
+import { Navigate } from "react-router-dom";
 
 // Draws Runway
 function Runway(props) {
@@ -87,8 +87,7 @@ class OutputVisuals extends React.Component {
 	/*--------------------------New get Data function using Snapshot------------------------ */
 	async getRunwayData(runwayName) {
 		try {
-			const runDb = await
-				firestore
+			const runDb = await firestore
 				.collection("Runways")
 				.doc(String(runwayName))
 				.get();
@@ -111,9 +110,8 @@ class OutputVisuals extends React.Component {
 	}
 
 	async getAircraftData(aircraftName) {
-		try{
-			const airDb = await
-				firestore
+		try {
+			const airDb = await firestore
 				.collection("Aircrafts")
 				.doc(String(aircraftName))
 				.get();
@@ -139,10 +137,9 @@ class OutputVisuals extends React.Component {
 	render() {
 		console.log("OutputVisual xAhead: " + this.props.xahead);
 		console.log("OutputVisual xBeyond: " + this.props.xbeyond);
-		
 
-		if (this.props.runwayName == "" || this.props.aircraftName == ""){
-			return <Redirect to='/Dashboard' />
+		if (this.props.runwayName == "" || this.props.aircraftName == "") {
+			return <Navigate to='/Dashboard' />;
 		} else {
 			return (
 				<div>
