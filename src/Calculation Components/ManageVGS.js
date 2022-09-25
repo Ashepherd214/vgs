@@ -182,57 +182,62 @@ class ManageVGS extends Component {
 		let xaheadrealTCH = xeyethresrealTCH - obseg;
 		let xbeyondrealTCH = fov - xaheadrealTCH;
 
-		this.setState({
-			zegS: zeg,
-			zagS: zag,
-			fovS: fov,
-			xanteyeS: xanteye,
-			obsegS: obseg,
-			xthres0S: xthres0,
-			xthresrealS: xthresreal,
-			xeyethres0S: xeyethres0,
-			xeyethres0TCHS: xeyethres0TCH,
-			xeyethresrealS: xeyethresreal,
-			xeyethresrealTCHS: xeyethresrealTCH,
-			gndrvrS: gndrvr,
-			xax0S: xax0,
-			xaxrealS: xaxreal,
-			xcutoffS: xcutoff,
-			xahead0S: xahead0,
-			xahead0TCHS: xahead0TCH,
-			xaheadrealS: xaheadreal,
-			xaheadrealTCHS: xaheadrealTCH,
-			xbeyond0S: xbeyond0,
-			xbeyondrealS: xbeyondreal,
-			xbeyond0TCHS: xbeyond0TCH,
-			xbeyondrealTCHS: xbeyondrealTCH,
-			xahead0GS: xahead0,
-			xahead0TCHGS: xahead0TCH,
-			xaheadrealGS: xaheadreal,
-			xaheadrealTCHGS: xaheadrealTCH,
-			xbeyond0GS: xbeyond0,
-			xbeyond0TCHGS: xbeyond0TCH,
-			xbeyondrealGS: xbeyondreal,
-			xbeyondrealTCHGS: xbeyondrealTCH,
-			decisionHeight: this.props.runwayDh,
-			// runwayWidthGS:this.props.runwayWidth,
-		});
+		this.setState(
+			{
+				zegS: zeg,
+				zagS: zag,
+				fovS: fov,
+				xanteyeS: xanteye,
+				obsegS: obseg,
+				xthres0S: xthres0,
+				xthresrealS: xthresreal,
+				xeyethres0S: xeyethres0,
+				xeyethres0TCHS: xeyethres0TCH,
+				xeyethresrealS: xeyethresreal,
+				xeyethresrealTCHS: xeyethresrealTCH,
+				gndrvrS: gndrvr,
+				xax0S: xax0,
+				xaxrealS: xaxreal,
+				xcutoffS: xcutoff,
+				xahead0S: xahead0,
+				xahead0TCHS: xahead0TCH,
+				xaheadrealS: xaheadreal,
+				xaheadrealTCHS: xaheadrealTCH,
+				xbeyond0S: xbeyond0,
+				xbeyondrealS: xbeyondreal,
+				xbeyond0TCHS: xbeyond0TCH,
+				xbeyondrealTCHS: xbeyondrealTCH,
+				xahead0GS: xahead0,
+				xahead0TCHGS: xahead0TCH,
+				xaheadrealGS: xaheadreal,
+				xaheadrealTCHGS: xaheadrealTCH,
+				xbeyond0GS: xbeyond0,
+				xbeyond0TCHGS: xbeyond0TCH,
+				xbeyondrealGS: xbeyondreal,
+				xbeyondrealTCHGS: xbeyondrealTCH,
+				decisionHeight: this.props.runwayDh,
+				// runwayWidthGS:this.props.runwayWidth,
+			},
+			() => {
+				console.log("xcutoff: " + this.state.xcutoffS);
+				console.log("zeg: " + this.state.zegS);
+				console.log("zag: " + this.state.zagS);
+				console.log("xanteye: " + this.state.xanteyeS);
+				console.log("obseg: " + this.state.obsegS);
+				console.log("gndrvr: " + this.state.gndrvrS);
+				console.log("fov: " + this.state.fovS);
+				console.log("glideslope: " + this.state.glideSlope);
+				console.log("decision Height: " + this.state.dh);
+				console.log(
+					"Measurement units from Runway are in: " + this.props.runwayUnits
+				);
+				console.log(
+					"Measurement units from Aircraft are in: " + this.props.airType
+				);
+			}
+		);
 		// console.log("----------Start Variables in ManageVGS calculated----------");
-		console.log("xcutoff: " + this.state.xcutoffS);
-		console.log("zeg: " + this.state.zegS);
-		console.log("zag: " + this.state.zagS);
-		console.log("xanteye: " + this.state.xanteyeS);
-		console.log("obseg: " + this.state.obsegS);
-		console.log("gndrvr: " + this.state.gndrvrS);
-		console.log("fov: " + this.state.fovS);
-		console.log("glideslope: " + this.state.glideSlope);
-		console.log("decision Height: " + this.state.dh);
-		console.log(
-			"Measurement units from Runway are in: " + this.props.runwayUnits
-		);
-		console.log(
-			"Measurement units from Aircraft are in: " + this.props.aircraftUnits
-		);
+
 		// console.log("-----------End Variables in ManageVGS calculated----------");
 
 		/* The methods of calculating the VGS vary based on a combination of two things, Whether the lateral position of the Ground Transmitter station

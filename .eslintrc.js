@@ -25,8 +25,8 @@ module.exports = {
 	rules: {
 		"react/prop-types": "off",
 		"react/no-direct-mutation-state": "off",
-		"no-unused-vars": "warn",
+		"no-unused-vars": "off",
 		"no-undef": "warn",
-		"reac/no-unescaped-entities": "warn",
+		"reac/no-unescaped-entities": "off",
 	},
 };
