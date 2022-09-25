@@ -739,7 +739,8 @@ class ManageVGS extends Component {
 								</label>
 								<br />
 								<label className='paramlabel'>
-									Pilot's eye above ground(zeg):{" "}
+									Pilot&#39;s eye above ground(zeg):{" "}
+									{/* Trying to add HTML escape code in place of apostrophe */}
 									{Number(this.state.zegS).toFixed(2)}{" "}
 								</label>
 								<label className='paramlabel'>
