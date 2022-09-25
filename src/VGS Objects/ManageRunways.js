@@ -1,5 +1,13 @@
 import React, { Component } from "react";
 import firestore from "../Firestore";
+import {
+	collection,
+	doc,
+	query,
+	where,
+	getDocs,
+	getDoc,
+} from "firebase/firestore";
 import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import EditRunway from "../components/TableComponents/EditRunway";
@@ -43,48 +51,78 @@ export class ManageRunways extends Component {
 		this.gotData();
 	};
 
-	gotData = () => {
-		const db = firestore.collection("Runways");
-		db.get()
-			.then((querySnapshot) => {
-				const runways = [];
-
-				querySnapshot.forEach(function(doc) {
-					runways.push({
-						name: doc.id,
-						icao: doc.data().ICAO,
-						approachlights: doc.data().ApproachLights,
-						dh: doc.data().DH,
-						edgespacing: doc.data().EdgeSpacing,
-						gsx: doc.data().GSOffsetX,
-						gsy: doc.data().GSOffsetY,
-						glideslope: doc.data().GlideSlope,
-						tch: doc.data().TCH,
-						width: doc.data().Width,
-						units: doc.data().Units,
-					});
+	async gotData() {
+		// gotData = async () => {
+		const querySnapshot = await getDocs(collection(firestore, "Runways"));
+		const runways = [];
+		querySnapshot
+			.forEach((doc) => {
+				runways.push({
+					name: doc.id,
+					icao: doc.data().ICAO,
+					approachlights: doc.data().ApproachLights,
+					dh: doc.data().DH,
+					edgespacing: doc.data().EdgeSpacing,
+					gsx: doc.data().GSOffsetX,
+					gsy: doc.data().GSOffsetY,
+					glideslope: doc.data().GlideSlope,
+					tch: doc.data().TCH,
+					width: doc.data().Width,
+					units: doc.data().Units,
 				});
-
 				this.setState({ runways });
 			})
-			.catch(function(error) {
+			?.catch(function (error) {
 				console.log("Error getting documents: ", error);
 			});
-	};
+	}
 
 	async childFunction() {
 		let selection = [this.state.select];
-		console.log("Inside ChildFunction: ", selection[0]);
-		const db = await firestore
-			.collection("Runways")
-			.doc(selection[0].toString());
-		const data = await firestore
-			.collection("Runways")
-			.doc(selection[0].toString())
-			.get();
 
-		//console.log("obtained doc in child: " + data.data().ApproachLights)
-		console.log("obtained doc in child: " + data.data().ICAO);
+		console.log("Inside Runway ChildFunction: ", selection);
+
+		const docName = selection[0];
+		console.log("Runway Doc Name: ", docName);
+		const docRef = doc(firestore, "Runways", docName);
+		console.log("docRef was found as: ", docRef);
+		const docSnap = await getDoc(docRef);
+
+		if (docSnap.exists()) {
+			this.setState(
+				{
+					approachlights: String(docSnap.data().ApproachLights),
+					name: docSnap.id,
+					icao: docSnap.data().ICAO,
+					dh: docSnap.data().DH,
+					edgespacing: docSnap.data().EdgeSpacing,
+					gsx: docSnap.data().GSOffsetX,
+					gsy: docSnap.data().GSOffsetY,
+					glideslope: docSnap.data().GlideSlope,
+					tch: docSnap.data().TCH,
+					width: docSnap.data().Width,
+					units: docSnap.data().Units,
+				},
+				() => {
+					this.props.parentRunFunction(
+						selection,
+						this.state.approachlights,
+						this.state.name,
+						this.state.icao,
+						this.state.dh,
+						this.state.edgespacing,
+						this.state.gsx,
+						this.state.gsy,
+						this.state.glideslope,
+						this.state.tch,
+						this.state.width,
+						this.state.units
+					);
+				}
+			);
+		} else {
+			console.log("We could not find a Runway document in the childfunction");
+		}
 
 		// if(data.data().Units == true) {
 		// 	//Check if Decsion Height is 100 because it is probably set in feet
@@ -114,42 +152,6 @@ export class ManageRunways extends Component {
 		// if (data.data().DH == 100) {
 		// 	dhMF = (data.data().DH) * 3.281
 		// }
-		this.setState({
-			approachlights: String(data.data().ApproachLights),
-			name: data.id,
-			icao: data.data().ICAO,
-			dh: data.data().DH,
-			edgespacing: data.data().EdgeSpacing,
-			gsx: data.data().GSOffsetX,
-			gsy: data.data().GSOffsetY,
-			glideslope: data.data().GlideSlope,
-			tch: data.data().TCH,
-			width: data.data().Width,
-			units: data.data().Units,
-		});
-		//}
-
-		db.get().then((doc) => {
-			const data = doc.data();
-			console.log(selection[0]);
-		});
-		console.log(
-			"Runway Lights after ManageRunways setState:" + this.state.approachlights
-		);
-		this.props.parentFunction(
-			selection[0],
-			this.state.approachlights,
-			this.state.name,
-			this.state.icao,
-			this.state.dh,
-			this.state.edgespacing,
-			this.state.gsx,
-			this.state.gsy,
-			this.state.glideslope,
-			this.state.tch,
-			this.state.width,
-			this.state.units
-		);
 	}
 
 	showModal = () => {
@@ -167,23 +169,24 @@ export class ManageRunways extends Component {
 
 	handleOnSelect = (row, isSelect, rowIndex) => {
 		this.childFunction = this.childFunction.bind(this);
-		setTimeout(() => {
-			if (isSelect) {
-				const craft = this.node.selectionContext.selected;
-				console.log(craft);
-				this.setState(() => ({
-					selected: [row.id],
-				}));
-			} else {
-				this.setState(() => ({
-					selected: this.state.selected.filter((x) => x !== row.id),
-				}));
-			}
+		//setTimeout(() => {
+		if (isSelect) {
+			// const run = this.node.selectionContext.selected;
+			// console.log(run);
 			this.setState(() => ({
-				select: this.node.selectionContext.selected,
+				select: row.name,
+				selected: [row.name],
 			}));
-			this.setState({ itemSelected: true });
-		});
+		} else {
+			this.setState(() => ({
+				selected: this.state.selected.filter((x) => x !== row.id),
+			}));
+		}
+		this.setState(() => ({
+			//select: this.node.selectionContext.selected,
+		}));
+		this.setState({ itemSelected: true });
+		//});
 		console.log(this.state.select);
 		setTimeout(() => {
 			this.childFunction();
@@ -199,10 +202,10 @@ export class ManageRunways extends Component {
 		selections.forEach((key) => {
 			db.doc(key.toString())
 				.delete()
-				.then(function() {
+				.then(function () {
 					console.log("Deletion successful!");
 				})
-				.catch(function(error) {
+				.catch(function (error) {
 					console.error("Something went wrong, document not removed");
 				});
 		});

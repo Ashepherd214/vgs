@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 // import ReactDOM from "react-dom";
 import firestore from "../Firestore";
+import {
+	collection,
+	query,
+	where,
+	getDocs,
+	doc,
+	getDoc,
+} from "firebase/firestore";
 import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory, { Type } from "react-bootstrap-table2-editor";
 import EditAircraft from "../components/TableComponents/EditAircraft";
@@ -17,9 +25,8 @@ import {
 export class ManageAircrafts extends Component {
 	constructor(props) {
 		super(props);
-		//this.rerenderParent = this.rerenderParent.bind(this)
 		this.gotData = this.gotData.bind(this);
-		this.select = [];
+		this.selected = [];
 		this.state = {
 			aircrafts: [],
 			select: " ",
@@ -46,51 +53,86 @@ export class ManageAircrafts extends Component {
 		this.gotData();
 	};
 
-	gotData = () => {
-		const db = firestore.collection("Aircrafts");
-
-		db.get()
-			.then((querySnapshot) => {
-				const aircrafts = [];
-
-				querySnapshot.forEach(function(doc) {
-					aircrafts.push({
-						name: doc.id,
-						xa: doc.data().Xa,
-						xe: doc.data().Xe,
-						za: doc.data().Za,
-						ze: doc.data().Ze,
-						cg: doc.data().cg,
-						flaps: doc.data().flaps,
-						lookdown: doc.data().lookdown,
-						pitch: doc.data().pitch,
-						speed: doc.data().speed,
-						weight: doc.data().weight,
-						unitsAir: doc.data().unitsAir,
-						airType: doc.data().airType,
-					});
+	//async gotData = () => {
+	async gotData() {
+		// v9 way
+		const querySnapshot = await getDocs(collection(firestore, "Aircrafts"));
+		const aircrafts = [];
+		querySnapshot
+			.forEach((doc) => {
+				aircrafts.push({
+					name: doc.id,
+					xa: doc.data().Xa,
+					xe: doc.data().Xe,
+					za: doc.data().Za,
+					ze: doc.data().Ze,
+					cg: doc.data().cg,
+					flaps: doc.data().flaps,
+					lookdown: doc.data().lookdown,
+					pitch: doc.data().pitch,
+					speed: doc.data().speed,
+					weight: doc.data().weight,
+					unitsAir: doc.data().unitsAir,
+					airType: doc.data().airType,
 				});
-
 				this.setState({ aircrafts });
 			})
-			.catch(function(error) {
+			?.catch(function (error) {
 				console.log("Error getting documents: ", error);
 			});
-	};
+	}
 
 	async childFunction() {
-		//let select = selected;
-		//let selection = [this.node.selectionContext.selected]
 		let selection = [this.state.select];
+		console.log("Selection inside Aircraft Child function: ", selection);
 
-		console.log("Inside ChildFunction: ", selection[0]);
-		const db = await firestore
-			.collection("Aircrafts")
-			.doc(selection[0].toString());
-		const data = await firestore
-			.collection("Aircrafts")
-			.doc(selection[0].toString())
-			.get();
+		console.log("Inside Aircraft ChildFunction: ", selection[0]);
+
+		const docName = selection[0];
+		console.log("Aircraft Doc Name: ", docName);
+		const docRef = doc(firestore, "Aircrafts", docName);
+		const docSnap = await getDoc(docRef);
+		// while (!data.exists()) {
+		// 	setTimeout(() => {});
+		// }
+		if (docSnap.exists()) {
+			console.log("Aircraft Document data: ", docSnap.data());
+			this.setState(
+				{
+					xa: docSnap.data().Xa,
+					xe: docSnap.data().Xe,
+					za: docSnap.data().Za,
+					ze: docSnap.data().Ze,
+					cg: docSnap.data().cg,
+					flaps: docSnap.data().flaps,
+					lookdown: docSnap.data().lookdown,
+					pitch: docSnap.data().pitch,
+					speed: docSnap.data().speed,
+					weight: docSnap.data().weight,
+					unitsAir: docSnap.data().unitsAir,
+					airType: docSnap.data().airType,
+				},
+				() => {
+					this.props.parentFunction(
+						selection,
+						this.state.xa,
+						this.state.xe,
+						this.state.za,
+						this.state.ze,
+						this.state.cg,
+						this.state.flaps,
+						this.state.lookdown,
+						this.state.pitch,
+						this.state.speed,
+						this.state.weight,
+						this.state.unitsAir,
+						this.state.airType
+					);
+				}
+			);
+		} else {
+			console.log("Nah, ain't no aircraft coming up");
+		}
 
 		// Check if values are metric or not. If metric convert to imperial for calculation purposes
 		// through the callback function. Metric to Imperial conversion is x(Feet)/3.28(meters) or x(Feet) * 3.281(Meters). Weight from lbs into kg (x * 0.4536)
@@ -116,42 +158,13 @@ export class ManageAircrafts extends Component {
 		//   })
 		// } else {
 		//   console.log("Aircraft values already in Imperial")
-		this.setState({
-			xa: data.data().Xa,
-			xe: data.data().Xe,
-			za: data.data().Za,
-			ze: data.data().Ze,
-			cg: data.data().cg,
-			flaps: data.data().flaps,
-			lookdown: data.data().lookdown,
-			pitch: data.data().pitch,
-			speed: data.data().speed,
-			weight: data.data().weight,
-			unitsAir: data.data().unitsAir,
-			airType: data.data().airType,
-		});
-		//}
-		db.get().then(function(doc) {
-			const data = doc.data();
-			console.log(selection[0]);
-			console.log(data);
-		});
 
-		this.props.parentFunction(
-			selection[0],
-			this.state.xa,
-			this.state.xe,
-			this.state.za,
-			this.state.ze,
-			this.state.cg,
-			this.state.flaps,
-			this.state.lookdown,
-			this.state.pitch,
-			this.state.speed,
-			this.state.weight,
-			this.state.unitsAir,
-			this.state.airType
-		);
+		//}
+		// db.get().then(function (doc) {
+		// 	const data = doc.data();
+		// 	console.log(selection[0]);
+		// 	console.log(data);
+		// });
 	}
 
 	rerenderParent() {
@@ -177,22 +190,27 @@ export class ManageAircrafts extends Component {
 	handleOnSelect = (row, isSelect, rowKey) => {
 		// ...this.state.selected,
 		this.childFunction = this.childFunction.bind(this);
-		setTimeout(() => {
-			if (isSelect) {
-				//const craft = this.node.selectionContext.selected;
-				this.setState(() => ({
-					selected: [row.id],
-				}));
-			} else {
-				this.setState(() => ({
-					selected: this.state.selected.filter((x) => x !== row.id),
-				}));
-			}
+		//setTimeout(() => {
+		console.log("The row id is: ", row.id);
+		console.log("The name from row is: ", String(row.name));
+		if (isSelect) {
 			this.setState(() => ({
-				select: this.node.selectionContext.selected,
+				select: row.name,
+				selected: [row.name],
 			}));
-			this.setState({ itemSelected: true });
-		});
+		} else {
+			this.setState(() => ({
+				selected: this.state.selected.filter((x) => x !== row.id),
+			}));
+		}
+		this.setState(() => ({
+			//select: this.node.selectionContext.selected,
+			//select: this.state.selected,
+		}));
+		console.log("Row selected variable is: ", this.state.selected);
+		console.log("Row select is: ", this.state.select);
+		this.setState({ itemSelected: true });
+		//});
 		console.log(this.state.select);
 		setTimeout(() => {
 			this.childFunction();
@@ -208,10 +226,10 @@ export class ManageAircrafts extends Component {
 		selections.forEach((key) => {
 			db.doc(key.toString())
 				.delete()
-				.then(function() {
+				.then(function () {
 					console.log("Deletion successful!");
 				})
-				.catch(function(error) {
+				.catch(function (error) {
 					console.error("Something went wrong, document not removed");
 				});
 		});

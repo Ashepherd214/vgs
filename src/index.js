@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
+//import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { Navigate } from "react-router-dom";
 import { Route, Routes, Link, BrowserRouter as Router } from "react-router-dom";
 import { Col, Container, Row, Tab, Tabs } from "react-bootstrap";
@@ -11,50 +12,68 @@ import ManageVGS from "./Calculation Components/ManageVGS";
 import "./index.css";
 import NavigationBar from "./components/NavigationBar";
 import Authentication from "./components/AuthenticationComponents/AuthenticationPage";
-import firebaseapp from "firebase/compat/app";
-import "firebase/compat/auth";
+//import firebaseapp from "firebase/compat/app";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+//import "firebase/compat/auth";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "./Dashboard.js";
 import history from "history";
 import VGSErrorBoundary from "./VGSErrorBoundary";
 import UserProvider from "./Auth";
-import firebase from "firebase/compat/app";
-import auth from "./Firestore";
+//import firebase from "firebase/compat/app";
+//import auth from "./Firestore";
 
+const auth = getAuth();
 /**
  * Need
  */
 export class App extends Component {
+	state = {
+		data_from_runway: [],
+		data_from_aircraft: [],
+		lights_data_from_runway: "",
+		runway_name: "",
+		runway_icao: "",
+		runway_decision_height: "",
+		runway_edge_light_spacing: "",
+		runway_gs_x: "",
+		runway_gs_y: "",
+		runway_glideslope: "",
+		runway_tch: "",
+		runway_width: "",
+		runway_unit_choice: "",
+		aircraft_xa: "",
+		aircraft_xe: "",
+		aircraft_za: "",
+		aircraft_ze: "",
+		aircraft_cg: "",
+		aircraft_flaps: "",
+		aircraft_lookdown: "",
+		aircraft_pitch: "",
+		aircraft_speed: "",
+		aircraft_weight: "",
+		aircraft_units: "",
+		aircraft_type: "",
+		me: auth.currentUser,
+	};
 	constructor(props) {
 		super(props);
-		this.state = {
-			data_from_runway: [],
-			data_from_aircraft: [],
-			lights_data_from_runway: "",
-			runway_name: "",
-			runway_icao: "",
-			runway_decision_height: "",
-			runway_edge_light_spacing: "",
-			runway_gs_x: "",
-			runway_gs_y: "",
-			runway_glideslope: "",
-			runway_tch: "",
-			runway_width: "",
-			runway_unit_choice: "",
-			aircraft_xa: "",
-			aircraft_xe: "",
-			aircraft_za: "",
-			aircraft_ze: "",
-			aircraft_cg: "",
-			aircraft_flaps: "",
-			aircraft_lookdown: "",
-			aircraft_pitch: "",
-			aircraft_speed: "",
-			aircraft_weight: "",
-			aircraft_units: "",
-			aircraft_type: "",
-			me: auth.currentUser,
-		};
+		// this.state = {
+
+		// };
+	}
+
+	componentDidMount = () => {
+		onAuthStateChanged(auth, (me) => {
+			if (me) {
+				this.setState({ me });
+			}
+		});
+	};
+
+	//componentWillUpdate(props, state)
+	componentDidUpdate(props, state) {
+		return state.me;
 	}
 
 	parentRunwayCallbackFunction = (
@@ -71,51 +90,28 @@ export class App extends Component {
 		runwayWidth,
 		runwayUnits
 	) => {
-		console.log(String(runwayData));
-		this.setState({
-			data_from_runway: runwayData,
-			lights_data_from_runway: runwayLights,
-			runway_name: runwayName,
-			runway_icao: runwayIcao,
-			runway_decision_height: runwayDh,
-			runway_edge_light_spacing: runwayEdgeSpacing,
-			runway_gs_x: runwayGsx,
-			runway_gs_y: runwayGsy,
-			runway_glideslope: runwayGlideSlope,
-			runway_tch: runwayTch,
-			runway_width: runwayWidth,
-			runway_unit_choice: runwayUnits,
-		});
-		// console.log("The Runway data from child is: " + runwayData)
-		// console.log("Runway Lights data from child is: " + runwayLights)
-		// console.log("The Runway data from parent is: " + this.state.data_from_runway)
-		// console.log("The Runway Lights data from parent is: " + this.state.lights_data_from_runway)
-		// console.log("The Runway data from parent is: " + this.state.runway_name)
-		// console.log("The Runway data from parent is: " + this.state.runway_icao)
-		// console.log("The Runway data from parent is: " + this.state.runway_decision_height)
-		// console.log("The Runway data from parent is: " + this.state.runway_edge_light_spacing)
-		// console.log("The Runway data from parent is: " + this.state.runway_gs_x)
-		// console.log("The Runway data from parent is: " + this.state.runway_gs_y)
-		// console.log("The Runway data from parent is: " + this.state.runway_glideslope)
-		// console.log("The Runway data from parent is: " + this.state.runway_tch)
-		// console.log("The Runway data from parent is: " + this.state.runway_width)
-		// console.log("The Runway data from parent is: " + this.state.runway_unit_choice)
-		//this.setState({value_key:value_key})
-		//this.forceUpdate()
-		// this.setState({
-		//   rerender: !this.state.rerender
-		// });
+		this.setState(
+			{
+				data_from_runway: runwayData,
+				lights_data_from_runway: runwayLights,
+				runway_name: runwayName,
+				runway_icao: runwayIcao,
+				runway_decision_height: runwayDh,
+				runway_edge_light_spacing: runwayEdgeSpacing,
+				runway_gs_x: runwayGsx,
+				runway_gs_y: runwayGsy,
+				runway_glideslope: runwayGlideSlope,
+				runway_tch: runwayTch,
+				runway_width: runwayWidth,
+				runway_unit_choice: runwayUnits,
+			},
+			() => {
+				console.log(this.state.data_from_runway);
+				console.log(this.state.runway_name);
+				console.log(this.state.runway_icao);
+			}
+		);
 	};
-
-	componentDidMount() {
-		firebase.auth().onAuthStateChanged((me) => {
-			this.setState({ me });
-		});
-	}
-
-	componentWillUpdate(props, state) {
-		return state.me;
-	}
 
 	parentAircraftCallbackFunction = (
 		aircraftData,
@@ -133,30 +129,29 @@ export class App extends Component {
 		aircraftType
 	) => {
 		console.log(aircraftData);
-		this.setState({
-			data_from_aircraft: aircraftData,
-			aircraft_xa: aircraftXa,
-			aircraft_xe: aircraftXe,
-			aircraft_za: aircraftZa,
-			aircraft_ze: aircraftZe,
-			aircraft_cg: aircraftCg,
-			aircraft_flaps: aircraftFlaps,
-			aircraft_lookdown: aircraftLookdown,
-			aircraft_pitch: aircraftPitch,
-			aircraft_speed: aircraftSpeed,
-			aircraft_weight: aircraftWeight,
-			aircraft_units: aircraftUnits,
-			aircraft_type: aircraftType,
-		});
-		console.log("The Aircraft data from child is: " + aircraftData);
-		console.log(
-			"The Aircraft data from parent is: " + this.state.data_from_aircraft
+		this.setState(
+			{
+				data_from_aircraft: aircraftData,
+				aircraft_xa: aircraftXa,
+				aircraft_xe: aircraftXe,
+				aircraft_za: aircraftZa,
+				aircraft_ze: aircraftZe,
+				aircraft_cg: aircraftCg,
+				aircraft_flaps: aircraftFlaps,
+				aircraft_lookdown: aircraftLookdown,
+				aircraft_pitch: aircraftPitch,
+				aircraft_speed: aircraftSpeed,
+				aircraft_weight: aircraftWeight,
+				aircraft_units: aircraftUnits,
+				aircraft_type: aircraftType,
+			},
+			() => {
+				console.log("The Aircraft data from child is: " + aircraftData);
+				console.log(
+					"The Aircraft data from parent is: " + this.state.data_from_aircraft
+				);
+			}
 		);
-		//this.setState({value_key:value_key})
-		//this.forceUpdate()
-		// this.setState({
-		//   rerender: !this.state.rerender
-		// });
 	};
 
 	// handleSignIn = history => (email, password) => {
@@ -171,13 +166,13 @@ export class App extends Component {
 				<Routes>
 					<Route
 						path='/Login'
-						render={() =>
+						element={
 							!this.state.me ? <Authentication /> : <Navigate to='/Dashboard' />
 						}
 					/>
 					<Route
 						path='/Dashboard'
-						render={() =>
+						element={
 							this.state.me ? (
 								<Container>
 									<NavigationBar />
@@ -185,11 +180,11 @@ export class App extends Component {
 										parentFunction={this.parentAircraftCallbackFunction}
 									/>
 									<ManageRunways
-										parentFunction={this.parentRunwayCallbackFunction}
+										parentRunFunction={this.parentRunwayCallbackFunction}
 									/>
 									<Link to='/VGS'>
 										<CalculateButton />
-									</Link>{" "}
+									</Link>
 								</Container>
 							) : (
 								<Navigate to='/Login' />
@@ -198,9 +193,10 @@ export class App extends Component {
 					/>
 					<Route
 						path='/VGS'
-						render={() => (
+						element={
 							<Container>
 								<NavigationBar />
+								{/* For some reason these values are being passed on as empty and null */}
 								<ManageVGS
 									runwayLights={this.state.lights_data_from_runway}
 									runwayName={this.state.data_from_runway}
@@ -228,24 +224,22 @@ export class App extends Component {
 									aircraftType={this.state.aircraft_type}
 								/>
 							</Container>
-						)}
+						}
 					/>
 
-					<Route path='/Logoff'>
-						<Navigate to='/Login' />
-					</Route>
-					<Route path='/'>
-						<Navigate to='/Login' />
-					</Route>
+					<Route path='/Logoff' element={<Navigate to='/Login' />}></Route>
+					<Route path='/' element={<Navigate to='/Login' />}></Route>
 				</Routes>
 			</Router>
 		);
 	}
 }
 
-ReactDOM.render(
+const container = document.getElementById("root");
+const root = createRoot(container);
+
+root.render(
 	<UserProvider>
 		<App />
-	</UserProvider>,
-	document.getElementById("root")
+	</UserProvider>
 );

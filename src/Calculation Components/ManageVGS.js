@@ -88,7 +88,7 @@ class ManageVGS extends Component {
 	}
 
 	showAircraft(param) {
-		console.log("aircraft type: " + String(param));
+		console.log("aircraft type: " + param);
 
 		switch (param) {
 			case "plane":
@@ -113,64 +113,12 @@ class ManageVGS extends Component {
 
 	calculateVGS() {
 		let radToDeg = Math.PI / 180; // Anywhere this variable is found can be switched back to this math if needed.
+		console.log(
+			"The lookdown and pitch values in calc VGS are: ",
+			this.state.lookdown,
+			this.state.pitch
+		);
 		let xcutoff = this.state.lookdown - this.state.pitch;
-
-		//Check if units is metric or imperial. If it is imperial
-		// if(this.state.canConvert == true) {
-		// 	switch(this.state.units) {
-		// 		case 'Metric':
-		// 			//Convert from Imperial to Metric. Multiply by a factor of 0.3048
-		// 			let dhM = this.state.dh * 0.3048//dh
-		// 			let xaM = this.state.xa * 0.3048//xa
-		// 			let xeM = this.state.xe * 0.3048//xe
-		// 			let zaM = this.state.za * 0.3048//za
-		// 			let zeM = this.state.ze * 0.3048//ze
-		// 			let gsxM = this.state.gsx * 0.3048//gsx
-		// 			let gsyM = this.state.gsy * 0.3048//gsy
-		// 			let xrvrM = this.state.xrvr * 0.3048//xrvr
-		// 			let tchM = this.state.tch * 0.3048//tch
-
-		// 			this.setState({
-		// 				dh: dhM,
-		// 				xa: xaM,
-		// 				xe: xeM,
-		// 				za: zaM,
-		// 				ze: zeM,
-		// 				gsx: gsxM,
-		// 				gsy: gsyM,
-		// 				xrvr: xrvrM,
-		// 				tch: tchM,
-		// 			});
-		// 		break;
-		// 		case 'Imperial':
-		// 			//Convert from Metric to Imperial. Multiply by a factor of 3.281
-		// 			let dhI = this.state.dh * 3.281//dh
-		// 			let xaI = this.state.xa * 3.281//xa
-		// 			let xeI = this.state.xe * 3.281//xe
-		// 			let zaI = this.state.za * 3.281//za
-		// 			let zeI = this.state.ze * 3.281//ze
-		// 			let gsxI = this.state.gsx * 3.281//gsx
-		// 			let gsyI = this.state.gsy * 3.281//gsy
-		// 			let xrvrI = this.state.xrvr * 3.281//xrvr
-		// 			let tchI = this.state.tch * 3.281//tch
-		// 			this.setState({
-		// 				dh: dhI,
-		// 				xa: xaI,
-		// 				xe: xeI,
-		// 				za: zaI,
-		// 				ze: zeI,
-		// 				gsx: gsxI,
-		// 				gsy: gsyI,
-		// 				xrvr: xrvrI,
-		// 				tch: tchI,
-		// 				canConvert: true
-		// 			});
-		// 		break;
-		// 		default:
-		// 			break
-		// 	}
-
-		// }
 
 		// Calculate Eye Distance to Ground modified by AC pitch at Decision Height
 		let zeg =
@@ -332,16 +280,16 @@ class ManageVGS extends Component {
 	xaheadRnd(choice) {
 		switch (choice) {
 			case "0Cal":
-				console.log("Showing Xahead 0 offset with calculated TCH");
+				//console.log("Showing Xahead 0 offset with calculated TCH");
 				return this.state.xahead0GS;
 			case "realCal":
-				console.log("Showing Xahead real offset with calculated TCH");
+				//console.log("Showing Xahead real offset with calculated TCH");
 				return this.state.xaheadrealGS;
 			case "0TCH":
-				console.log("Showing Xahead 0 offset with published TCH");
+				//console.log("Showing Xahead 0 offset with published TCH");
 				return this.state.xahead0TCHGS;
 			case "realTCH":
-				console.log("Showing Xahead real offset with published TCH");
+				//console.log("Showing Xahead real offset with published TCH");
 				return this.state.xaheadrealTCHGS;
 			default:
 				return this.state.xahead0GS;
@@ -351,16 +299,16 @@ class ManageVGS extends Component {
 	xbeyondRnd(choice) {
 		switch (choice) {
 			case "0Cal":
-				console.log("Showing Xbeyond 0 offset with calculated TCH");
+				//console.log("Showing Xbeyond 0 offset with calculated TCH");
 				return this.state.xbeyond0GS;
 			case "realCal":
-				console.log("Showing Xbeyond real offset with calculated TCH");
+				//console.log("Showing Xbeyond real offset with calculated TCH");
 				return this.state.xbeyondrealGS;
 			case "0TCH":
-				console.log("Showing Xbeyond 0 offset with published TCH");
+				//console.log("Showing Xbeyond 0 offset with published TCH");
 				return this.state.xbeyond0TCHGS;
 			case "realTCH":
-				console.log("Showing Xbeyond real offset with published TCH");
+				//console.log("Showing Xbeyond real offset with published TCH");
 				return this.state.xbeyondrealTCHGS;
 			default:
 				return this.state.xbeyond0GS;
@@ -369,7 +317,7 @@ class ManageVGS extends Component {
 	xaheadChoose(choice) {
 		switch (choice) {
 			case "0Cal":
-				console.log("Showing Xahead 0 offset with calculated TCH");
+				//console.log("Showing Xahead 0 offset with calculated TCH");
 				// if(this.state.units == "Imperial" && this.state.canConvert == true){
 				// 	return (this.state.xahead0S * 3.281)
 				// } else if(this.state.units == 'Metric') {
@@ -378,7 +326,7 @@ class ManageVGS extends Component {
 				return this.state.xahead0S;
 			//}
 			case "realCal":
-				console.log("Showing Xahead real offset with calculated TCH");
+				//console.log("Showing Xahead real offset with calculated TCH");
 				// if(this.state.units == "Imperial" && this.state.canConvert == true){
 				// 	return (this.state.xaheadrealS * 3.281)
 				// } else if(this.state.units == 'Metric') {
@@ -387,7 +335,7 @@ class ManageVGS extends Component {
 				return this.state.xaheadrealS;
 			//}
 			case "0TCH":
-				console.log("Showing Xahead 0 offset with published TCH");
+				//console.log("Showing Xahead 0 offset with published TCH");
 				// if(this.state.units == "Imperial" && this.state.canConvert == true){
 				// 	return (this.state.xahead0TCHS * 3.281)
 				// } else if(this.state.units == 'Metric') {
@@ -396,7 +344,7 @@ class ManageVGS extends Component {
 				return this.state.xahead0TCHS;
 			//}
 			case "realTCH":
-				console.log("Showing Xahead real offset with published TCH");
+				//console.log("Showing Xahead real offset with published TCH");
 				// if(this.state.units == "Imperial" && this.state.canConvert == true){
 				// 	return (this.state.xaheadrealTCHS * 3.281)
 				// } else if(this.state.units == 'Metric') {
@@ -412,7 +360,7 @@ class ManageVGS extends Component {
 	xbeyondChoose(choice) {
 		switch (choice) {
 			case "0Cal":
-				console.log("Showing Xbeyond 0 offset with calculated TCH");
+				//console.log("Showing Xbeyond 0 offset with calculated TCH");
 				// if(this.state.units == "Imperial" && this.state.canConvert == true){
 				// 	return (this.state.xbeyond0S * 3.281)
 				// } else if(this.state.units == 'Metric') {
@@ -421,7 +369,7 @@ class ManageVGS extends Component {
 				return this.state.xbeyond0S;
 			//}
 			case "realCal":
-				console.log("Showing Xbeyond real offset with calculated TCH");
+				//console.log("Showing Xbeyond real offset with calculated TCH");
 				// if(this.state.units == "Imperial" && this.state.canConvert == true){
 				// 	return (this.state.xbeyondrealS * 3.281)
 				// } else if(this.state.units == 'Metric') {
@@ -430,7 +378,7 @@ class ManageVGS extends Component {
 				return this.state.xbeyondrealS;
 			//}
 			case "0TCH":
-				console.log("Showing Xbeyond 0 offset with published TCH");
+				//console.log("Showing Xbeyond 0 offset with published TCH");
 				// if(this.state.units == "Imperial" && this.state.canConvert == true){
 				// 	return (this.state.xbeyond0TCHS * 3.281)
 				// } else if(this.state.units == 'Metric') {
@@ -439,7 +387,7 @@ class ManageVGS extends Component {
 				return this.state.xbeyond0TCHS;
 			//}
 			case "realTCH":
-				console.log("Showing Xbeyond real offset with published TCH");
+				//sconsole.log("Showing Xbeyond real offset with published TCH");
 				// if(this.state.units == "Imperial" && this.state.canConvert == true){
 				// 	return (this.state.xbeyondrealTCHS * 3.281)
 				// } else if(this.state.units == 'Metric') {
