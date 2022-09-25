@@ -3,7 +3,7 @@ import ManageAircrafts from "./VGS Objects/ManageAircrafts";
 import ManageRunways from "./VGS Objects/ManageRunways";
 import CalculateButton from "./components/CalculateButton";
 import { Container } from "react-bootstrap";
-import firebaseapp from "firebase";
+import firebaseapp from "firebase/compat/app";
 import { Link } from "react-router-dom";
 
 class Dashboard extends Component {
@@ -102,7 +102,7 @@ class Dashboard extends Component {
 		aircraftSpeed,
 		aircraftWeight,
 		aircraftUnits,
-		aircraftType,
+		aircraftType
 	) => {
 		console.log(aircraftData);
 		this.setState({

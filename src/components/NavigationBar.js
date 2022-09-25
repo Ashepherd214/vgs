@@ -1,6 +1,6 @@
 import React from "react";
 import { Nav, Navbar, Form, FormControl } from "react-bootstrap";
-import { Redirect } from "react-router";
+import { Navigate, NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { auth } from "../Firestore";
 import logo from "../img/RSiIconDark.png";
@@ -37,20 +37,29 @@ const NavigationBar = () => (
 		</Navbar.Brand>
 		<Navbar.Toggle aria-controls='basic-navbar-nav' />
 		<Navbar.Collapse id='basic-navbar-nav'>
-			<Nav.Link 
+			<Nav.Link
 				href='/Home'
-				onClick={() => { 
-					return <Redirect to='/Dashboard' />
-				}}>Home</Nav.Link>
+				onClick={() => {
+					return <Navigate to='/Dashboard' />;
+				}}
+			>
+				Home
+			</Nav.Link>
 			<Nav.Link
 				href='/Logoff'
-				className="justify-content-end"
+				className='justify-content-end'
 				onClick={() => {
-					auth.signOut().then(() => {
-						return <Redirect to='/Login' />;
-					}).catch((error) => {
-						console.log("Could not sign out. Error thrown is: ", error.message)
-					})
+					auth
+						.signOut()
+						.then(() => {
+							return <Navigate to='/Login' />;
+						})
+						.catch((error) => {
+							console.log(
+								"Could not sign out. Error thrown is: ",
+								error.message
+							);
+						});
 				}}
 			>
 				Sign Out
