@@ -27,6 +27,7 @@ module.exports = {
 		"react/no-direct-mutation-state": "off",
 		"no-unused-vars": "off",
 		"no-undef": "warn",
+		"no-constant-condition": "off",
 		"react/no-unescaped-entities": "off",
 	},
 };
